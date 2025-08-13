@@ -1,0 +1,9 @@
+{
+  "accuracy": 1,
+  "precision": 1,
+  "recall": 1,
+  "f1_score": 1,
+  "sample_count": 2000,
+  "fraud_count": 2000,
+  "timestamp": "2025-08-13T02:51:36.026Z"
+}

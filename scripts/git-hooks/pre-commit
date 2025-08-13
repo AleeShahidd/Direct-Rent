@@ -1,0 +1,14 @@
+#!/bin/sh
+# .git/hooks/pre-commit
+
+# Run environment check
+npm run check-env
+
+# If environment check fails, abort the commit
+if [ $? -ne 0 ]; then
+  echo "❌ Environment check failed. Please fix the issues before committing."
+  exit 1
+fi
+
+# Continue with the commit if everything is fine
+exit 0

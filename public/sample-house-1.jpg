@@ -1,0 +1,46 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="400" height="150" fill="url(#skyGradient)"/>
+  
+  <!-- Ground -->
+  <rect x="0" y="150" width="400" height="150" fill="#90EE90"/>
+  
+  <!-- Building -->
+  <rect x="100" y="80" width="200" height="120" fill="#D2691E" stroke="#8B4513" stroke-width="2"/>
+  
+  <!-- Roof -->
+  <polygon points="90,80 200,20 310,80" fill="#8B0000"/>
+  
+  <!-- Door -->
+  <rect x="180" y="140" width="40" height="60" fill="#654321"/>
+  <circle cx="210" cy="170" r="2" fill="#FFD700"/>
+  
+  <!-- Windows -->
+  <rect x="120" y="100" width="40" height="30" fill="#87CEEB" stroke="#000" stroke-width="1"/>
+  <rect x="240" y="100" width="40" height="30" fill="#87CEEB" stroke="#000" stroke-width="1"/>
+  
+  <!-- Window frames -->
+  <line x1="140" y1="100" x2="140" y2="130" stroke="#000" stroke-width="1"/>
+  <line x1="120" y1="115" x2="160" y2="115" stroke="#000" stroke-width="1"/>
+  <line x1="260" y1="100" x2="260" y2="130" stroke="#000" stroke-width="1"/>
+  <line x1="240" y1="115" x2="280" y2="115" stroke="#000" stroke-width="1"/>
+  
+  <!-- Trees -->
+  <rect x="20" y="140" width="15" height="40" fill="#8B4513"/>
+  <circle cx="27.5" cy="145" r="20" fill="#228B22"/>
+  
+  <rect x="350" y="145" width="12" height="35" fill="#8B4513"/>
+  <circle cx="356" cy="150" r="18" fill="#228B22"/>
+  
+  <!-- Text -->
+  <text x="200" y="280" font-family="Arial, sans-serif" font-size="14" fill="#333" text-anchor="middle">
+    Beautiful UK Property
+  </text>
+</svg>
