@@ -13,7 +13,6 @@
     "check-env": "node scripts/check-env.js",
     "inspect-schema": "node scripts/inspect-schema.js",
     "test-insert": "node scripts/test-insert.js",
-    "prepare": "node scripts/install-hooks.sh",
     "train:price": "node scripts/ml/train-price-model.js",
     "train:fraud": "node scripts/ml/train-fraud-model.js",
     "train:recommendation": "node scripts/ml/train-recommendation-model.js",
