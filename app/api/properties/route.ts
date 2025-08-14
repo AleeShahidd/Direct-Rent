@@ -43,12 +43,12 @@ export async function GET(request: NextRequest) {
       featured_only: searchParams.get('featured_only') === 'true'
     };
 
-    // Build the query
+    // Build the query with flexible field names for name/full_name
     let query = supabase
       .from('properties')
       .select(`
         *,
-        landlord:users!landlord_id(id, full_name, email, avatar_url, verification_status)
+        landlord:users!landlord_id(id, name, full_name, email, avatar_url, verification_status)
       `)
       .eq('status', 'active');
 

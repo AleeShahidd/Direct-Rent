@@ -192,7 +192,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-sm font-medium text-gray-500">Price</dt>
-                    <dd className="text-sm text-gray-900">£{property.price.toLocaleString()}{property?.price_frequency ? `/${property.price_frequency}` : '/month'}</dd>
+                    <dd className="text-sm text-gray-900">£{property.price?.toLocaleString() || ((property as any).rent_amount?.toLocaleString())}{(property as any).price_frequency ? `/${(property as any).price_frequency}` : '/month'}</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-sm font-medium text-gray-500">Deposit</dt>

@@ -45,7 +45,11 @@ export function PropertyCard({
     }
   }
 
-  const primaryImage = property.images?.[0] || '/placeholder-property.jpg'
+  const mainImage = property.images && property.images.length > 0 
+    ? typeof property.images[0] === 'string' 
+      ? property.images[0] 
+      : 'url' in property.images[0] ? property.images[0].url : '/placeholder-property.jpg'
+    : '/placeholder-property.jpg'
   const price = property.rent_amount
 
   return (
@@ -60,7 +64,7 @@ export function PropertyCard({
               </div>
             )}
             <img
-              src={primaryImage}
+              src={mainImage}
               alt={property.title}
               className={`w-full h-full object-cover transition-opacity duration-300 ${
                 isImageLoaded ? 'opacity-100' : 'opacity-0'
@@ -125,7 +129,7 @@ export function PropertyCard({
           <div className="flex items-start text-gray-600 mb-3">
             <MapPin className="w-4 h-4 mr-1 flex-shrink-0 mt-0.5" />
             <span className="text-sm line-clamp-2">
-              {property.address_line_1 || property.address}, {property.city}
+              {property.address_line_1}, {property.city}
             </span>
           </div>
 

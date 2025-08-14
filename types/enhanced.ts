@@ -26,14 +26,14 @@ export interface Property {
   id: string;
   title: string;
   description: string;
-  property_type: 'flat' | 'house' | 'studio' | 'bungalow' | 'maisonette';
+  property_type: 'flat' | 'house' | 'studio' | 'bungalow' | 'maisonette' | 'Flat' | 'House' | 'Studio' | 'Bungalow' | 'Maisonette';
   bedrooms: number;
   bathrooms: number;
   rent_amount: number;
   deposit_amount: number;
-  price_frequency?: 'weekly' | 'monthly' | 'quarterly' | 'yearly'; // Added price_frequency field
+  price_frequency?: 'weekly' | 'monthly' | 'quarterly' | 'yearly';
   service_charges?: number;
-  furnishing_status: 'furnished' | 'unfurnished' | 'part_furnished';
+  furnishing_status: 'furnished' | 'unfurnished' | 'part_furnished' | 'Furnished' | 'Unfurnished' | 'Part-Furnished';
   available_from: string;
   minimum_tenancy_months: number;
   maximum_tenancy_months?: number;
@@ -61,7 +61,7 @@ export interface Property {
   council_tax_included: boolean;
   bills_included: boolean;
   
-  // Property Features
+  // Additional features
   parking_spaces: number;
   has_garden: boolean;
   has_balcony: boolean;
@@ -69,8 +69,17 @@ export interface Property {
   furnished_details?: string[];
   amenities: string[];
   
+  // For backward compatibility with old code
+  parking?: boolean;
+  garden?: boolean;
+  balcony?: boolean;
+  price?: number;
+  is_verified?: boolean;
+  is_active?: boolean;
+  is_flagged?: boolean;
+  
   // Images and Media
-  images: PropertyImage[];
+  images: PropertyImage[] | string[];
   virtual_tour_url?: string;
   floor_plan_url?: string;
   

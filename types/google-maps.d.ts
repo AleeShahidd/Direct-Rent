@@ -20,7 +20,7 @@ declare namespace google {
       streetViewControl?: boolean;
       fullscreenControl?: boolean;
       zoomControl?: boolean;
-      mapTypeId?: string;
+      mapTypeId?: string | google.maps.MapTypeId;
       gestureHandling?: string;
       styles?: Array<MapTypeStyle>;
     }

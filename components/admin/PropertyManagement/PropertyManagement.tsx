@@ -512,7 +512,7 @@ const PropertyManagement: React.FC = () => {
                     <div className="flex items-center">
                       <DollarSign className="h-4 w-4 text-gray-400 mr-1" />
                       <div className="text-sm text-gray-900">
-                        £{property.price.toLocaleString()}{property.price_frequency ? `/${property.price_frequency}` : '/month'}
+                        £{property.price?.toLocaleString() || ((property as any).rent_amount?.toLocaleString())}{(property as any).price_frequency ? `/${(property as any).price_frequency}` : '/month'}
                       </div>
                     </div>
                   </td>
