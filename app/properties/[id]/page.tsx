@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Property, User } from '@/types';
 import { Button } from '@/components/ui/button';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import PropertyMap from '@/components/property/PropertyMap';
 import { 
   MapPin, 
   Bed, 
@@ -367,6 +368,23 @@ export default function PropertyDetailPage() {
               </p>
             </div>
 
+            {/* Property Map */}
+            <div className="bg-white rounded-xl p-6 mb-6">
+              <h2 className="text-xl font-semibold mb-4">Location</h2>
+              {property.latitude && property.longitude ? (
+                <PropertyMap 
+                  property={property} 
+                  height="400px"
+                  className="rounded-lg overflow-hidden"
+                />
+              ) : (
+                <div className="text-gray-500 italic">Location map not available for this property.</div>
+              )}
+              <p className="text-sm text-gray-500 mt-4">
+                {property.address_line_1}, {property.city}, {property.postcode}
+              </p>
+            </div>
+
             {/* Amenities */}
             {property.amenities && Array.isArray(property.amenities) && property.amenities.length > 0 && (
               <div className="bg-white rounded-xl p-6 mb-6">
@@ -392,12 +410,12 @@ export default function PropertyDetailPage() {
                 <div className="flex items-center mb-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-3">
                     <span className="text-blue-600 font-semibold">
-                      {landlord.first_name?.[0] || landlord.full_name?.[0] || 'L'}{landlord.last_name?.[0] || ''}
+                      {landlord.first_name?.[0] || landlord.name?.[0] || 'L'}{landlord.last_name?.[0] || ''}
                     </span>
                   </div>
                   <div>
                     <div className="font-medium">
-                      {landlord.first_name || landlord.full_name} {landlord.last_name || ''}
+                      {landlord.first_name || landlord.name} {landlord.last_name || ''}
                     </div>
                     <div className="text-sm text-gray-600">Landlord</div>
                   </div>

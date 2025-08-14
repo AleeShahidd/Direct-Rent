@@ -1,9 +1,9 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { AuthProvider } from '../contexts/AuthContext'
+import { ToastProvider } from '../components/ui/ToastProvider'
 import { Navbar } from '../components/layout/Navbar'
 import { Footer } from '../components/layout/Footer'
-import { Toaster } from '../components/ui/toaster'
 import { HydrationErrorBoundary } from '../components/ui/hydration-error-boundary'
 import { BrowserExtensionHandler } from '../components/ui/browser-extension-handler'
 import { HydrationLogger } from '../components/ui/hydration-logger'
@@ -28,12 +28,13 @@ export default function RootLayout({
         <HydrationLogger />
         <HydrationErrorBoundary>
           <AuthProvider>
-            <Navbar />
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
-            <Toaster />
+            <ToastProvider>
+              <Navbar />
+              <main className="flex-1">
+                {children}
+              </main>
+              <Footer />
+            </ToastProvider>
           </AuthProvider>
         </HydrationErrorBoundary>
       </body>

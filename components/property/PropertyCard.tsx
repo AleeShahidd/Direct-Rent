@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Property } from '@/types'
+import { Property } from '@/types/enhanced'
 import { formatPrice } from '@/lib/utils'
 import { 
   MapPin, 
@@ -46,7 +46,7 @@ export function PropertyCard({
   }
 
   const primaryImage = property.images?.[0] || '/placeholder-property.jpg'
-  const price = property.rent_amount || property.price || property.price_per_month
+  const price = property.rent_amount
 
   return (
     <div className={`bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 ${className}`}>

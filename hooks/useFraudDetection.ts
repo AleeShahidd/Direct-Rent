@@ -91,8 +91,12 @@ export function useFraudDetection(
     setError(null);
     
     try {
-      const response = await axios.post('/api/ml/detectFraud', propertyData);
-      const fraudResult = response.data as FraudDetectionResult;
+      const response = await axios.post('/api/ml/fraud-check', {
+        property: propertyData,
+        landlord_id: propertyData.landlord_id
+      });
+      
+      const fraudResult = response.data.data as FraudDetectionResult;
       
       setResult(fraudResult);
       
@@ -139,7 +143,7 @@ export function useFraudDetection(
     setIsLoading(true);
     
     try {
-      const response = await axios.post('/api/ml/reportFraud', {
+      const response = await axios.post('/api/ml/fraud-check/report', {
         property_id: propertyId,
         reason,
         details
@@ -163,7 +167,7 @@ export function useFraudDetection(
     setIsLoading(true);
     
     try {
-      const response = await axios.post('/api/ml/detectFraud/batch', {
+      const response = await axios.post('/api/ml/fraud-check/batch', {
         properties
       });
       

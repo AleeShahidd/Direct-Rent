@@ -55,40 +55,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const lastName = metadata.last_name || metadata.family_name || fullName.split(' ').slice(1).join(' ');
       const role = metadata.role || 'tenant';
       const phone = metadata.phone || null;
-      const avatarUrl = metadata.avatar_url || null;
+      const avatarUrl = metadata.avatar_url || metadata.picture || null;
       const dateOfBirth = metadata.date_of_birth || null;
 
-      // Extract metadata for new profile
+      // Create the base profile - use a flexible approach that works with either schema
       const profileData = {
         id: userId,
         email: sessionUser.email,
-        name: metadata.full_name || metadata.name || sessionUser.email.split('@')[0],
-        first_name: metadata.first_name || metadata.given_name || metadata.full_name?.split(' ')[0] || '',
-        last_name: metadata.last_name || metadata.family_name || metadata.full_name?.split(' ').slice(1).join(' ') || '',
-        role: metadata.role || 'tenant',
-        phone: metadata.phone || null,
-        avatar_url: metadata.avatar_url || metadata.picture || null,
-        date_of_birth: metadata.date_of_birth || null,
-        email_verified: Boolean(sessionUser.email_confirmed_at),
-        phone_verified: metadata.phone_verified || false,
-        verification_status: 'pending',
-        account_status: 'active',
-      };
-
-      // Create the base profile
-      const newProfile = {
-        id: userId,
-        email: sessionUser.email,
+        // Include both name and full_name to handle schema differences
         name: fullName,
+        full_name: fullName,
         first_name: firstName,
         last_name: lastName,
-        role: 'tenant', // Default role
+        role: role,
         email_verified: Boolean(sessionUser.email_confirmed_at),
-        account_status: 'active',
+        phone_verified: false,
         verification_status: 'pending',
+        account_status: 'active',
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
-        last_login: new Date().toISOString()
+        last_login: new Date().toISOString(),
+        phone: phone,
+        avatar_url: avatarUrl,
+        date_of_birth: dateOfBirth
       };
 
       // Try to create or update the profile

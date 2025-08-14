@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import { AdminAnalytics } from '@/components/admin/AdminAnalytics';
 import { FraudDetectionManagement } from '@/components/admin/FraudDetectionManagement';
 import { MLModelMonitoring } from '@/components/admin/MLModelMonitoring';
+import UserManagement from '@/components/admin/UserManagement/UserManagement';
+import PropertyManagement from '@/components/admin/PropertyManagement/PropertyManagement';
+import BookingManagement from '@/components/admin/BookingManagement/BookingManagement';
 
 // Tab definitions
 const ADMIN_TABS = [
@@ -108,39 +111,15 @@ function AdminDashboard() {
 
 // Placeholder components for other tabs
 function UserManagementTab() {
-  return (
-    <div className="bg-white rounded-lg shadow-sm p-8">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">User Management</h2>
-      <p className="text-gray-600">Manage all platform users, roles, and permissions.</p>
-      <div className="mt-8 text-center text-gray-500">
-        🚧 Under Development - User management interface coming soon
-      </div>
-    </div>
-  );
+  return <UserManagement />;
 }
 
 function PropertyManagementTab() {
-  return (
-    <div className="bg-white rounded-lg shadow-sm p-8">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Property Management</h2>
-      <p className="text-gray-600">Review, approve, and manage property listings.</p>
-      <div className="mt-8 text-center text-gray-500">
-        🚧 Under Development - Property management interface coming soon
-      </div>
-    </div>
-  );
+  return <PropertyManagement />;
 }
 
 function BookingManagementTab() {
-  return (
-    <div className="bg-white rounded-lg shadow-sm p-8">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Booking Management</h2>
-      <p className="text-gray-600">Monitor and manage all booking inquiries and transactions.</p>
-      <div className="mt-8 text-center text-gray-500">
-        🚧 Under Development - Booking management interface coming soon
-      </div>
-    </div>
-  );
+  return <BookingManagement />;
 }
 
 function ReviewManagementTab() {

@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Property, User, Booking } from '@/types';
+import { User, Booking } from '@/types';
+import { Property } from '@/types/enhanced';
 import { Button } from '@/components/ui/button';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { PropertyCard } from '@/components/property/PropertyCard';
@@ -21,7 +22,7 @@ import { supabase } from '../../../lib/supabase';
 
 import TenantProtection from './TenantProtection';
 
-function TenantDashboard() {
+export default function TenantDashboard() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [savedProperties, setSavedProperties] = useState<Property[]>([]);
@@ -325,7 +326,7 @@ function TenantDashboard() {
                     <div key={property.id} className="border rounded-lg p-4">
                       <h4 className="font-medium mb-2">{property.title}</h4>
                       <p className="text-sm text-gray-600 mb-2">{property.city}</p>
-                      <p className="text-lg font-bold text-blue-600">{formatPrice(property.price)}/month</p>
+                      <p className="text-lg font-bold text-blue-600">{formatPrice(property.rent_amount)}/month</p>
                       <Button 
                         size="sm" 
                         className="w-full mt-3"
@@ -463,7 +464,7 @@ function InquiryCard({
           <h4 className="text-lg font-medium text-gray-900">{inquiry.property?.title}</h4>
           <p className="text-sm text-gray-600">{inquiry.property?.address}, {inquiry.property?.city}</p>
           <p className="text-lg font-bold text-blue-600 mt-1">
-            {formatPrice(inquiry.property?.price)}/month
+            {formatPrice(inquiry.property?.rent_amount)}/month
           </p>
         </div>
         <div className="flex items-center space-x-2">

@@ -3,12 +3,13 @@
 import { useState, useEffect, useCallback, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { supabase } from '../../lib/supabase'
-import { Property, PropertySearchFilters } from '../../types'
+import { Property, PropertySearchFilters } from '../../types/enhanced'
 import { PropertyCard } from '../../components/property/PropertyCard'
 import { SearchFilters } from '../../components/search/SearchFilters'
 import { LoadingSpinner } from '../../components/ui/loading-spinner'
 import { Button } from '../../components/ui/button'
 import { MapIcon, ListBulletIcon } from '@heroicons/react/24/outline'
+import SearchMap from '@/components/search/SearchMap'
 
 function SearchPageContent() {
   const [properties, setProperties] = useState<Property[]>([])
@@ -323,11 +324,32 @@ function SearchPageContent() {
                 )}
               </>
             ) : (
-              <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Map View</h3>
-                <p className="text-gray-600">
-                  Map functionality will be implemented with Google Maps integration.
-                </p>
+              // Map View
+              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                {properties.length > 0 ? (
+                  <div className="h-[600px]">
+                    <SearchMap 
+                      properties={properties}
+                      height="100%"
+                      onPropertySelect={(propertyId) => {
+                        router.push(`/properties/${propertyId}`);
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <div className="w-24 h-24 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                      <MapIcon className="w-12 h-12 text-gray-400" />
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">No properties to display on map</h3>
+                    <p className="text-gray-600 mb-4">
+                      Try adjusting your search criteria or explore different areas.
+                    </p>
+                    <Button onClick={clearFilters}>
+                      Clear all filters
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
           </div>

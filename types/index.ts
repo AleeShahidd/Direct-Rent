@@ -27,6 +27,7 @@ export interface Property {
   rent_amount: number; // The actual database field
   price?: number; // Adding price alias for compatibility
   price_per_month?: number; // Legacy field
+  price_frequency?: 'weekly' | 'monthly' | 'quarterly' | 'yearly'; // Frequency of rent payment
   deposit_amount?: number;
   postcode: string;
   address?: string; // Adding address alias

@@ -80,7 +80,7 @@ export function useRecommendations(
     setError(null);
     
     try {
-      const response = await axios.get('/api/ml/getRecommendations', {
+      const response = await axios.get('/api/ml/recommendations', {
         params: {
           user_id: userId,
           limit,
@@ -88,7 +88,7 @@ export function useRecommendations(
         }
       });
       
-      setRecommendations(response.data.recommendations || []);
+      setRecommendations(response.data.data?.properties || []);
     } catch (err: any) {
       const errorMessage = err.response?.data?.error || err.message || 'Error fetching recommendations';
       setError(errorMessage);
@@ -110,14 +110,14 @@ export function useRecommendations(
     setIsLoading(true);
     
     try {
-      const response = await axios.get('/api/ml/getRecommendations/similar', {
+      const response = await axios.get('/api/ml/recommendations/similar', {
         params: {
           property_id: property.id || property.property_id,
           limit
         }
       });
       
-      setSimilarProperties(response.data.similar_properties || []);
+      setSimilarProperties(response.data.data?.similar_properties || []);
     } catch (err: any) {
       // Don't set main error state for similar properties
       if (onError) onError(err);
@@ -160,7 +160,7 @@ export function useRecommendations(
     if (!userId || !propertyId) return;
     
     try {
-      await axios.post('/api/ml/trackInteraction', {
+      await axios.post('/api/ml/recommendations/track', {
         user_id: userId,
         property_id: propertyId,
         interaction_type: interactionType

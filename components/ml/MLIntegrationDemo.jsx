@@ -7,9 +7,17 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import PriceEstimator from '../property/PriceEstimator';
-import PropertyRecommendations from '../property/PropertyRecommendations';
-import MLModelMonitoring from '../admin/MLModelMonitoring';
+import dynamic from 'next/dynamic';
+
+const PriceEstimator = dynamic(() => import('../property/PriceEstimator'), {
+  ssr: false
+});
+const PropertyRecommendations = dynamic(() => import('../property/PropertyRecommendations'), {
+  ssr: false
+});
+const MLModelMonitoring = dynamic(() => import('../admin/MLModelMonitoring'), {
+  ssr: false
+});
 
 export default function MLIntegrationDemo() {
   const [activeTab, setActiveTab] = useState('price');

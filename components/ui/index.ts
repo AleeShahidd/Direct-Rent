@@ -6,3 +6,4 @@ export * from './toaster';
 export * from './client-only';
 export * from './hydration-error-boundary';
 export * from './browser-extension-handler';
+export * from './textarea';

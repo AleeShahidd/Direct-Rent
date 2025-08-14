@@ -186,24 +186,24 @@ export default function RegisterPage() {
       
       while (retryCount < maxRetries) {
         try {
-          // Create a clean user object that exactly matches the database schema
-          const userData = {
-            id: authData.user.id,
-            email: formData.email,
-            name: formData.fullName, // Using 'name' field which exists in the database
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-            phone: formattedPhone,
-            role: formData.role,
-            date_of_birth: formData.dateOfBirth,
-            email_verified: false,
-            phone_verified: false,
-            verification_status: 'pending',
-            account_status: 'active',
-            registration_ip: userIP || null
-          };
-          
-          console.log('Attempting to create user profile, attempt:', retryCount + 1);
+      // Create a clean user object that exactly matches the database schema
+      const userData = {
+        id: authData.user.id,
+        email: formData.email,
+        // Include both name and full_name fields to handle schema differences
+        name: formData.fullName,
+        full_name: formData.fullName,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        phone: formattedPhone,
+        role: formData.role,
+        date_of_birth: formData.dateOfBirth,
+        email_verified: false,
+        phone_verified: false,
+        verification_status: 'pending',
+        account_status: 'active',
+        registration_ip: userIP || null
+      };          console.log('Attempting to create user profile, attempt:', retryCount + 1);
           
           // Use single-row operation for more predictable results
           const { error: profileError } = await supabase
@@ -273,20 +273,20 @@ export default function RegisterPage() {
       
       // Handle Supabase API errors
       if (typeof error === 'object' && error !== null) {
-        // @ts-ignore - handling Supabase error object
-        if (error.code === 'auth/internal-error' || error.statusCode === 500) {
+        // Cast error to a type that matches Supabase error shape
+        const supabaseError = error as { code?: string; statusCode?: number; message?: string };
+        
+        if (supabaseError.code === 'auth/internal-error' || supabaseError.statusCode === 500) {
           displayError = 'Authentication service temporarily unavailable. Please try again later.';
         }
         
         // Handle transaction errors explicitly
-        // @ts-ignore - handling Supabase error message format
-        if (typeof error.message === 'string' && error.message.includes('current transaction is aborted')) {
+        if (typeof supabaseError.message === 'string' && supabaseError.message.includes('current transaction is aborted')) {
           displayError = 'Database transaction error. Please try again.';
         }
         
         // Handle schema mismatch errors
-        // @ts-ignore - handling Supabase error message format
-        if (typeof error.message === 'string' && error.message.includes('column') && error.message.includes('does not exist')) {
+        if (typeof supabaseError.message === 'string' && supabaseError.message.includes('column') && supabaseError.message.includes('does not exist')) {
           displayError = 'Database schema mismatch. Please contact support.';
         }
       }

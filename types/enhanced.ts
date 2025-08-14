@@ -31,6 +31,7 @@ export interface Property {
   bathrooms: number;
   rent_amount: number;
   deposit_amount: number;
+  price_frequency?: 'weekly' | 'monthly' | 'quarterly' | 'yearly'; // Added price_frequency field
   service_charges?: number;
   furnishing_status: 'furnished' | 'unfurnished' | 'part_furnished';
   available_from: string;

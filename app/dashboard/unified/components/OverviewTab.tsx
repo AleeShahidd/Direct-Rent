@@ -63,7 +63,7 @@ export default function OverviewTab({
       {/* Welcome Section */}
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white">
         <h2 className="text-2xl font-bold mb-2">
-          Welcome back, {user?.first_name || user?.full_name}!
+          Welcome back, {user?.first_name || user?.name}!
         </h2>
         <p className="text-blue-100 mb-4">
           {isLandlord 
@@ -264,7 +264,35 @@ export default function OverviewTab({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {properties.map((property) => (
                 <div key={property.id} className="relative">
-                  <PropertyCard property={property} />
+                  <PropertyCard 
+                    property={{
+                      ...property,
+                      // Required fields with defaults
+                      title: property.title || '',
+                      description: property.description || '',
+                      rent_amount: property.rent_amount || 0,
+                      postcode: property.postcode || '',
+                      address_line_1: property.address_line_1 || '',
+                      city: property.city || '',
+                      furnishing_status: property.furnishing_status || 'Unfurnished',
+                      bedrooms: property.bedrooms || 1,
+                      bathrooms: property.bathrooms || 1,
+                      property_type: property.property_type || 'House',
+                      parking: property.parking || false,
+                      garden: property.garden || false,
+                      balcony: property.balcony || false,
+                      pets_allowed: property.pets_allowed || false,
+                      smoking_allowed: property.smoking_allowed || false,
+                      landlord_id: property.landlord_id || 'unknown',
+                      is_verified: property.is_verified || false,
+                      is_active: property.is_active || false,
+                      images: property.images || [],
+                      fraud_score: property.fraud_score || 0,
+                      is_flagged: property.is_flagged || false,
+                      created_at: property.created_at || new Date().toISOString(),
+                      updated_at: property.updated_at || new Date().toISOString(),
+                    }}
+                  />
                   <div className="absolute top-3 right-3 flex space-x-1">
                     <Button
                       variant="outline"
@@ -301,7 +329,36 @@ export default function OverviewTab({
           savedProperties.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {savedProperties.map((property) => (
-                <PropertyCard key={property.id} property={property} />
+                <PropertyCard 
+                  key={property.id} 
+                  property={{
+                    ...property,
+                    // Required fields with defaults
+                    title: property.title || '',
+                    description: property.description || '',
+                    rent_amount: property.rent_amount || 0,
+                    postcode: property.postcode || '',
+                    address_line_1: property.address_line_1 || '',
+                    city: property.city || '',
+                    furnishing_status: property.furnishing_status || 'Unfurnished',
+                    bedrooms: property.bedrooms || 1,
+                    bathrooms: property.bathrooms || 1,
+                    property_type: property.property_type || 'House',
+                    parking: property.parking || false,
+                    garden: property.garden || false,
+                    balcony: property.balcony || false,
+                    pets_allowed: property.pets_allowed || false,
+                    smoking_allowed: property.smoking_allowed || false,
+                    landlord_id: property.landlord_id || 'unknown',
+                    is_verified: property.is_verified || false,
+                    is_active: property.is_active || false,
+                    images: property.images || [],
+                    fraud_score: property.fraud_score || 0,
+                    is_flagged: property.is_flagged || false,
+                    created_at: property.created_at || new Date().toISOString(),
+                    updated_at: property.updated_at || new Date().toISOString(),
+                  }} 
+                />
               ))}
             </div>
           ) : (

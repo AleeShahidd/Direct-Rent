@@ -23,7 +23,7 @@ import { supabase } from '../../../lib/supabase';
 
 import LandlordProtection from './LandlordProtection';
 
-function LandlordDashboard() {
+export default function LandlordDashboard() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [properties, setProperties] = useState<Property[]>([]);
