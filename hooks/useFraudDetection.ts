@@ -16,23 +16,27 @@ export interface PropertyData {
   property_type?: string;
   bedrooms?: number;
   bathrooms?: number;
-  price_per_month?: number;
+  rent_amount?: number | string;
+  price_per_month?: number | string;
   city?: string;
   postcode?: string;
   landlord_id?: string;
   created_at?: string;
+  image_urls?: string[];
   images?: string[];
   [key: string]: any;
 }
 
 export interface FraudDetectionResult {
-  property_id: string;
-  risk_score: number;
-  risk_level: 'low' | 'medium' | 'high' | 'critical';
-  risk_factors: string[];
-  flagged: boolean;
-  confidence: number;
-  details: {
+  property_id?: string;
+  risk_score?: number;
+  risk: 'low' | 'medium' | 'high' | 'critical';
+  risk_level?: 'low' | 'medium' | 'high' | 'critical';
+  risk_factors?: string[];
+  message?: string;
+  flagged?: boolean;
+  confidence?: number;
+  details?: {
     price_anomaly?: {
       score: number;
       reason: string;
@@ -78,6 +82,37 @@ export function useFraudDetection(
   } = options;
   
   /**
+   * Check a property for fraud
+   */
+  const checkProperty = useCallback(async (propertyData: PropertyData) => {
+    if (!hasMinimumRequiredFields(propertyData)) {
+      const result = {
+        risk: 'medium' as const,
+        message: 'Insufficient property data for complete fraud detection. Basic checks passed.',
+        risk_factors: ['incomplete_data']
+      };
+      
+      return result;
+    }
+    
+    try {
+      const response = await axios.post('/api/ml/detectFraud', {
+        property: propertyData,
+      });
+      
+      const fraudResult = response.data;
+      return fraudResult;
+    } catch (err: any) {
+      console.error('Error checking property:', err);
+      return {
+        risk: 'medium' as const,
+        message: 'Could not perform fraud detection. Please review your listing carefully.',
+        risk_factors: ['detection_failed']
+      };
+    }
+  }, []);
+  
+  /**
    * Detect fraud for a property
    */
   const detectFraud = useCallback(async (propertyData: PropertyData = property) => {
@@ -91,17 +126,17 @@ export function useFraudDetection(
     setError(null);
     
     try {
-      const response = await axios.post('/api/ml/fraud-check', {
+      const response = await axios.post('/api/ml/detectFraud', {
         property: propertyData,
         landlord_id: propertyData.landlord_id
       });
       
-      const fraudResult = response.data.data as FraudDetectionResult;
+      const fraudResult = response.data;
       
       setResult(fraudResult);
       
-      // Call callback if risk score is above threshold
-      if (fraudResult.risk_score >= threshold && onDetectFraud) {
+      // Call callback if risk is high and callback exists
+      if ((fraudResult.risk === 'high' || fraudResult.risk === 'critical') && onDetectFraud) {
         onDetectFraud(fraudResult);
       }
       
@@ -114,7 +149,7 @@ export function useFraudDetection(
     } finally {
       setIsLoading(false);
     }
-  }, [property, threshold, onDetectFraud, onError]);
+  }, [property, onDetectFraud, onError]);
   
   /**
    * Update property data and optionally detect fraud
@@ -143,7 +178,7 @@ export function useFraudDetection(
     setIsLoading(true);
     
     try {
-      const response = await axios.post('/api/ml/fraud-check/report', {
+      const response = await axios.post('/api/ml/detectFraud/report', {
         property_id: propertyId,
         reason,
         details
@@ -167,7 +202,7 @@ export function useFraudDetection(
     setIsLoading(true);
     
     try {
-      const response = await axios.post('/api/ml/fraud-check/batch', {
+      const response = await axios.post('/api/ml/detectFraud/batch', {
         properties
       });
       
@@ -188,6 +223,7 @@ export function useFraudDetection(
     result,
     isLoading,
     error,
+    checkProperty,
     detectFraud,
     reportFraud,
     validatePropertyBatch
@@ -198,9 +234,10 @@ export function useFraudDetection(
  * Check if property has minimum required fields for fraud detection
  */
 function hasMinimumRequiredFields(property: PropertyData): boolean {
+  const price = property.rent_amount || property.price_per_month;
   return !!(
     property.property_type && 
-    property.price_per_month && 
+    price && 
     (property.description || property.title)
   );
 }

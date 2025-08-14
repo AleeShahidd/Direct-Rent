@@ -265,33 +265,7 @@ export default function OverviewTab({
               {properties.map((property) => (
                 <div key={property.id} className="relative">
                   <PropertyCard 
-                    property={{
-                      ...property,
-                      // Required fields with defaults
-                      title: property.title || '',
-                      description: property.description || '',
-                      rent_amount: property.rent_amount || 0,
-                      postcode: property.postcode || '',
-                      address_line_1: property.address_line_1 || '',
-                      city: property.city || '',
-                      furnishing_status: property.furnishing_status as any || 'furnished',
-                      bedrooms: property.bedrooms || 1,
-                      bathrooms: property.bathrooms || 1,
-                      property_type: property.property_type as any || 'flat',
-                      parking: property.parking || false,
-                      garden: property.garden || false,
-                      balcony: property.balcony || false,
-                      pets_allowed: property.pets_allowed || false,
-                      smoking_allowed: property.smoking_allowed || false,
-                      landlord_id: property.landlord_id || 'unknown',
-                      is_verified: property.is_verified || false,
-                      is_active: property.is_active || false,
-                      images: property.images || [] as any,
-                      fraud_score: property.fraud_score || 0,
-                      is_flagged: property.is_flagged || false,
-                      created_at: property.created_at || new Date().toISOString(),
-                      updated_at: property.updated_at || new Date().toISOString(),
-                    }}
+                    property={property as any}
                   />
                   <div className="absolute top-3 right-3 flex space-x-1">
                     <Button
@@ -331,33 +305,7 @@ export default function OverviewTab({
               {savedProperties.map((property) => (
                 <PropertyCard 
                   key={property.id} 
-                  property={{
-                    ...property,
-                    // Required fields with defaults
-                    title: property.title || '',
-                    description: property.description || '',
-                    rent_amount: property.rent_amount || 0,
-                    postcode: property.postcode || '',
-                    address_line_1: property.address_line_1 || '',
-                    city: property.city || '',
-                    furnishing_status: property.furnishing_status as any || 'furnished',
-                    bedrooms: property.bedrooms || 1,
-                    bathrooms: property.bathrooms || 1,
-                    property_type: property.property_type as any || 'flat',
-                    parking: property.parking || false,
-                    garden: property.garden || false,
-                    balcony: property.balcony || false,
-                    pets_allowed: property.pets_allowed || false,
-                    smoking_allowed: property.smoking_allowed || false,
-                    landlord_id: property.landlord_id || 'unknown',
-                    is_verified: property.is_verified || false,
-                    is_active: property.is_active || false,
-                    images: property.images || [] as any,
-                    fraud_score: property.fraud_score || 0,
-                    is_flagged: property.is_flagged || false,
-                    created_at: property.created_at || new Date().toISOString(),
-                    updated_at: property.updated_at || new Date().toISOString(),
-                  }} 
+                  property={property as any}
                 />
               ))}
             </div>

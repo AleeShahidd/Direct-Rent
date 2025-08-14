@@ -373,7 +373,7 @@ export default function PropertyDetailPage() {
               <h2 className="text-xl font-semibold mb-4">Location</h2>
               {property.latitude && property.longitude ? (
                 <PropertyMap 
-                  property={property} 
+                  property={property as any} 
                   height="400px"
                   className="rounded-lg overflow-hidden"
                 />
