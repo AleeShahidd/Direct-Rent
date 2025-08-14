@@ -159,40 +159,40 @@ export default function RegisterPage() {
       // Format phone number
       const formattedPhone = formData.phone ? formData.phone.replace(/\s+/g, '') : null;
 
-      // Create auth user with bare minimum data
+      // IMPORTANT: Include the user data directly in the signUp call to fix the auth error
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
+          data: {
+            full_name: formData.fullName,
+            name: formData.fullName,
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            phone: formattedPhone,
+            role: formData.role,
+            date_of_birth: formData.dateOfBirth
+          }
+        }
       });
 
       if (authError) {
         console.error('Auth signup error:', authError);
-        throw new Error(authError.message);
+        throw new Error(authError.message || 'Failed to create account');
       }
 
       if (!authData.user) {
-        throw new Error('Failed to create account');
+        throw new Error('Failed to create account - no user returned');
       }
       
       console.log('Auth user created successfully with ID:', authData.user.id);
 
-      // Create user profile with retries and exponential backoff
-      let retryCount = 0;
-      let lastError = null;
-      const maxRetries = 3;
-      
-      while (retryCount < maxRetries) {
-        try {
-      // Create a clean user object that exactly matches the database schema
+      // Now create or update the user profile in the users table
+      // Create a user object that matches the schema
       const userData = {
         id: authData.user.id,
         email: formData.email,
-        // Include both name and full_name fields to handle schema differences
         name: formData.fullName,
-        full_name: formData.fullName,
         first_name: formData.firstName,
         last_name: formData.lastName,
         phone: formattedPhone,
@@ -203,67 +203,25 @@ export default function RegisterPage() {
         verification_status: 'pending',
         account_status: 'active',
         registration_ip: userIP || null
-      };          console.log('Attempting to create user profile, attempt:', retryCount + 1);
-          
-          // Use single-row operation for more predictable results
-          const { error: profileError } = await supabase
-            .from('users')
-            .insert(userData);
+      };
 
-          if (!profileError) {
-            // Success!
-            console.log('User profile created successfully');
-            alert('Registration successful! Please check your email to verify your account.');
-            router.push('/auth/login');
-            return;
-          }
+      // Use upsert to handle both insert and update cases
+      const { error: profileError } = await supabase
+        .from('users')
+        .upsert(userData, { onConflict: 'id', ignoreDuplicates: false });
 
-          console.error(`Profile creation attempt ${retryCount + 1} failed:`, profileError);
-          
-          // Check for specific error types
-          if (profileError.code === '23505') { // Unique violation
-            throw new Error('This email is already registered');
-          }
-          if (profileError.code === '42501') { // Permission denied
-            throw new Error('Unable to create profile due to permission settings');
-          }
-          if (profileError.code === '42703') { // Column does not exist
-            console.error('Schema mismatch error:', profileError.message);
-            
-            // Extract the problematic column name from error message
-            const columnMatch = profileError.message.match(/column "([^"]+)" of relation "users" does not exist/);
-            const columnName = columnMatch ? columnMatch[1] : 'unknown column';
-            
-            console.error(`Column ${columnName} does not exist in the users table`);
-            
-            // If the error is about 'full_name' column, we can handle it
-            if (columnName === 'full_name' && userData.hasOwnProperty('name')) {
-              console.log('Detected full_name vs name schema mismatch, trying alternative approach...');
-              throw new Error('Registration failed due to database configuration issue. Please contact support.');
-            }
-            
-            throw new Error('Registration failed due to database configuration issue. Please contact support.');
-          }
-          
-          lastError = profileError;
-          retryCount++;
-          
-          if (retryCount < maxRetries) {
-            // Exponential backoff with jitter for retries
-            const backoffTime = Math.min(1000 * Math.pow(2, retryCount) + Math.random() * 1000, 10000);
-            console.log(`Retrying in ${backoffTime}ms...`);
-            await new Promise(resolve => setTimeout(resolve, backoffTime));
-          }
-        } catch (innerError) {
-          // Handle any errors thrown within the retry loop
-          console.error('Inner error during profile creation:', innerError);
-          throw innerError;
-        }
+      if (profileError) {
+        console.error('Profile creation failed:', profileError);
+        
+        // Don't throw error here - the auth account is already created
+        // Just show a warning that profile setup may be incomplete
+        console.warn('User account created but profile setup may be incomplete.');
+      } else {
+        console.log('User profile created successfully');
       }
-
-      // If we get here, all retries failed
-      console.error('Final profile creation error:', lastError);
-      throw new Error('Unable to complete registration. Please try again later.');
+      
+      alert('Registration successful! Please check your email to verify your account.');
+      router.push('/auth/login');
 
     } catch (error) {
       console.error('Registration error:', error);

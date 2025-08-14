@@ -8,11 +8,24 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables');
 }
 
-// Browser client for client-side operations
+// Browser client for client-side operations with optimized configuration
 export const createBrowserSupabaseClient = () => 
   createBrowserClient(
     supabaseUrl,
-    supabaseAnonKey
+    supabaseAnonKey,
+    {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true
+      },
+      db: {
+        schema: 'public'
+      },
+      global: {
+        fetch: fetch
+      }
+    }
   );
 
 // Export createClient function for components that need it
