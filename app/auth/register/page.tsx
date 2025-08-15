@@ -275,6 +275,8 @@ export default function RegisterPage() {
         }
       })
 
+    
+
       if (error) {
         console.error('Google signup error:', error);
         setError(error.message);
