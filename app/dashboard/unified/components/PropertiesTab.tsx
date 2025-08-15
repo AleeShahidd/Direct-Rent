@@ -1,6 +1,8 @@
-import { Property } from '@/types';
-import { Button } from '@/components/ui/button';
-import { 
+"use client";
+
+import { Property } from "@/types";
+import { Button } from "@/components/ui/button";
+import {
   Edit,
   Trash2,
   Eye,
@@ -12,9 +14,10 @@ import {
   Plus,
   MoreVertical,
   Calendar,
-  DollarSign
-} from 'lucide-react';
-import { useState } from 'react';
+  DollarSign,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { getRandomHouseImage } from "@/lib/utils";
 
 interface PropertiesTabProps {
   properties: Property[];
@@ -33,71 +36,84 @@ export default function PropertiesTab({
   onEditProperty,
   onDeleteProperty,
   onViewProperty,
-  formatPrice
+  formatPrice,
 }: PropertiesTabProps) {
-  const [viewMode, setViewMode] = useState<'grid' | 'table'>('table');
+  const [viewMode, setViewMode] = useState<"grid" | "table">("table");
+  const [img, setImg] = useState<string | null>(null);
 
   const filterOptions = [
-    { value: 'all', label: 'All Properties' },
-    { value: 'active', label: 'Active' },
-    { value: 'inactive', label: 'Inactive' },
+    { value: "all", label: "All Properties" },
+    { value: "active", label: "Active" },
+    { value: "inactive", label: "Inactive" },
   ];
+  
+  useEffect(() => {
+    getRandomHouseImage().then(setImg);
+  }, []);
 
   const PropertyCard = ({ property }: { property: Property }) => (
     <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-      {property.images && property.images.length > 0 && (
-        <div className="h-48 bg-gray-200 relative">
-          <img 
-            src={property.images[0]} 
-            alt={property.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute top-3 right-3 flex space-x-1">
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-white shadow-sm"
-              onClick={() => onViewProperty(property.id)}
-            >
-              <Eye className="h-3 w-3" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-white shadow-sm"
-              onClick={() => onEditProperty(property.id)}
-            >
-              <Edit className="h-3 w-3" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="bg-white shadow-sm text-red-600 border-red-200 hover:bg-red-50"
-              onClick={() => onDeleteProperty(property.id)}
-            >
-              <Trash2 className="h-3 w-3" />
-            </Button>
-          </div>
-          <div className="absolute top-3 left-3">
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-              property.is_active 
-                ? 'bg-green-100 text-green-800' 
-                : 'bg-red-100 text-red-800'
-            }`}>
-              {property.is_active ? 'Active' : 'Inactive'}
-            </span>
-          </div>
+      <div className="h-48 bg-gray-200 relative">
+        <img
+          src={
+            property.images && property.images.length > 0
+              ? property.images[0]
+              : img
+          }
+          alt={property.title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute top-3 right-3 flex space-x-1">
+          <Button
+            variant="outline"
+            size="sm"
+            className="bg-white shadow-sm"
+            onClick={() => onViewProperty(property.id)}
+          >
+            <Eye className="h-3 w-3" />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="bg-white shadow-sm"
+            onClick={() => onEditProperty(property.id)}
+          >
+            <Edit className="h-3 w-3" />
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="bg-white shadow-sm text-red-600 border-red-200 hover:bg-red-50"
+            onClick={() => onDeleteProperty(property.id)}
+          >
+            <Trash2 className="h-3 w-3" />
+          </Button>
         </div>
-      )}
-      
+        <div className="absolute top-3 left-3">
+          <span
+            className={`px-2 py-1 rounded-full text-xs font-medium ${
+              property.is_active
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
+            {property.is_active ? "Active" : "Inactive"}
+          </span>
+        </div>
+      </div>
+
       <div className="p-4">
-        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">{property.title}</h3>
-        
+        <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+          {property.title}
+        </h3>
+
         <div className="flex items-center text-sm text-gray-600 mb-2">
           <MapPin className="h-4 w-4 mr-1" />
-          <span className="line-clamp-1">{property.address || property.address_line_1}, {property.city}</span>
+          <span className="line-clamp-1">
+            {property.address || property.address_line_1}, {property.city}
+          </span>
         </div>
-        
+
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-4 text-sm text-gray-600">
             <div className="flex items-center">
@@ -114,7 +130,7 @@ export default function PropertiesTab({
             </div>
           </div>
         </div>
-        
+
         <div className="flex items-center justify-between">
           <span className="text-lg font-bold text-blue-600">
             {formatPrice(property.price || property.price_per_month)}/month
@@ -146,31 +162,31 @@ export default function PropertiesTab({
               onChange={(e) => onFilterChange(e.target.value)}
               className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              {filterOptions.map(option => (
+              {filterOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
               ))}
             </select>
           </div>
-          
+
           <div className="flex items-center space-x-1 border border-gray-300 rounded-md">
             <button
-              onClick={() => setViewMode('table')}
+              onClick={() => setViewMode("table")}
               className={`px-3 py-1 text-sm ${
-                viewMode === 'table' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'text-gray-600 hover:text-gray-900'
+                viewMode === "table"
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Table
             </button>
             <button
-              onClick={() => setViewMode('grid')}
+              onClick={() => setViewMode("grid")}
               className={`px-3 py-1 text-sm ${
-                viewMode === 'grid' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'text-gray-600 hover:text-gray-900'
+                viewMode === "grid"
+                  ? "bg-blue-600 text-white"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Grid
@@ -186,7 +202,7 @@ export default function PropertiesTab({
 
       {/* Properties List */}
       {properties.length > 0 ? (
-        viewMode === 'grid' ? (
+        viewMode === "grid" ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {properties.map((property) => (
               <PropertyCard key={property.id} property={property} />
@@ -223,13 +239,15 @@ export default function PropertiesTab({
                     <tr key={property.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
                         <div className="flex items-center">
-                          {property.images && property.images.length > 0 && (
-                            <img 
-                              src={property.images[0]} 
-                              alt={property.title}
-                              className="w-12 h-12 rounded-lg object-cover mr-4"
-                            />
-                          )}
+                          <img
+                            src={
+                              property.images && property.images.length > 0
+                                ? property.images[0]
+                                : img
+                            }
+                            alt={property.title}
+                            className="w-12 h-12 rounded-lg object-cover mr-4"
+                          />
                           <div>
                             <div className="text-sm font-medium text-gray-900 line-clamp-2">
                               {property.title}
@@ -253,7 +271,9 @@ export default function PropertiesTab({
                       </td>
                       <td className="px-6 py-4">
                         <div className="text-sm font-medium text-gray-900">
-                          {formatPrice(property.price || property.price_per_month)}
+                          {formatPrice(
+                            property.price || property.price_per_month
+                          )}
                         </div>
                         <div className="text-xs text-gray-500">per month</div>
                       </td>
@@ -270,32 +290,34 @@ export default function PropertiesTab({
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                          property.is_active 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-red-100 text-red-800'
-                        }`}>
-                          {property.is_active ? 'Active' : 'Inactive'}
+                        <span
+                          className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                            property.is_active
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {property.is_active ? "Active" : "Inactive"}
                         </span>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center space-x-2">
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             onClick={() => onViewProperty(property.id)}
                           >
                             <Eye className="h-3 w-3" />
                           </Button>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             onClick={() => onEditProperty(property.id)}
                           >
                             <Edit className="h-3 w-3" />
                           </Button>
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             size="sm"
                             className="text-red-600 border-red-200 hover:bg-red-50"
                             onClick={() => onDeleteProperty(property.id)}
@@ -314,12 +336,13 @@ export default function PropertiesTab({
       ) : (
         <div className="bg-white rounded-xl p-12 text-center">
           <Home className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No properties found</h3>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            No properties found
+          </h3>
           <p className="text-gray-500 mb-6">
-            {filter === 'all' 
-              ? "You haven't added any properties yet" 
-              : `No ${filter} properties found`
-            }
+            {filter === "all"
+              ? "You haven't added any properties yet"
+              : `No ${filter} properties found`}
           </p>
           <Button>
             <Plus className="h-4 w-4 mr-2" />

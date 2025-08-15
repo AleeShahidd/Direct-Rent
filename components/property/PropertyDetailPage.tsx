@@ -199,7 +199,6 @@ const PropertyDetailPage = ({ id }: PropertyDetailPageProps) => {
     property_type,
     bedrooms,
     bathrooms,
-    price_per_month,
     rent_amount,
     deposit_amount,
     address_line_1,
@@ -263,7 +262,7 @@ const PropertyDetailPage = ({ id }: PropertyDetailPageProps) => {
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <Badge variant="secondary" className="text-lg px-3 py-1">
-              £{price_per_month || rent_amount}/month
+              £{rent_amount}/month
             </Badge>
             
             {deposit_amount && (
@@ -614,7 +613,7 @@ const PropertyDetailPage = ({ id }: PropertyDetailPageProps) => {
               <div className="flex items-center gap-2">
                 <Banknote className="h-5 w-5 text-primary" />
                   <span>
-                £{price_per_month || rent_amount} per month
+                £{rent_amount} per month
               </span>
               </div>
               

@@ -1,3 +1,5 @@
+"use client"
+import { useEffect, useState } from 'react';
 import { Property } from '@/types';
 import { Button } from '@/components/ui/button';
 import { PropertyCard } from '@/components/property/PropertyCard';
@@ -9,6 +11,7 @@ import {
   MapPin,
   DollarSign
 } from 'lucide-react';
+import { getRandomHouseImage } from '@/lib/utils';
 
 interface SavedPropertiesTabProps {
   savedProperties: Property[];
@@ -21,6 +24,12 @@ export default function SavedPropertiesTab({
   onRemoveSaved,
   onViewProperty
 }: SavedPropertiesTabProps) {
+  const [img, setImg] = useState<string>('');
+
+  useEffect(() => {
+    getRandomHouseImage().then(setImg);
+  }, []);
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-GB', {
       style: 'currency',
@@ -52,31 +61,29 @@ export default function SavedPropertiesTab({
             <div key={property.id} className="relative group">
               <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
                 {/* Property Image */}
-                {property.images && property.images.length > 0 && (
-                  <div className="h-48 relative">
-                    <img 
-                      src={property.images[0]} 
-                      alt={property.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="bg-white shadow-sm text-red-600 border-red-200 hover:bg-red-50"
-                        onClick={() => onRemoveSaved(property.id)}
-                      >
-                        <Trash2 className="h-3 w-3" />
-                      </Button>
-                    </div>
-                    <div className="absolute top-3 left-3">
-                      <div className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium flex items-center">
-                        <Heart className="h-3 w-3 mr-1 fill-current" />
-                        Saved
-                      </div>
+                <div className="h-48 relative">
+                  <img
+                    src={property.images && property.images.length > 0 ? property.images[0] : img}
+                    alt={property.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="bg-white shadow-sm text-red-600 border-red-200 hover:bg-red-50"
+                      onClick={() => onRemoveSaved(property.id)}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
+                  </div>
+                  <div className="absolute top-3 left-3">
+                    <div className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium flex items-center">
+                      <Heart className="h-3 w-3 mr-1 fill-current" />
+                      Saved
                     </div>
                   </div>
-                )}
+                </div>
                 
                 <div className="p-4">
                   <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">

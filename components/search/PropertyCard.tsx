@@ -1,26 +1,31 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { 
-  Home, 
-  Bed, 
-  Bath, 
-  Sofa, 
-  Car, 
-  Calendar, 
-  MapPin, 
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import {
+  Bed,
+  Bath,
+  Sofa,
+  Car,
+  Calendar,
+  MapPin,
   Heart,
   ExternalLink,
   Eye,
-  Users
-} from 'lucide-react';
-import { Property } from '@/types/enhanced';
-import { formatDistance } from 'date-fns';
+} from "lucide-react";
+import { Property } from "@/types/enhanced";
+import { formatDistance } from "date-fns";
+
+import { getRandomHouseImage } from "@/lib/utils";
 
 interface PropertyCardProps {
   property: Property;
@@ -28,7 +33,11 @@ interface PropertyCardProps {
   isFavorite?: boolean;
 }
 
-const PropertyCard = ({ property, onFavorite, isFavorite = false }: PropertyCardProps) => {
+const PropertyCard = ({
+  property,
+  onFavorite,
+  isFavorite = false,
+}: PropertyCardProps) => {
   const {
     id,
     title,
@@ -36,36 +45,49 @@ const PropertyCard = ({ property, onFavorite, isFavorite = false }: PropertyCard
     property_type,
     bedrooms,
     bathrooms,
-    price_per_month,
+  
     rent_amount,
     city,
     postcode,
     furnishing_status,
     available_from,
-    parking, // Using parking from the database schema
-    garden, // Using garden from the database schema
+    parking,
+    garden,
     pets_allowed,
     bills_included,
     created_at,
-    images, // Using images from the database schema
-    view_count 
+    images,
+    view_count,
   } = property;
 
-  // Format the created date
   const createdDate = new Date(created_at);
+  const [img, setImg] = useState<string>('');
   const timeAgo = formatDistance(createdDate, new Date(), { addSuffix: true });
-  
-  // Format the available date
-  const availableDate = available_from ? new Date(available_from) : null;
-  const availableFormatted = availableDate ? 
-    availableDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 
-    'Available Now';
 
-  // Get the main image or use a placeholder
+
+  const availableDate = available_from ? new Date(available_from) : null;
+  const availableFormatted = availableDate
+    ? availableDate.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "Available Now";
+
+  // If images exist in DB, use first one; otherwise use random UK house
+  useEffect(() => {
+   
+      getRandomHouseImage(id as string).then(setImg);
+    
+  }, [images, id]);
+
   const imageArray = images || [];
-  const mainImage = imageArray.length > 0 
-    ? (typeof imageArray[0] === 'string' ? imageArray[0] : '') 
-    : '/placeholder-property.jpg';
+  const mainImage =
+    imageArray.length > 0
+      ? typeof imageArray[0] === "string"
+        ? imageArray[0]
+        : ""
+      : img;
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -79,28 +101,25 @@ const PropertyCard = ({ property, onFavorite, isFavorite = false }: PropertyCard
             className="object-cover hover:scale-105 transition-transform duration-500"
           />
         </div>
-        
+
         <div className="absolute top-3 left-3 flex flex-col gap-2">
-          <Badge variant="secondary" className="bg-black bg-opacity-70 text-white">
-            £{price_per_month || rent_amount}/month
-          </Badge>
-          
+       
           {property_type && (
             <Badge variant="outline" className="bg-white">
               {property_type.charAt(0).toUpperCase() + property_type.slice(1)}
             </Badge>
           )}
         </div>
-        
+
         <Button
           variant="ghost"
           size="icon"
           className={`absolute top-3 right-3 rounded-full bg-white ${
-            isFavorite ? 'text-red-500' : 'text-gray-500'
+            isFavorite ? "text-red-500" : "text-gray-500"
           }`}
           onClick={() => onFavorite && onFavorite(id)}
         >
-          <Heart className={`h-5 w-5 ${isFavorite ? 'fill-current' : ''}`} />
+          <Heart className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`} />
         </Button>
       </div>
 
@@ -114,56 +133,59 @@ const PropertyCard = ({ property, onFavorite, isFavorite = false }: PropertyCard
         </div>
         <div className="flex items-center text-gray-500 mt-1">
           <MapPin className="h-4 w-4 mr-1" />
-          <span className="text-sm">{city}{postcode ? `, ${postcode}` : ''}</span>
+          <span className="text-sm">
+            {city}
+            {postcode ? `, ${postcode}` : ""}
+          </span>
         </div>
       </CardHeader>
-      
+
       <CardContent className="p-4 pt-2">
         <p className="text-gray-600 text-sm line-clamp-2 mb-3">{description}</p>
-        
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
           <div className="flex items-center text-sm text-gray-600">
             <Bed className="h-4 w-4 mr-1" />
-            <span>{bedrooms} {bedrooms === 1 ? 'Bed' : 'Beds'}</span>
+            <span>
+              {bedrooms} {bedrooms === 1 ? "Bed" : "Beds"}
+            </span>
           </div>
-          
           <div className="flex items-center text-sm text-gray-600">
             <Bath className="h-4 w-4 mr-1" />
-            <span>{bathrooms} {bathrooms === 1 ? 'Bath' : 'Baths'}</span>
+            <span>
+              {bathrooms} {bathrooms === 1 ? "Bath" : "Baths"}
+            </span>
           </div>
-          
           {furnishing_status && (
             <div className="flex items-center text-sm text-gray-600">
               <Sofa className="h-4 w-4 mr-1" />
-              <span className="capitalize">{furnishing_status.replace('_', ' ')}</span>
+              <span className="capitalize">
+                {furnishing_status.replace("_", " ")}
+              </span>
             </div>
           )}
-          
           <div className="flex items-center text-sm text-gray-600">
             <Calendar className="h-4 w-4 mr-1" />
             <span>{availableFormatted}</span>
           </div>
         </div>
-        
+
         <div className="flex flex-wrap gap-2">
           {parking && (
             <Badge variant="outline" className="text-xs">
               <Car className="h-3 w-3 mr-1" /> Parking
             </Badge>
           )}
-          
           {garden && (
             <Badge variant="outline" className="text-xs">
               Garden
             </Badge>
           )}
-          
           {pets_allowed && (
             <Badge variant="outline" className="text-xs">
               Pets Allowed
             </Badge>
           )}
-          
           {bills_included && (
             <Badge variant="outline" className="text-xs">
               Bills Included
@@ -171,7 +193,7 @@ const PropertyCard = ({ property, onFavorite, isFavorite = false }: PropertyCard
           )}
         </div>
       </CardContent>
-      
+
       <CardFooter className="p-4 pt-0 flex items-center justify-between">
         <span className="text-xs text-gray-500">Added {timeAgo}</span>
         <Link href={`/properties/${id}`} passHref>

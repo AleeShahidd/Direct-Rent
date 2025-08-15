@@ -47,9 +47,7 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('properties')
       .select(`
-        *,
-        landlord:users!landlord_id(id, name, full_name, email, avatar_url, verification_status)
-      `)
+        *      `)
       .eq('status', 'active');
 
     // Apply verification filter

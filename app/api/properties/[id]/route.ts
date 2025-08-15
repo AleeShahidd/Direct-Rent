@@ -21,39 +21,7 @@ export async function GET(request: NextRequest, { params }: RouteContext) {
     // Fetch property with all related data
     const { data: property, error } = await supabase
       .from('properties')
-      .select(`
-        *,
-        landlord:users!landlord_id(
-          id, 
-          full_name, 
-          email, 
-          avatar_url, 
-          verification_status
-        ),
-        reviews(
-          id,
-          overall_rating,
-          communication_rating,
-          cleanliness_rating,
-          location_rating,
-          value_for_money_rating,
-          condition_rating,
-          title,
-          content,
-          pros,
-          cons,
-          stay_duration,
-          would_recommend,
-          is_anonymous,
-          verification_status,
-          created_at,
-          reviewer:users!reviewer_id(
-            id,
-            full_name,
-            avatar_url
-          )
-        )
-      `)
+      .select('*')
       .eq('id', id)
       .single();
 

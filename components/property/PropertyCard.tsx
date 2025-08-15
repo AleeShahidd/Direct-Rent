@@ -1,81 +1,83 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { Property } from '@/types/enhanced'
-import { formatPrice } from '@/lib/utils'
-import { 
-  MapPin, 
-  Bed, 
-  Bath,
-  Heart,
-  Camera
-} from 'lucide-react'
+import { use, useEffect, useState } from "react";
+import Link from "next/link";
+import { Property } from "@/types/enhanced";
+import { formatPrice, getRandomHouseImage } from "@/lib/utils";
+import { MapPin, Bed, Bath, Heart, Camera } from "lucide-react";
+import { get } from "http";
 
 interface PropertyCardProps {
-  property: Property
-  showSaveButton?: boolean
-  showDistance?: boolean
-  onSave?: (propertyId: string) => void
-  onUnsave?: (propertyId: string) => void
-  className?: string
+  property: Property;
+  showSaveButton?: boolean;
+  showDistance?: boolean;
+  onSave?: (propertyId: string) => void;
+  onUnsave?: (propertyId: string) => void;
+  className?: string;
 }
 
-export function PropertyCard({ 
-  property, 
-  showSaveButton = true, 
+export function PropertyCard({
+  property,
+  showSaveButton = true,
   showDistance = false,
   onSave,
   onUnsave,
-  className = ''
+  className = "",
 }: PropertyCardProps) {
-  const [isSaved, setIsSaved] = useState(false)
-  const [isImageLoaded, setIsImageLoaded] = useState(false)
+  const [isSaved, setIsSaved] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [img, setImg] = useState<string>("");
 
   const handleSaveToggle = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    
-    if (isSaved) {
-      onUnsave?.(property.id)
-      setIsSaved(false)
-    } else {
-      onSave?.(property.id)
-      setIsSaved(true)
-    }
-  }
+    e.preventDefault();
+    e.stopPropagation();
 
-  const mainImage = property.images && property.images.length > 0 
-    ? typeof property.images[0] === 'string' 
-      ? property.images[0] 
-      : 'url' in property.images[0] ? property.images[0].url : '/placeholder-property.jpg'
-    : '/placeholder-property.jpg'
-  const price = property.rent_amount
+    if (isSaved) {
+      onUnsave?.(property.id);
+      setIsSaved(false);
+    } else {
+      onSave?.(property.id);
+      setIsSaved(true);
+    }
+  };
+
+  useEffect(() => {
+    getRandomHouseImage(property.id).then(setImg);
+  }, [property.id]);
+
+  // ✅ Fallback to random UK house image if no DB image
+  const mainImage =
+    property.images && property.images.length > 0
+      ? typeof property.images[0] === "string"
+        ? property.images[0]
+        : "url" in property.images[0]
+        ? property.images[0].url
+        : "/placeholder-property.jpg"
+      : img;
+
+  const price = property.rent_amount;
 
   return (
-    <div className={`bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 ${className}`}>
+    <div
+      className={`bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 ${className}`}
+    >
       <Link href={`/properties/${property.id}`}>
         <div className="relative">
           {/* Property Image */}
           <div className="relative h-48 bg-gray-200 overflow-hidden">
+            <img
+              src={mainImage}
+              alt={property.title || "Property Image"}
+              className={`object-cover w-full h-full transition-opacity duration-300 ${
+                isImageLoaded ? "opacity-100" : "opacity-0"
+              }`}
+              onLoad={() => setIsImageLoaded(true)}
+            />
             {!isImageLoaded && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <Camera className="w-12 h-12 text-gray-400" />
               </div>
             )}
-            <img
-              src={mainImage}
-              alt={property.title}
-              className={`w-full h-full object-cover transition-opacity duration-300 ${
-                isImageLoaded ? 'opacity-100' : 'opacity-0'
-              }`}
-              onLoad={() => setIsImageLoaded(true)}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = '/placeholder-property.jpg';
-                setIsImageLoaded(true);
-              }}
-            />
           </div>
 
           {/* Save Button */}
@@ -83,7 +85,7 @@ export function PropertyCard({
             <button
               onClick={handleSaveToggle}
               className="absolute top-3 right-3 p-2 bg-white/90 rounded-full hover:bg-white transition-colors duration-200"
-              aria-label={isSaved ? 'Remove from saved' : 'Save property'}
+              aria-label={isSaved ? "Remove from saved" : "Save property"}
             >
               {isSaved ? (
                 <Heart className="w-5 h-5 text-red-500 fill-current" />
@@ -148,36 +150,41 @@ export function PropertyCard({
           {/* Furnishing Status */}
           <div className="flex items-center justify-between">
             <span className="text-sm bg-gray-100 text-gray-700 px-2 py-1 rounded capitalize">
-              {property.furnishing_status?.replace('_', ' ')}
+              {property.furnishing_status?.replace("_", " ")}
             </span>
-            
-            {/* Distance (if applicable) */}
             {showDistance && (
-              <span className="text-sm text-gray-500">
-                2.1 miles away
-              </span>
+              <span className="text-sm text-gray-500">2.1 miles away</span>
             )}
           </div>
 
           {/* Available From */}
           {property.available_from && (
             <div className="mt-2 text-sm text-gray-600">
-              Available from {new Date(property.available_from).toLocaleDateString()}
+              Available from{" "}
+              {new Date(property.available_from).toLocaleDateString()}
             </div>
           )}
 
           {/* EPC Rating */}
           {property.epc_rating && (
             <div className="mt-2">
-              <span className={`inline-block px-2 py-1 rounded text-xs font-bold text-white ${
-                property.epc_rating === 'A' ? 'bg-green-600' :
-                property.epc_rating === 'B' ? 'bg-green-500' :
-                property.epc_rating === 'C' ? 'bg-yellow-500' :
-                property.epc_rating === 'D' ? 'bg-orange-500' :
-                property.epc_rating === 'E' ? 'bg-red-500' :
-                property.epc_rating === 'F' ? 'bg-red-600' :
-                'bg-red-700'
-              }`}>
+              <span
+                className={`inline-block px-2 py-1 rounded text-xs font-bold text-white ${
+                  property.epc_rating === "A"
+                    ? "bg-green-600"
+                    : property.epc_rating === "B"
+                    ? "bg-green-500"
+                    : property.epc_rating === "C"
+                    ? "bg-yellow-500"
+                    : property.epc_rating === "D"
+                    ? "bg-orange-500"
+                    : property.epc_rating === "E"
+                    ? "bg-red-500"
+                    : property.epc_rating === "F"
+                    ? "bg-red-600"
+                    : "bg-red-700"
+                }`}
+              >
                 EPC {property.epc_rating}
               </span>
             </div>
@@ -185,5 +192,5 @@ export function PropertyCard({
         </div>
       </Link>
     </div>
-  )
+  );
 }

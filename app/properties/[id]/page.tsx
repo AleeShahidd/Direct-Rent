@@ -7,6 +7,7 @@ import { Property, User } from '@/types';
 import { Button } from '@/components/ui/button';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import PropertyMap from '@/components/property/PropertyMap';
+import { getRandomHouseImage } from '@/lib/utils';
 import { 
   MapPin, 
   Bed, 
@@ -41,6 +42,11 @@ export default function PropertyDetailPage() {
   const [showInquiryForm, setShowInquiryForm] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [img, setImg] = useState<string>('');
+
+  useEffect(() => {
+    getRandomHouseImage().then(setImg);
+  }, []);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -50,20 +56,54 @@ export default function PropertyDetailPage() {
           throw new Error('Property not found');
         }
         const data = await response.json();
-        setProperty(data);
 
-        // Fetch landlord details
-        if (data.landlord_id) {
+        
+        // Add geocoding if coordinates are missing
+        let propertyData = data.data;
+        if (propertyData && (!propertyData.latitude || !propertyData.longitude)) {
+          try {
+            // Import the Google Maps service
+            const { googleMapsService } = await import('@/lib/google-maps');
+            const address = `${propertyData.address_line_1}, ${propertyData.city}, ${propertyData.postcode}, UK`;
+            
+            console.log('Geocoding property address:', address);
+            const results = await googleMapsService.geocodeAddress(address);
+            
+            if (results && results.length > 0) {
+              console.log('Geocoding successful:', results[0].position);
+              propertyData = {
+                ...propertyData,
+                latitude: results[0].position.lat,
+                longitude: results[0].position.lng
+              };
+              
+              // Update the property in the database with the coordinates
+              await supabase
+                .from('properties')
+                .update({ 
+                  latitude: results[0].position.lat,
+                  longitude: results[0].position.lng 
+                })
+                .eq('id', propertyData.id);
+            }
+          } catch (geocodeError) {
+            console.error('Error geocoding property address:', geocodeError);
+          }
+        }
+        
+        setProperty(propertyData);
+
+        // Fetch landlord info if available
+        if (propertyData && propertyData.landlord_id) {
           const { data: landlordData } = await supabase
             .from('users')
             .select('*')
-            .eq('id', data.landlord_id)
+            .eq('id', propertyData.landlord_id)
             .single();
           
-          if (landlordData) {
-            setLandlord(landlordData);
-          }
+          setLandlord(landlordData || null);
         }
+     
 
         // Check if property is saved by current user
         const { data: { user } } = await supabase.auth.getUser();
@@ -201,7 +241,10 @@ export default function PropertyDetailPage() {
     );
   }
 
-  const images = property.images || ['/placeholder-property.jpg'];
+  // Use random house image if no images are available
+  const images = property.images && property.images.length > 0 
+    ? property.images 
+    : [img];
 
   return (
     <div className="min-h-screen bg-gray-50">

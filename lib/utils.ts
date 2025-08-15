@@ -204,3 +204,48 @@ export function removeFromLocalStorage(key: string): void {
     // Silently fail
   }
 }
+
+// Generate a random UK house image URL
+// We use a seed to ensure consistent images for the same property ID
+// utils/getRandomHouseImage.ts
+export async function getRandomHouseImage(query: string = 'uk house'): Promise<string> {
+  try {
+    const res = await fetch(`/api/image?q=${encodeURIComponent(query)}`)
+    if (!res.ok) throw new Error('Failed to fetch image')
+    
+    const { url } = await res.json()
+    return url
+  } catch (error) {
+    console.error('Error fetching house image:', error)
+    // fallback placeholder
+    return 'https://via.placeholder.com/800x600?text=House'
+  }
+}
+
+
+// Alternative using the official Unsplash API (requires server-side implementation)
+export async function getRandomUKHouseAsync(): Promise<string> {
+  try {
+    // This should be implemented server-side with proper API key management
+    const accessKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
+    
+    if (!accessKey) {
+      console.error('Unsplash access key is not defined');
+      return getRandomHouseImage(); // Fallback to the client-side method
+    }
+    
+    const response = await fetch(
+      `https://api.unsplash.com/photos/random?query=uk+house&collections=3356627,220381&client_id=${accessKey}`
+    );
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch from Unsplash API');
+    }
+    
+    const data = await response.json();
+    return data.urls.regular;
+  } catch (error) {
+    console.error('Error fetching random house image:', error);
+    return getRandomHouseImage(); // Fallback to the client-side method
+  }
+}
