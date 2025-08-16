@@ -19,6 +19,7 @@ function SearchPageContent() {
   const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
+  const [isFullScreenMap, setIsFullScreenMap] = useState(false);
   const [filters, setFilters] = useState<PropertySearchFilters>({
     page: 1,
     limit: 12,
@@ -270,7 +271,7 @@ function SearchPageContent() {
   const totalPages = Math.ceil(totalResults / (filters.limit || 12));
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`min-h-screen bg-gray-50 ${isFullScreenMap && viewMode === "map" ? "overflow-hidden" : ""}`}>
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -284,47 +285,64 @@ function SearchPageContent() {
               </p>
             </div>
             <div className="flex items-center space-x-2">
-              <Button
-                variant={viewMode === "list" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setViewMode("list")}
-              >
-                <ListBulletIcon className="w-4 h-4 mr-1" />
-                List
-              </Button>
-              <Button
-                variant={viewMode === "map" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setViewMode("map")}
-              >
-                <MapIcon className="w-4 h-4 mr-1" />
-                Map
-              </Button>
+              <div className="bg-gray-100 p-1 rounded-lg flex">
+                <Button
+                  variant={viewMode === "list" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setViewMode("list")}
+                  className="rounded-md"
+                >
+                  <ListBulletIcon className="w-4 h-4 mr-1" />
+                  List
+                </Button>
+                <Button
+                  variant={viewMode === "map" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => setViewMode("map")}
+                  className="rounded-md"
+                >
+                  <MapIcon className="w-4 h-4 mr-1" />
+                  Map
+                </Button>
+              </div>
+              
+              {viewMode === "map" && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsFullScreenMap(!isFullScreenMap)}
+                  className="rounded-md"
+                >
+                  {isFullScreenMap ? "Exit Full Screen" : "Full Screen"}
+                </Button>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="lg:grid lg:grid-cols-4 lg:gap-8">
+      <div className={`mx-auto ${isFullScreenMap ? "w-full h-screen pt-[69px]" : "max-w-7xl px-4 sm:px-6 lg:px-8 py-8"}`}>
+        <div className={isFullScreenMap ? "" : "lg:grid lg:grid-cols-4 lg:gap-8"}>
           {/* Filters Sidebar */}
-          <div className="lg:col-span-1 mb-8 lg:mb-0">
-            <SearchFilters
-              filters={filters}
-              onFiltersChange={handleFiltersChange}
-              onClearFilters={clearFilters}
-            />
-          </div>
+          {(!isFullScreenMap || viewMode === "list") && (
+            <div className={`${isFullScreenMap ? "hidden" : "lg:col-span-1 mb-8 lg:mb-0"}`}>
+              <SearchFilters
+                filters={filters}
+                onFiltersChange={handleFiltersChange}
+                onClearFilters={clearFilters}
+              />
+            </div>
+          )}
 
           {/* Results */}
-          <div className="lg:col-span-3">
+          <div className={isFullScreenMap ? "w-full h-full" : "lg:col-span-3"}>
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-6">
                 {error}
               </div>
             )}
 
-            {loading ? (
+            {loading && viewMode === "list" ? (
               <div className="flex justify-center items-center h-64">
                 <LoadingSpinner size="lg" />
               </div>
@@ -427,20 +445,22 @@ function SearchPageContent() {
               </>
             ) : (
               // Map View
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+              <div className={`bg-white rounded-lg border border-gray-200 overflow-hidden ${isFullScreenMap ? "h-full" : ""}`}>
                 {geocodingProperties ? (
-                  <div className="h-[600px] flex flex-col items-center justify-center">
+                  <div className={`${isFullScreenMap ? "h-full" : "h-[600px]"} flex flex-col items-center justify-center`}>
                     <LoadingSpinner size="lg" />
                     <p className="text-gray-600 mt-4">Preparing map view...</p>
                   </div>
                 ) : properties.length > 0 ? (
-                  <div className="h-[600px]">
+                  <div className={isFullScreenMap ? "h-full" : "h-[600px]"}>
                     <SearchMap
                       properties={properties.filter(p => p.latitude && p.longitude)}
                       height="100%"
                       onPropertySelect={(propertyId) => {
                         router.push(`/properties/${propertyId}`);
                       }}
+                      isFullScreen={isFullScreenMap}
+                      onToggleFullScreen={() => setIsFullScreenMap(!isFullScreenMap)}
                     />
                   </div>
                 ) : (

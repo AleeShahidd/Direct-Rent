@@ -179,7 +179,7 @@ export default function LoginPage() {
               {loading ? 'Signing in...' : 'Sign in'}
             </Button>
           </div>
-
+{/* 
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -206,7 +206,7 @@ export default function LoginPage() {
                 Continue with Google
               </Button>
             </div>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>

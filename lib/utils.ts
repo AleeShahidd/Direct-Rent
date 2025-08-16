@@ -205,20 +205,68 @@ export function removeFromLocalStorage(key: string): void {
   }
 }
 
+// Get Google Maps Static image URL for location
+export function getLocationMapImage(
+  latitude?: number | null,
+  longitude?: number | null,
+  address?: string | null,
+  options?: {
+    zoom?: number;
+    size?: string;
+    mapType?: 'roadmap' | 'satellite' | 'hybrid' | 'terrain';
+    markerColor?: string;
+  }
+): string {
+  try {
+    const baseUrl = '/api/image?mode=location';
+    
+    // Set default options
+    const zoom = options?.zoom || 14;
+    const size = options?.size || '600x400';
+    const mapType = options?.mapType || 'roadmap';
+    const markerColor = options?.markerColor || 'red';
+    
+    let url = `${baseUrl}&zoom=${zoom}&size=${size}&maptype=${mapType}`;
+    
+    // Add coordinates if available
+    if (latitude && longitude) {
+      url += `&lat=${latitude}&lng=${longitude}`;
+    } 
+    // Otherwise use address
+    else if (address) {
+      url += `&address=${encodeURIComponent(address)}`;
+    } 
+    // If neither is available, return placeholder
+    else {
+      return 'https://via.placeholder.com/600x400?text=No+Location+Data';
+    }
+    
+    return url;
+  } catch (error) {
+    console.error('Error generating location map image URL:', error);
+    return 'https://via.placeholder.com/600x400?text=Map+Image+Error';
+  }
+}
+
 // Generate a random UK house image URL
 // We use a seed to ensure consistent images for the same property ID
-// utils/getRandomHouseImage.ts
 export async function getRandomHouseImage(query: string = 'uk house'): Promise<string> {
   try {
     const res = await fetch(`/api/image?q=${encodeURIComponent(query)}`)
     if (!res.ok) throw new Error('Failed to fetch image')
     
     const { url } = await res.json()
+    
+    // Check if URL is valid and not empty
+    if (!url || typeof url !== 'string' || url.trim() === '') {
+      throw new Error('Invalid image URL returned')
+    }
+    
     return url
   } catch (error) {
     console.error('Error fetching house image:', error)
     // fallback placeholder
-    return 'https://via.placeholder.com/800x600?text=House'
+    return '/placeholder-property.jpg'
   }
 }
 

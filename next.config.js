@@ -8,6 +8,11 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true, // Ignore ESLint errors during build
   },
+  
+  images: {
+    domains: ['images.pexels.com'],
+  },
+  
   webpack: (config, { isServer }) => {
     // Add this webpack configuration for handling natural module
     config.resolve.fallback = { 

@@ -579,7 +579,7 @@ export default function RegisterPage() {
               {loading ? 'Creating account...' : 'Create account'}
             </Button>
           </div>
-
+{/* 
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -607,7 +607,7 @@ export default function RegisterPage() {
                 Sign up with Google
               </Button>
             </div>
-          </div>
+          </div> */}
 
           <div className="text-center">
             <p className="text-xs text-gray-600">

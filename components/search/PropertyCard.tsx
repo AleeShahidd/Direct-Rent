@@ -61,7 +61,7 @@ const PropertyCard = ({
   } = property;
 
   const createdDate = new Date(created_at);
-  const [img, setImg] = useState<string>('');
+  const [img, setImg] = useState<string>('/placeholder-property.jpg');
   const timeAgo = formatDistance(createdDate, new Date(), { addSuffix: true });
 
 
@@ -76,30 +76,58 @@ const PropertyCard = ({
 
   // If images exist in DB, use first one; otherwise use random UK house
   useEffect(() => {
-   
-      getRandomHouseImage(id as string).then(setImg);
-    
+    getRandomHouseImage(id as string)
+      .then(imageUrl => {
+        if (imageUrl && imageUrl.trim() !== '') {
+          setImg(imageUrl);
+        }
+      })
+      .catch(() => {
+        // Keep the default placeholder if there's an error
+      });
   }, [images, id]);
 
   const imageArray = images || [];
-  const mainImage =
-    imageArray.length > 0
-      ? typeof imageArray[0] === "string"
-        ? imageArray[0]
-        : ""
-      : img;
+  const mainImage = (() => {
+    // If there are images in the property
+    if (imageArray.length > 0) {
+      const firstImage = imageArray[0];
+      
+      // Check if image is a string
+      if (typeof firstImage === 'string' && firstImage.trim() !== '') {
+        return firstImage;
+      }
+      
+      // Check if image is an object with url property
+      if (typeof firstImage === 'object' && firstImage !== null) {
+        // @ts-ignore - TypeScript doesn't know the structure
+        const url = firstImage.url;
+        if (url && typeof url === 'string' && url.trim() !== '') {
+          return url;
+        }
+      }
+      
+      // If we reach here, use the default image
+      return img || '/placeholder-property.jpg';
+    }
+    
+    // If no property images, use the random image or fallback
+    return img || '/placeholder-property.jpg';
+  })();
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="relative">
         <div className="aspect-video relative overflow-hidden">
-          <Image
-            src={mainImage}
-            alt={title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover hover:scale-105 transition-transform duration-500"
-          />
+          {mainImage && (
+            <Image
+              src={mainImage}
+              alt={title || "Property image"}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover hover:scale-105 transition-transform duration-500"
+            />
+          )}
         </div>
 
         <div className="absolute top-3 left-3 flex flex-col gap-2">

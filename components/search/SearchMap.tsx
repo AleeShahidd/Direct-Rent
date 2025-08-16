@@ -1,7 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import GoogleMap from '../ui/GoogleMap';
 import { Property, MapBounds } from '@/types/enhanced';
 import { googleMapsService } from '@/lib/google-maps';
+import { Button } from '../ui/button';
+import { MapIcon, ListBulletIcon, AdjustmentsHorizontalIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 
 interface SearchMapProps {
   properties: Property[];
@@ -12,6 +14,8 @@ interface SearchMapProps {
   onBoundsChange?: (bounds: MapBounds) => void;
   initialCenter?: { lat: number; lng: number };
   initialZoom?: number;
+  isFullScreen?: boolean;
+  onToggleFullScreen?: () => void;
 }
 
 export default function SearchMap({
@@ -22,10 +26,14 @@ export default function SearchMap({
   onPropertySelect,
   onBoundsChange,
   initialCenter,
-  initialZoom = 12
+  initialZoom = 12,
+  isFullScreen = false,
+  onToggleFullScreen
 }: SearchMapProps) {
   const [center, setCenter] = useState(initialCenter || { lat: 51.509865, lng: -0.118092 }); // Default London
   const [zoom, setZoom] = useState(initialZoom);
+  const [showPropertyList, setShowPropertyList] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
   
   const markers = properties
     .filter(p => p.latitude && p.longitude)
@@ -39,13 +47,13 @@ export default function SearchMap({
       },
       property: property,
       popup_content: `
-        <div class="p-3">
+        <div class="p-3 max-w-[250px]">
           <h3 class="font-semibold">${property.title}</h3>
           <p class="text-sm">${property.property_type} - £${property.rent_amount || 0}/month</p>
           <p class="text-sm">${property.bedrooms} bed, ${property.bathrooms} bath</p>
           <p class="text-xs">${property.address_line_1}, ${property.city}, ${property.postcode}</p>
-          <button class="view-property-btn mt-2 text-blue-600 text-sm font-medium" data-property-id="${property.id}">
-            View Property
+          <button class="view-property-btn mt-2 px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded" data-property-id="${property.id}">
+            View Details
           </button>
         </div>
       `
@@ -118,19 +126,82 @@ export default function SearchMap({
   }, [onPropertySelect]);
 
   return (
-    <div className={`rounded-lg overflow-hidden ${className}`}>
+    <div className={`rounded-lg overflow-hidden ${className} relative`} ref={mapContainerRef}>
       {markers.length > 0 ? (
-        <GoogleMap
-          center={center}
-          zoom={zoom}
-          markers={markers}
-          height={height}
-          width={width}
-          onMarkerClick={handleMarkerClick}
-          onBoundsChange={handleBoundsChange}
-          onZoomChange={setZoom}
-          onLoad={handleMapLoad}
-        />
+        <>
+          <GoogleMap
+            center={center}
+            zoom={zoom}
+            markers={markers}
+            height={height}
+            width={width}
+            onMarkerClick={handleMarkerClick}
+            onBoundsChange={handleBoundsChange}
+            onZoomChange={setZoom}
+            onLoad={handleMapLoad}
+            clusterMarkers={true}
+          />
+          
+          {/* Property count badge */}
+          <div className="absolute top-4 left-4 z-10 bg-white rounded-full px-3 py-1 shadow-md text-sm font-medium">
+            {markers.length} {markers.length === 1 ? 'property' : 'properties'} found
+          </div>
+          
+          {/* Controls */}
+          <div className="absolute bottom-4 right-4 z-10 flex flex-col space-y-2">
+            {onToggleFullScreen && (
+              <Button 
+                variant="secondary" 
+                size="sm" 
+                className="rounded-full p-2 w-10 h-10 flex items-center justify-center"
+                onClick={onToggleFullScreen}
+                title={isFullScreen ? "Exit full screen" : "Full screen"}
+              >
+                <ArrowsPointingOutIcon className="w-5 h-5" />
+              </Button>
+            )}
+            
+            <Button 
+              variant="secondary" 
+              size="sm" 
+              className="rounded-full p-2 w-10 h-10 flex items-center justify-center"
+              onClick={() => setShowPropertyList(prev => !prev)}
+              title="Toggle property list"
+            >
+              {showPropertyList ? <MapIcon className="w-5 h-5" /> : <ListBulletIcon className="w-5 h-5" />}
+            </Button>
+          </div>
+          
+          {/* Property list sidebar */}
+          {showPropertyList && (
+            <div className="absolute top-0 left-0 bottom-0 w-80 bg-white shadow-lg z-10 overflow-y-auto">
+              <div className="p-4 bg-gray-50 border-b border-gray-200 sticky top-0 z-10">
+                <h3 className="font-medium text-gray-900">Properties</h3>
+                <p className="text-sm text-gray-500">{markers.length} results</p>
+              </div>
+              <div className="divide-y divide-gray-200">
+                {properties.filter(p => p.latitude && p.longitude).map((property) => (
+                  <div 
+                    key={property.id}
+                    className="p-4 hover:bg-gray-50 cursor-pointer transition-colors"
+                    onClick={() => onPropertySelect && onPropertySelect(property.id)}
+                  >
+                    <h4 className="font-medium text-gray-900">{property.title}</h4>
+                    <p className="text-sm text-gray-500">
+                      {property.property_type} - £{property.rent_amount}/month
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {property.bedrooms} bed, {property.bathrooms} bath
+                    </p>
+                    <p className="text-xs text-gray-400 truncate">
+                      {property.address_line_1}, {property.city}, {property.postcode}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
       ) : (
         <div 
           className="bg-white flex flex-col items-center justify-center" 

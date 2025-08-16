@@ -42,10 +42,18 @@ export default function PropertyDetailPage() {
   const [showInquiryForm, setShowInquiryForm] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [img, setImg] = useState<string>('');
+  const [img, setImg] = useState<string>('/placeholder-property.jpg');
 
   useEffect(() => {
-    getRandomHouseImage().then(setImg);
+    getRandomHouseImage()
+      .then(imageUrl => {
+        if (imageUrl && imageUrl.trim() !== '') {
+          setImg(imageUrl);
+        }
+      })
+      .catch(() => {
+        // Keep the default placeholder if there's an error
+      });
   }, []);
 
   useEffect(() => {
@@ -243,8 +251,8 @@ export default function PropertyDetailPage() {
 
   // Use random house image if no images are available
   const images = property.images && property.images.length > 0 
-    ? property.images 
-    : [img];
+    ? property.images.filter(Boolean) // Filter out any empty strings or null values
+    : img ? [img] : ['/placeholder-property.jpg']; // Ensure there's always a valid image
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -252,8 +260,8 @@ export default function PropertyDetailPage() {
         {/* Image Gallery */}
         <div className="relative h-96 md:h-[500px] rounded-xl overflow-hidden mb-8">
           <Image
-            src={images[currentImageIndex]}
-            alt={property.title}
+            src={images[currentImageIndex] || '/placeholder-property.jpg'}
+            alt={property.title || 'Property image'}
             fill
             className="object-cover"
           />

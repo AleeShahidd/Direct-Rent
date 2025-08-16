@@ -1,33 +1,36 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Property } from "@/types/enhanced";
-import { formatPrice, getRandomHouseImage } from "@/lib/utils";
-import { MapPin, Bed, Bath, Heart, Camera } from "lucide-react";
-import { get } from "http";
+import { formatPrice, getLocationMapImage } from "@/lib/utils";
+import { MapPin, Bed, Bath, Heart, Map } from "lucide-react";
 
-interface PropertyCardProps {
+interface PropertyLocationCardProps {
   property: Property;
   showSaveButton?: boolean;
   showDistance?: boolean;
   onSave?: (propertyId: string) => void;
   onUnsave?: (propertyId: string) => void;
   className?: string;
+  mapType?: 'roadmap' | 'satellite' | 'hybrid' | 'terrain';
+  zoom?: number;
 }
 
-export function PropertyCard({
+export function PropertyLocationCard({
   property,
   showSaveButton = true,
   showDistance = false,
   onSave,
   onUnsave,
   className = "",
-}: PropertyCardProps) {
+  mapType = "roadmap",
+  zoom = 14
+}: PropertyLocationCardProps) {
   const [isSaved, setIsSaved] = useState(false);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [img, setImg] = useState<string>("/placeholder-property.jpg");
+  const [mapUrl, setMapUrl] = useState<string>('');
 
   const handleSaveToggle = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -42,44 +45,63 @@ export function PropertyCard({
     }
   };
 
+  // Generate map image URL
   useEffect(() => {
-    getRandomHouseImage(property.id)
-      .then(imageUrl => {
-        if (imageUrl && imageUrl.trim() !== '') {
-          setImg(imageUrl);
-        }
-      })
-      .catch(() => {
-        // Keep the default placeholder if there's an error
-      });
-  }, [property.id]);
-
-  // ✅ Fallback to random UK house image if no DB image
-  const mainImage = (() => {
-    // If there are images in the property
-    if (property.images && property.images.length > 0) {
-      const firstImage = property.images[0];
-      
-      // Check if image is a string
-      if (typeof firstImage === 'string') {
-        return firstImage.trim() !== '' ? firstImage : '/placeholder-property.jpg';
+    try {
+      // Generate a location map image URL
+      if (property.latitude && property.longitude) {
+        const url = getLocationMapImage(
+          property.latitude,
+          property.longitude,
+          null,
+          {
+            zoom,
+            size: `600x300`,
+            mapType
+          }
+        );
+        setMapUrl(url);
+      } else if (property.address_line_1 && property.city && property.postcode) {
+        // If no coordinates, use address
+        const address = `${property.address_line_1}, ${property.city}, ${property.postcode}, UK`;
+        const url = getLocationMapImage(
+          null,
+          null,
+          address,
+          {
+            zoom,
+            size: `600x300`,
+            mapType
+          }
+        );
+        setMapUrl(url);
+      } else {
+        throw new Error('No location data available');
       }
-      
-      // Check if image is an object with url property
-      if (typeof firstImage === 'object' && firstImage !== null) {
-        // @ts-ignore - TypeScript doesn't know the structure
-        const url = firstImage.url;
-        return url && typeof url === 'string' && url.trim() !== '' 
-          ? url 
-          : '/placeholder-property.jpg';
-      }
-      
-      return '/placeholder-property.jpg';
+    } catch (err) {
+      console.error('Error generating map image:', err);
     }
+  }, [property, mapType, zoom]);
+
+  // Fetch the actual image URL from our API
+  useEffect(() => {
+    if (!mapUrl) return;
     
-    // If no property images, use the random image or fallback
-    return img && img.trim() !== '' ? img : '/placeholder-property.jpg';
-  })();
+    const fetchMapImageUrl = async () => {
+      try {
+        const response = await fetch(mapUrl);
+        if (!response.ok) throw new Error('Failed to get map image URL');
+        
+        const data = await response.json();
+        setMapUrl(data.url);
+        setIsImageLoaded(true);
+      } catch (err) {
+        console.error('Error fetching map image URL:', err);
+      }
+    };
+    
+    fetchMapImageUrl();
+  }, [mapUrl]);
 
   const price = property.rent_amount;
 
@@ -89,21 +111,19 @@ export function PropertyCard({
     >
       <Link href={`/properties/${property.id}`}>
         <div className="relative">
-          {/* Property Image */}
+          {/* Property Map Image */}
           <div className="relative h-48 bg-gray-200 overflow-hidden">
-            {mainImage && (
-              <img
-                src={mainImage}
-                alt={property.title || "Property Image"}
-                className={`object-cover w-full h-full transition-opacity duration-300 ${
-                  isImageLoaded ? "opacity-100" : "opacity-0"
-                }`}
+            {isImageLoaded ? (
+              <Image
+                src={mapUrl}
+                alt={`Map of ${property.address_line_1}, ${property.city}`}
+                fill
+                className="object-cover w-full h-full"
                 onLoad={() => setIsImageLoaded(true)}
               />
-            )}
-            {!isImageLoaded && (
+            ) : (
               <div className="absolute inset-0 flex items-center justify-center">
-                <Camera className="w-12 h-12 text-gray-400" />
+                <Map className="w-12 h-12 text-gray-400" />
               </div>
             )}
           </div>
@@ -130,14 +150,10 @@ export function PropertyCard({
             </span>
           </div>
 
-          {/* Image Count */}
-          {property.images && property.images.length > 1 && (
-            <div className="absolute bottom-3 right-3">
-              <span className="bg-black/70 text-white px-2 py-1 rounded text-xs">
-                +{property.images.length - 1} more
-              </span>
-            </div>
-          )}
+          {/* Location Badge */}
+          <div className="absolute bottom-3 left-3 bg-white/90 px-2 py-1 rounded text-xs font-medium">
+            {property.city}, {property.postcode}
+          </div>
         </div>
 
         {/* Property Details */}
@@ -190,31 +206,6 @@ export function PropertyCard({
             <div className="mt-2 text-sm text-gray-600">
               Available from{" "}
               {new Date(property.available_from).toLocaleDateString()}
-            </div>
-          )}
-
-          {/* EPC Rating */}
-          {property.epc_rating && (
-            <div className="mt-2">
-              <span
-                className={`inline-block px-2 py-1 rounded text-xs font-bold text-white ${
-                  property.epc_rating === "A"
-                    ? "bg-green-600"
-                    : property.epc_rating === "B"
-                    ? "bg-green-500"
-                    : property.epc_rating === "C"
-                    ? "bg-yellow-500"
-                    : property.epc_rating === "D"
-                    ? "bg-orange-500"
-                    : property.epc_rating === "E"
-                    ? "bg-red-500"
-                    : property.epc_rating === "F"
-                    ? "bg-red-600"
-                    : "bg-red-700"
-                }`}
-              >
-                EPC {property.epc_rating}
-              </span>
             </div>
           )}
         </div>
