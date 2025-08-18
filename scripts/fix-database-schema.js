@@ -6,7 +6,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('Missing environment variables. Make sure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env.local');
+  console.log('Missing environment variables. Make sure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env.local');
   process.exit(1);
 }
 
@@ -52,7 +52,7 @@ async function fixUserSchema() {
         }).catch(e => ({ error: e }));
         
         if (alterError) {
-          console.error('❌ Failed to alter users table:', alterError);
+          console.log('❌ Failed to alter users table:', alterError);
           return false;
         }
         
@@ -133,7 +133,7 @@ async function fixUserSchema() {
       }).catch(e => ({ error: e }));
       
       if (createError) {
-        console.error('❌ Failed to create users table:', createError);
+        console.log('❌ Failed to create users table:', createError);
         return false;
       }
       
@@ -142,7 +142,7 @@ async function fixUserSchema() {
 
     return true;
   } catch (error) {
-    console.error('❌ Unexpected error:', error);
+    console.log('❌ Unexpected error:', error);
     return false;
   }
 }
@@ -155,7 +155,7 @@ async function main() {
   if (success) {
     console.log('✅ Database schema fix completed successfully');
   } else {
-    console.error('❌ Database schema fix failed');
+    console.log('❌ Database schema fix failed');
     process.exit(1);
   }
 }

@@ -7,9 +7,9 @@ export function HydrationLogger() {
     // Log hydration status
     console.log('✅ Hydration completed successfully');
     
-    // Override console.error to catch and log hydration errors specifically
-    const originalError = console.error;
-    console.error = (...args) => {
+    // Override console.log to catch and log hydration errors specifically
+    const originalError = console.log;
+    console.log = (...args) => {
       const message = args[0];
       if (typeof message === 'string') {
         // Only handle actual hydration mismatches, not auth errors
@@ -27,7 +27,7 @@ export function HydrationLogger() {
     };
     
     return () => {
-      console.error = originalError;
+      console.log = originalError;
     };
   }, []);
 

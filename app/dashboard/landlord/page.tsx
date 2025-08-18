@@ -78,7 +78,7 @@ export default function LandlordDashboard() {
       setProperties(propertiesData || []);
       setInquiries(inquiriesData || []);
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      console.log('Error fetching dashboard data:', error);
     } finally {
       setLoading(false);
     }
@@ -118,7 +118,7 @@ export default function LandlordDashboard() {
         fetchDashboardData(currentUser.id);
       }
     } catch (error) {
-      console.error('Error updating inquiry:', error);
+      console.log('Error updating inquiry:', error);
     }
   };
 

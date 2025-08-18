@@ -20,7 +20,7 @@ async function checkSchema() {
       .limit(1)
     
     if (usersError) {
-      console.error('Users table error:', usersError)
+      console.log('Users table error:', usersError)
     } else if (users && users.length > 0) {
       console.log('Users table columns:', Object.keys(users[0]))
     } else {
@@ -34,7 +34,7 @@ async function checkSchema() {
       .limit(1)
     
     if (propertiesError) {
-      console.error('Properties table error:', propertiesError)
+      console.log('Properties table error:', propertiesError)
     } else if (properties && properties.length > 0) {
       console.log('Properties table columns:', Object.keys(properties[0]))
     } else {
@@ -42,7 +42,7 @@ async function checkSchema() {
     }
     
   } catch (error) {
-    console.error('Error:', error)
+    console.log('Error:', error)
   }
 }
 

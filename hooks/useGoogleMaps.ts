@@ -25,7 +25,7 @@ export function useGoogleMaps({
       })
       .catch(error => {
         setLoadError(error);
-        console.error('Error loading Google Maps:', error);
+        console.log('Error loading Google Maps:', error);
       });
   }, [libraries]);
 

@@ -138,7 +138,7 @@ class PricePredictionModel {
     try {
       // Check if model exists
       if (!fs.existsSync(path.join(this.modelPath, 'model.json'))) {
-        console.error('Model file not found');
+        console.log('Model file not found');
         return false;
       }
       
@@ -158,7 +158,7 @@ class PricePredictionModel {
       console.log('Model loaded successfully');
       return true;
     } catch (error) {
-      console.error('Error loading model:', error);
+      console.log('Error loading model:', error);
       return false;
     }
   }

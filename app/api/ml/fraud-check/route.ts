@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Fraud detection API error:', error);
+    console.log('Fraud detection API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Failed to analyze property for fraud',

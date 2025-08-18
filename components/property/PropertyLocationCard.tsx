@@ -79,7 +79,7 @@ export function PropertyLocationCard({
         throw new Error('No location data available');
       }
     } catch (err) {
-      console.error('Error generating map image:', err);
+      console.log('Error generating map image:', err);
     }
   }, [property, mapType, zoom]);
 
@@ -96,7 +96,7 @@ export function PropertyLocationCard({
         setMapUrl(data.url);
         setIsImageLoaded(true);
       } catch (err) {
-        console.error('Error fetching map image URL:', err);
+        console.log('Error fetching map image URL:', err);
       }
     };
     

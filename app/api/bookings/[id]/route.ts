@@ -78,7 +78,7 @@ export async function PUT(
       .single();
 
     if (updateError) {
-      console.error('Error updating booking:', updateError);
+      console.log('Error updating booking:', updateError);
       return NextResponse.json({ error: 'Failed to update booking' }, { status: 500 });
     }
 
@@ -87,7 +87,7 @@ export async function PUT(
     return NextResponse.json(updatedBooking);
 
   } catch (error) {
-    console.error('Error in PUT /api/bookings/[id]:', error);
+    console.log('Error in PUT /api/bookings/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -120,7 +120,7 @@ export async function GET(
     return NextResponse.json(booking);
 
   } catch (error) {
-    console.error('Error in GET /api/bookings/[id]:', error);
+    console.log('Error in GET /api/bookings/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -165,14 +165,14 @@ export async function DELETE(
       .eq('id', bookingId);
 
     if (deleteError) {
-      console.error('Error deleting booking:', deleteError);
+      console.log('Error deleting booking:', deleteError);
       return NextResponse.json({ error: 'Failed to delete booking' }, { status: 500 });
     }
 
     return NextResponse.json({ message: 'Booking deleted successfully' });
 
   } catch (error) {
-    console.error('Error in DELETE /api/bookings/[id]:', error);
+    console.log('Error in DELETE /api/bookings/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

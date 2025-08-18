@@ -114,7 +114,7 @@ export function useMLSystem(options: UseMLSystemOptions = {}) {
       setMetrics(response.data.metrics || []);
     } catch (err: any) {
       // Don't set main error state for metrics
-      console.error('Error fetching ML metrics:', err);
+      console.log('Error fetching ML metrics:', err);
     } finally {
       setIsLoading(false);
     }

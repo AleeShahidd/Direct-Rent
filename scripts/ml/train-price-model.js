@@ -134,7 +134,7 @@ async function trainPriceModel() {
     console.log(`Model saved to ${path.join(process.cwd(), 'ml', 'models', 'price_model')}`);
     
   } catch (error) {
-    console.error('Error training price prediction model:', error);
+    console.log('Error training price prediction model:', error);
   }
 }
 

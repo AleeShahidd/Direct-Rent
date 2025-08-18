@@ -35,7 +35,7 @@ export default function MLModelMonitoring() {
       const response = await axios.get('/api/ml/health');
       setHealthData(response.data);
     } catch (err) {
-      console.error('Error fetching ML health:', err);
+      console.log('Error fetching ML health:', err);
       setError('Failed to load ML system health data');
     } finally {
       setLoading(false);
@@ -50,7 +50,7 @@ export default function MLModelMonitoring() {
       const mockMetrics = generateMockMetrics();
       setMetricsData(mockMetrics);
     } catch (err) {
-      console.error('Error fetching model metrics:', err);
+      console.log('Error fetching model metrics:', err);
     }
   };
   

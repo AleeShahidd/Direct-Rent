@@ -15,7 +15,7 @@ console.log(`Using SQL file: ${sqlFilePath}`);
 
 // Check if SQL file exists
 if (!fs.existsSync(sqlFilePath)) {
-  console.error(`SQL file not found: ${sqlFilePath}`);
+  console.log(`SQL file not found: ${sqlFilePath}`);
   process.exit(1);
 }
 

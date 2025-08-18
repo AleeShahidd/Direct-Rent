@@ -110,7 +110,7 @@ export default function AddPropertyPage() {
 
       setCurrentUser(userData);
     } catch (error) {
-      console.error('Auth error:', error);
+      console.log('Auth error:', error);
       router.push('/auth/login');
     } finally {
       setLoading(false);
@@ -184,7 +184,7 @@ export default function AddPropertyPage() {
         .upload(filePath, image);
 
       if (error) {
-        console.error('Image upload error:', error);
+        console.log('Image upload error:', error);
         continue;
       }
 
@@ -274,7 +274,7 @@ export default function AddPropertyPage() {
         .single();
 
       if (error) {
-        console.error('Database error:', error);
+        console.log('Database error:', error);
         setError(`Failed to save property: ${error.message}`);
         return;
       }
@@ -282,7 +282,7 @@ export default function AddPropertyPage() {
       console.log('Property created successfully:', data);
       router.push('/dashboard/unified?tab=properties');
     } catch (error) {
-      console.error('Property creation error:', error);
+      console.log('Property creation error:', error);
       setError('Failed to create property');
     } finally {
       setUploading(false);

@@ -37,7 +37,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase credentials');
+  console.log('Missing Supabase credentials');
   process.exit(1);
 }
 
@@ -74,7 +74,7 @@ async function testInsert() {
         .single();
       
       if (createError) {
-        console.error('❌ Failed to create test landlord:', createError.message);
+        console.log('❌ Failed to create test landlord:', createError.message);
         return;
       }
       
@@ -230,7 +230,7 @@ async function testInsert() {
     }
     
   } catch (error) {
-    console.error('💥 Unexpected error:', error);
+    console.log('💥 Unexpected error:', error);
   }
 }
 
@@ -239,7 +239,7 @@ if (require.main === module) {
     console.log('🏁 Test insert finished');
     process.exit(0);
   }).catch(error => {
-    console.error('💥 Fatal error:', error);
+    console.log('💥 Fatal error:', error);
     process.exit(1);
   });
 }

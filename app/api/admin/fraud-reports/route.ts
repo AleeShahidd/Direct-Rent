@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
     const { data: reports, error, count } = await query;
 
     if (error) {
-      console.error('Fraud reports query error:', error);
+      console.log('Fraud reports query error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to fetch fraud reports',
@@ -122,7 +122,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin fraud reports API error:', error);
+    console.log('Admin fraud reports API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -204,7 +204,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (createError) {
-      console.error('Fraud report creation error:', createError);
+      console.log('Fraud report creation error:', createError);
       return NextResponse.json({
         success: false,
         error: 'Failed to create fraud report',
@@ -222,7 +222,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response, { status: 201 });
 
   } catch (error) {
-    console.error('Admin fraud report creation API error:', error);
+    console.log('Admin fraud report creation API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'

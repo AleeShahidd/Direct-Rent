@@ -28,7 +28,7 @@ const PropertyMap = ({
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
     
     if (!apiKey) {
-      console.error('Google Maps API key is not defined');
+      console.log('Google Maps API key is not defined');
       setLoading(false);
       return;
     }
@@ -51,7 +51,7 @@ const PropertyMap = ({
       setLoading(false);
     };
     script.onerror = () => {
-      console.error('Failed to load Google Maps API');
+      console.log('Failed to load Google Maps API');
       setLoading(false);
     };
     
@@ -235,7 +235,7 @@ const PropertyMap = ({
         searchNearby('train_station', 'blue');
         searchNearby('bus_station', 'green');
       } catch (error) {
-        console.error('Error loading places:', error);
+        console.log('Error loading places:', error);
       }
     }
     
@@ -245,7 +245,7 @@ const PropertyMap = ({
       const transitLayer = new google.maps.TransitLayer();
       transitLayer.setMap(map);
     } catch (error) {
-      console.error('Error loading transit layer:', error);
+      console.log('Error loading transit layer:', error);
     }
     
     // Add resize listener to ensure map renders correctly
@@ -285,7 +285,7 @@ const PropertyMap = ({
               setTimeout(() => setMapLoaded(true), 100);
             }
           } catch (error) {
-            console.error('Error geocoding in PropertyMap:', error);
+            console.log('Error geocoding in PropertyMap:', error);
           } finally {
             setIsGeocoding(false);
           }

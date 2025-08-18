@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabaseAdmin.auth.exchangeCodeForSession(code);
 
     if (error) {
-      console.error('Error exchanging code for session:', error);
+      console.log('Error exchanging code for session:', error);
       return NextResponse.redirect(new URL('/auth/login?error=callback_error', request.url));
     }
 
@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
         .maybeSingle();
 
       if (userError) {
-        console.error('Error checking user:', userError);
+        console.log('Error checking user:', userError);
       }
 
       // If user doesn't exist, create them with all required fields
@@ -96,7 +96,7 @@ export async function GET(request: NextRequest) {
             userData.full_name = fullName;
           }
         } catch (schemaError) {
-          console.error('Error checking schema:', schemaError);
+          console.log('Error checking schema:', schemaError);
           // Default to using both to be safe
           userData.name = fullName;
           userData.full_name = fullName;
@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
           .insert(userData);
 
         if (insertError) {
-          console.error('Error creating user:', insertError);
+          console.log('Error creating user:', insertError);
         }
       } else {
         // Update last login for existing users
@@ -117,7 +117,7 @@ export async function GET(request: NextRequest) {
           .eq('id', user.id);
           
         if (updateError) {
-          console.error('Error updating last login:', updateError);
+          console.log('Error updating last login:', updateError);
         }
       }
     }
@@ -125,7 +125,7 @@ export async function GET(request: NextRequest) {
     // Redirect to dashboard
     return NextResponse.redirect(new URL('/dashboard', request.url));
   } catch (error) {
-    console.error('Unexpected error in callback:', error);
+    console.log('Unexpected error in callback:', error);
     return NextResponse.redirect(new URL('/auth/login?error=unexpected', request.url));
   }
 }

@@ -26,7 +26,7 @@ export async function GET(request: NextRequest, { params }: RouteContext) {
       .single();
 
     if (error) {
-      console.error('Property fetch error:', error);
+      console.log('Property fetch error:', error);
       return NextResponse.json({
         success: false,
         error: 'Property not found'
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest, { params }: RouteContext) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Property details API error:', error);
+    console.log('Property details API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -129,7 +129,7 @@ export async function PUT(request: NextRequest, { params }: RouteContext) {
       .single();
 
     if (updateError) {
-      console.error('Property update error:', updateError);
+      console.log('Property update error:', updateError);
       return NextResponse.json({
         success: false,
         error: 'Failed to update property',
@@ -147,7 +147,7 @@ export async function PUT(request: NextRequest, { params }: RouteContext) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Property update API error:', error);
+    console.log('Property update API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -204,7 +204,7 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
       .eq('id', id);
 
     if (deleteError) {
-      console.error('Property deletion error:', deleteError);
+      console.log('Property deletion error:', deleteError);
       return NextResponse.json({
         success: false,
         error: 'Failed to delete property',
@@ -219,7 +219,7 @@ export async function DELETE(request: NextRequest, { params }: RouteContext) {
     });
 
   } catch (error) {
-    console.error('Property deletion API error:', error);
+    console.log('Property deletion API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -256,7 +256,7 @@ async function recordPropertyView(propertyId: string, request: NextRequest) {
       });
 
   } catch (error) {
-    console.error('Failed to record property view:', error);
+    console.log('Failed to record property view:', error);
     // Don't throw error as this is non-critical
   }
 }

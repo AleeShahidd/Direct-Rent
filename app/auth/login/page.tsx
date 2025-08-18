@@ -37,7 +37,7 @@ export default function LoginPage() {
         router.push('/dashboard')
       }
     } catch (error) {
-      console.error('Login error:', error)
+      console.log('Login error:', error)
       setError('An unexpected error occurred')
     } finally {
       setLoading(false)
@@ -61,7 +61,7 @@ export default function LoginPage() {
         setError(error.message)
       }
     } catch (error) {
-      console.error('Password reset error:', error)
+      console.log('Password reset error:', error)
       setError('An unexpected error occurred')
     }
   }

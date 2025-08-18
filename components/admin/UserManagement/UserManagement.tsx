@@ -59,7 +59,7 @@ const UserManagement = () => {
       setUsers(data || []);
       applyFilters(data || [], searchQuery, roleFilter, statusFilter);
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.log('Error fetching users:', error);
       showToast({
         title: 'Error',
         description: 'Failed to load users. Please try again later.',
@@ -166,7 +166,7 @@ const UserManagement = () => {
         description: 'User has been updated successfully.',
       });
     } catch (error) {
-      console.error('Error updating user:', error);
+      console.log('Error updating user:', error);
       showToast({
         title: 'Error',
         description: 'Failed to update user. Please try again.',
@@ -197,7 +197,7 @@ const UserManagement = () => {
         description: 'User has been deleted successfully.',
       });
     } catch (error) {
-      console.error('Error deleting user:', error);
+      console.log('Error deleting user:', error);
       showToast({
         title: 'Error',
         description: 'Failed to delete user. Please try again.',
@@ -231,7 +231,7 @@ const UserManagement = () => {
         description: `User status changed to ${newStatus} successfully.`,
       });
     } catch (error) {
-      console.error('Error changing user status:', error);
+      console.log('Error changing user status:', error);
       showToast({
         title: 'Error',
         description: 'Failed to change user status. Please try again.',

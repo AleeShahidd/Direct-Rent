@@ -48,19 +48,19 @@ export function PriceEstimator({ initialData, onPriceEstimated, className = '' }
       });
 
       if (!response.ok) {
-        console.error('API response not OK:', response.status, response.statusText);
+        console.log('API response not OK:', response.status, response.statusText);
         throw new Error(`API error: ${response.status} ${response.statusText}`);
       }
 
       const result = await response.json();
 
       if (!result.success) {
-        console.error('API reported failure:', result);
+        console.log('API reported failure:', result);
         throw new Error(result.error || result.details || 'Failed to estimate price');
       }
 
       if (!result.data || typeof result.data.estimated_price !== 'number') {
-        console.error('Invalid price estimate data:', result.data);
+        console.log('Invalid price estimate data:', result.data);
         throw new Error('Received invalid price estimate data');
       }
 
@@ -68,7 +68,7 @@ export function PriceEstimator({ initialData, onPriceEstimated, className = '' }
       onPriceEstimated?.(result.data);
 
     } catch (err) {
-      console.error('Price estimation error:', err);
+      console.log('Price estimation error:', err);
       setError(err instanceof Error ? err.message : 'Failed to estimate price');
     } finally {
       setLoading(false);

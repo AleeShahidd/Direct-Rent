@@ -76,7 +76,7 @@ export default function SettingsPage() {
         setAvatarUrl(data.avatar_url || '')
       }
     } catch (error: any) {
-      console.error('Error fetching user profile:', error.message)
+      console.log('Error fetching user profile:', error.message)
       setError('Failed to load profile information')
     }
   }
@@ -165,7 +165,7 @@ export default function SettingsPage() {
       setSuccess('Settings updated successfully')
       fetchUserProfile() // Refresh data
     } catch (error: any) {
-      console.error('Error updating profile:', error.message)
+      console.log('Error updating profile:', error.message)
       setError(error.message || 'Failed to update settings')
     } finally {
       setSaving(false)
@@ -212,7 +212,7 @@ export default function SettingsPage() {
       setAvatarUrl(avatarUrl)
       setSuccess('Avatar updated successfully')
     } catch (error: any) {
-      console.error('Error uploading avatar:', error.message)
+      console.log('Error uploading avatar:', error.message)
       setError('Failed to update avatar')
     }
   }

@@ -6,7 +6,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('Missing environment variables. Make sure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env.local');
+  console.log('Missing environment variables. Make sure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env.local');
   process.exit(1);
 }
 
@@ -41,7 +41,7 @@ async function testUserSystem() {
     });
     
     if (authError) {
-      console.error('❌ Failed to create test user:', authError);
+      console.log('❌ Failed to create test user:', authError);
       return false;
     }
     
@@ -56,7 +56,7 @@ async function testUserSystem() {
       .maybeSingle();
     
     if (profileError) {
-      console.error('❌ Error checking user profile:', profileError);
+      console.log('❌ Error checking user profile:', profileError);
     }
     
     if (!userProfile) {
@@ -79,7 +79,7 @@ async function testUserSystem() {
         });
       
       if (insertError) {
-        console.error('❌ Failed to create user profile:', insertError);
+        console.log('❌ Failed to create user profile:', insertError);
         return false;
       }
       
@@ -96,7 +96,7 @@ async function testUserSystem() {
     });
     
     if (signInError) {
-      console.error('❌ User sign-in failed:', signInError);
+      console.log('❌ User sign-in failed:', signInError);
       return false;
     }
     
@@ -107,14 +107,14 @@ async function testUserSystem() {
     const { error: deleteError } = await supabase.auth.admin.deleteUser(authData.user.id);
     
     if (deleteError) {
-      console.error('⚠️ Failed to delete test user:', deleteError);
+      console.log('⚠️ Failed to delete test user:', deleteError);
     } else {
       console.log('✅ Test user deleted successfully');
     }
     
     return true;
   } catch (error) {
-    console.error('❌ Unexpected error during user testing:', error);
+    console.log('❌ Unexpected error during user testing:', error);
     return false;
   }
 }
@@ -127,7 +127,7 @@ async function main() {
   if (success) {
     console.log('🎉 User auth system is working correctly!');
   } else {
-    console.error('❌ User auth system test failed');
+    console.log('❌ User auth system test failed');
     process.exit(1);
   }
 }

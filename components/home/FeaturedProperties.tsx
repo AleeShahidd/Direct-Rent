@@ -19,7 +19,7 @@ export function FeaturedProperties() {
           setProperties(data.data || []);
         }
       } catch (error) {
-        console.error('Error fetching featured properties:', error);
+        console.log('Error fetching featured properties:', error);
       } finally {
         setLoading(false);
       }

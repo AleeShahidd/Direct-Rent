@@ -65,16 +65,16 @@ async function addImagesColumn() {
       .limit(1);
     
     if (testError) {
-      console.error('❌ Still cannot access images column:', testError.message);
+      console.log('❌ Still cannot access images column:', testError.message);
     } else {
       console.log('✅ Images column is now accessible');
     }
 
   } catch (error) {
-    console.error('❌ Unexpected error:', error);
+    console.log('❌ Unexpected error:', error);
     console.log('\n💡 Please add the images column manually in Supabase dashboard:');
     console.log('ALTER TABLE properties ADD COLUMN images TEXT[] DEFAULT \'{}\';');
   }
 }
 
-addImagesColumn().catch(console.error);
+addImagesColumn().catch(console.log);

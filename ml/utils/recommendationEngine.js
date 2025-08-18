@@ -117,7 +117,7 @@ class RecommendationEngine {
       
       return this.collaborativeModel;
     } catch (error) {
-      console.error('Error during matrix factorization:', error);
+      console.log('Error during matrix factorization:', error);
       throw error;
     }
   }
@@ -267,7 +267,7 @@ class RecommendationEngine {
       console.log('Recommendation models loaded successfully');
       return true;
     } catch (error) {
-      console.error('Error loading recommendation models:', error);
+      console.log('Error loading recommendation models:', error);
       return false;
     }
   }
@@ -425,7 +425,7 @@ class RecommendationEngine {
     try {
       contentRecs = this.getContentBasedRecommendations(userPreferences, properties, limit * 2);
     } catch (error) {
-      console.error('Error getting content-based recommendations:', error);
+      console.log('Error getting content-based recommendations:', error);
       contentRecs = [];
     }
     
@@ -433,7 +433,7 @@ class RecommendationEngine {
     try {
       collabRecs = this.getCollaborativeRecommendations(userId, properties, limit * 2);
     } catch (error) {
-      console.error('Error getting collaborative recommendations:', error);
+      console.log('Error getting collaborative recommendations:', error);
       collabRecs = [];
     }
     

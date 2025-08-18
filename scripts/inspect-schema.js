@@ -37,7 +37,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase credentials');
+  console.log('Missing Supabase credentials');
   process.exit(1);
 }
 
@@ -54,7 +54,7 @@ async function inspectSchema() {
       .limit(1);
     
     if (error) {
-      console.error('❌ Error querying properties table:', error.message);
+      console.log('❌ Error querying properties table:', error.message);
       console.log('\nTrying to get table info directly...\n');
       
       // Try to get schema info
@@ -63,7 +63,7 @@ async function inspectSchema() {
       });
       
       if (schemaError) {
-        console.error('❌ Cannot get schema info:', schemaError.message);
+        console.log('❌ Cannot get schema info:', schemaError.message);
       } else {
         console.log('📋 Schema info:', schemaData);
       }
@@ -138,7 +138,7 @@ async function inspectSchema() {
     }
     
   } catch (error) {
-    console.error('❌ Error inspecting schema:', error);
+    console.log('❌ Error inspecting schema:', error);
   }
 }
 
@@ -147,7 +147,7 @@ if (require.main === module) {
     console.log('\n🏁 Schema inspection finished');
     process.exit(0);
   }).catch(error => {
-    console.error('💥 Fatal error:', error);
+    console.log('💥 Fatal error:', error);
     process.exit(1);
   });
 }

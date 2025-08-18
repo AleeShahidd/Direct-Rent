@@ -103,7 +103,7 @@ export function useFraudDetection(
       const fraudResult = response.data;
       return fraudResult;
     } catch (err: any) {
-      console.error('Error checking property:', err);
+      console.log('Error checking property:', err);
       return {
         risk: 'medium' as const,
         message: 'Could not perform fraud detection. Please review your listing carefully.',

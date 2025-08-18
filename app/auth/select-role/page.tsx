@@ -42,7 +42,7 @@ export default function RoleSelection() {
       router.push('/dashboard');
     } catch (err) {
       setError('Failed to update role. Please try again.');
-      console.error('Error updating role:', err);
+      console.log('Error updating role:', err);
     } finally {
       setLoading(false);
     }

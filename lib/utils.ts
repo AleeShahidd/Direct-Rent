@@ -243,7 +243,7 @@ export function getLocationMapImage(
     
     return url;
   } catch (error) {
-    console.error('Error generating location map image URL:', error);
+    console.log('Error generating location map image URL:', error);
     return 'https://via.placeholder.com/600x400?text=Map+Image+Error';
   }
 }
@@ -257,14 +257,14 @@ export async function getRandomHouseImage(query: string = 'uk house'): Promise<s
     
     const { url } = await res.json()
     
-    // Check if URL is valid and not empty
+// Check if URL is valid and not empty
     if (!url || typeof url !== 'string' || url.trim() === '') {
       throw new Error('Invalid image URL returned')
     }
     
     return url
   } catch (error) {
-    console.error('Error fetching house image:', error)
+    console.log('Error fetching house image:', error)
     // fallback placeholder
     return '/placeholder-property.jpg'
   }
@@ -278,7 +278,7 @@ export async function getRandomUKHouseAsync(): Promise<string> {
     const accessKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
     
     if (!accessKey) {
-      console.error('Unsplash access key is not defined');
+      console.log('Unsplash access key is not defined');
       return getRandomHouseImage(); // Fallback to the client-side method
     }
     
@@ -293,7 +293,7 @@ export async function getRandomUKHouseAsync(): Promise<string> {
     const data = await response.json();
     return data.urls.regular;
   } catch (error) {
-    console.error('Error fetching random house image:', error);
+    console.log('Error fetching random house image:', error);
     return getRandomHouseImage(); // Fallback to the client-side method
   }
 }

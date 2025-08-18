@@ -173,7 +173,7 @@ export async function GET(request: NextRequest) {
     const { data: properties, error, count } = await query;
 
     if (error) {
-      console.error('Properties query error:', error);
+      console.log('Properties query error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to fetch properties',
@@ -213,7 +213,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Properties API error:', error);
+    console.log('Properties API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -356,7 +356,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Property creation error:', error);
+      console.log('Property creation error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to create property',
@@ -408,7 +408,7 @@ export async function POST(request: NextRequest) {
           });
 
         if (fraudInsertError) {
-          console.error('Failed to store fraud report:', fraudInsertError);
+          console.log('Failed to store fraud report:', fraudInsertError);
         }
 
         // If high fraud risk, mark property as pending approval
@@ -423,7 +423,7 @@ export async function POST(request: NextRequest) {
         }
       }
     } catch (fraudError) {
-      console.error('Fraud detection failed:', fraudError);
+      console.log('Fraud detection failed:', fraudError);
       // Continue without blocking property creation
     }
 
@@ -437,7 +437,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response, { status: 201 });
 
   } catch (error) {
-    console.error('Property creation API error:', error);
+    console.log('Property creation API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error',

@@ -29,7 +29,7 @@ class UKHousingDataProcessor {
     try {
       // Check if file exists
       if (!fs.existsSync(this.datasetPath)) {
-        console.error(`Dataset not found at: ${this.datasetPath}`);
+        console.log(`Dataset not found at: ${this.datasetPath}`);
         return this._createMockDataset();
       }
 
@@ -42,7 +42,7 @@ class UKHousingDataProcessor {
         delimiter: ',', // Explicitly set delimiter
         quoteChar: '"', // Explicitly set quote character
         error: (error) => {
-          console.error('Error parsing CSV:', error.message);
+          console.log('Error parsing CSV:', error.message);
         }
       });
 
@@ -62,7 +62,7 @@ class UKHousingDataProcessor {
       
       return this.data;
     } catch (error) {
-      console.error(`Error loading dataset: ${error.message}`);
+      console.log(`Error loading dataset: ${error.message}`);
       // Return mock data if dataset not available
       return this._createMockDataset();
     }
@@ -547,7 +547,7 @@ class UKHousingDataProcessor {
       
       return this.processedData;
     } catch (error) {
-      console.error('Error processing dataset:', error);
+      console.log('Error processing dataset:', error);
       console.warn('Using mock dataset instead.');
       this.processedData = this._createMockDataset();
       return this.processedData;

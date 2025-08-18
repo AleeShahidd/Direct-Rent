@@ -65,7 +65,7 @@ export default function PropertyLocationMap({
       
       setIsLoading(false);
     } catch (err) {
-      console.error('Error generating map image:', err);
+      console.log('Error generating map image:', err);
       setError('Could not load location map');
       setIsLoading(false);
     }
@@ -83,7 +83,7 @@ export default function PropertyLocationMap({
         const data = await response.json();
         setMapUrl(data.url);
       } catch (err) {
-        console.error('Error fetching map image URL:', err);
+        console.log('Error fetching map image URL:', err);
         setError('Could not load location map');
       } finally {
         setIsLoading(false);

@@ -129,7 +129,7 @@ export default function EditPropertyPage() {
         virtual_tour_url: propertyData.virtual_tour_url || '',
       });
     } catch (error) {
-      console.error('Auth/Property load error:', error);
+      console.log('Auth/Property load error:', error);
       router.push('/auth/login');
     } finally {
       setLoading(false);
@@ -193,7 +193,7 @@ export default function EditPropertyPage() {
         .upload(filePath, image);
 
       if (error) {
-        console.error('Image upload error:', error);
+        console.log('Image upload error:', error);
         continue;
       }
 
@@ -272,7 +272,7 @@ export default function EditPropertyPage() {
 
       router.push('/dashboard/unified?tab=properties');
     } catch (error) {
-      console.error('Property update error:', error);
+      console.log('Property update error:', error);
       setError('Failed to update property');
     } finally {
       setUploading(false);
@@ -298,7 +298,7 @@ export default function EditPropertyPage() {
 
       router.push('/dashboard/unified?tab=properties');
     } catch (error) {
-      console.error('Property deletion error:', error);
+      console.log('Property deletion error:', error);
       setError('Failed to delete property');
     } finally {
       setUploading(false);

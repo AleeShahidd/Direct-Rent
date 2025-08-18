@@ -177,7 +177,7 @@ export default function RegisterPage() {
       });
 
       if (authError) {
-        console.error('Auth signup error:', authError);
+        console.log('Auth signup error:', authError);
         throw new Error(authError.message || 'Failed to create account');
       }
 
@@ -211,7 +211,7 @@ export default function RegisterPage() {
         .upsert(userData, { onConflict: 'id', ignoreDuplicates: false });
 
       if (profileError) {
-        console.error('Profile creation failed:', profileError);
+        console.log('Profile creation failed:', profileError);
         
         // Don't throw error here - the auth account is already created
         // Just show a warning that profile setup may be incomplete
@@ -224,7 +224,7 @@ export default function RegisterPage() {
       router.push('/auth/login');
 
     } catch (error) {
-      console.error('Registration error:', error);
+      console.log('Registration error:', error);
       
       // Provide more specific error messages based on error types
       let displayError = error instanceof Error ? error.message : 'An unexpected error occurred';
@@ -278,7 +278,7 @@ export default function RegisterPage() {
     
 
       if (error) {
-        console.error('Google signup error:', error);
+        console.log('Google signup error:', error);
         setError(error.message);
         return;
       }
@@ -291,7 +291,7 @@ export default function RegisterPage() {
       // Redirect to the OAuth URL
       window.location.href = data.url;
     } catch (error) {
-      console.error('Google sign up error:', error)
+      console.log('Google sign up error:', error)
       setError('An unexpected error occurred')
     } finally {
       setLoading(false);

@@ -78,7 +78,7 @@ export function PropertiesTab() {
         setTrending(trendingProperties);
         
       } catch (err) {
-        console.error('Error fetching properties:', err);
+        console.log('Error fetching properties:', err);
         setError('Failed to load properties. Please try again later.');
       } finally {
         setLoading(false);

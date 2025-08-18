@@ -152,14 +152,14 @@ function SearchPageContent() {
         const { data, error: searchError, count } = await query;
 
         if (searchError) {
-          console.error("Supabase search error details:", searchError);
+          console.log("Supabase search error details:", searchError);
           throw searchError;
         }
 
         setProperties(data || []);
         setTotalResults(count || 0);
       } catch (err) {
-        console.error("Search error:", err);
+        console.log("Search error:", err);
         setError("Failed to search properties. Please try again.");
       } finally {
         setLoading(false);
@@ -217,7 +217,7 @@ function SearchPageContent() {
             
             setProperties(geocodedProperties);
           } catch (err) {
-            console.error('Error geocoding properties:', err);
+            console.log('Error geocoding properties:', err);
           } finally {
             setGeocodingProperties(false);
           }
@@ -281,7 +281,7 @@ function SearchPageContent() {
                 Property Search
               </h1>
               <p className="text-gray-600 mt-1">
-                {loading ? "Searching..." : `${totalResults} properties found`}
+                {loading ? "Searching..." : `Properties found`}
               </p>
             </div>
             <div className="flex items-center space-x-2">

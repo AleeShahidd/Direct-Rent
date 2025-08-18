@@ -84,7 +84,7 @@ export async function GET(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin user details API error:', error);
+    console.log('Admin user details API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -155,7 +155,7 @@ export async function PUT(
       .single();
 
     if (error) {
-      console.error('User update error:', error);
+      console.log('User update error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to update user',
@@ -173,7 +173,7 @@ export async function PUT(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin user update API error:', error);
+    console.log('Admin user update API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -246,7 +246,7 @@ export async function DELETE(
       .eq('id', userId);
 
     if (updateError) {
-      console.error('User deletion error:', updateError);
+      console.log('User deletion error:', updateError);
       return NextResponse.json({
         success: false,
         error: 'Failed to delete user',
@@ -264,7 +264,7 @@ export async function DELETE(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin user deletion API error:', error);
+    console.log('Admin user deletion API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'

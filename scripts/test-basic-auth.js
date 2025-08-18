@@ -9,7 +9,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Error: Missing Supabase environment variables');
+  console.log('Error: Missing Supabase environment variables');
   process.exit(1);
 }
 
@@ -36,7 +36,7 @@ async function testSignUp() {
     });
     
     if (error) {
-      console.error('Sign up error:', error);
+      console.log('Sign up error:', error);
       return false;
     }
     
@@ -44,7 +44,7 @@ async function testSignUp() {
     console.log('User ID:', data.user?.id);
     return true;
   } catch (error) {
-    console.error('Unexpected error during sign up:', error);
+    console.log('Unexpected error during sign up:', error);
     return false;
   }
 }
@@ -63,7 +63,7 @@ async function testSignIn() {
     });
     
     if (error) {
-      console.error('Sign in error:', error);
+      console.log('Sign in error:', error);
       console.log('Please update the test email/password with valid credentials');
       return false;
     }
@@ -77,7 +77,7 @@ async function testSignIn() {
     
     return true;
   } catch (error) {
-    console.error('Unexpected error during sign in:', error);
+    console.log('Unexpected error during sign in:', error);
     return false;
   }
 }
@@ -102,6 +102,6 @@ async function main() {
 }
 
 main().catch(err => {
-  console.error('Unhandled error:', err);
+  console.log('Unhandled error:', err);
   process.exit(1);
 });

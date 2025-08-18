@@ -85,7 +85,7 @@ export default function TenantDashboard() {
       setSavedProperties((savedPropertiesData?.map(sp => sp.property) || []) as unknown as Property[]);
       setInquiries((inquiriesData || []) as unknown as Booking[]);
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      console.log('Error fetching dashboard data:', error);
     } finally {
       setLoading(false);
     }
@@ -103,7 +103,7 @@ export default function TenantDashboard() {
 
       setSavedProperties(prev => prev.filter(p => p.id !== propertyId));
     } catch (error) {
-      console.error('Error removing saved property:', error);
+      console.log('Error removing saved property:', error);
     }
   };
 
@@ -125,7 +125,7 @@ export default function TenantDashboard() {
         )
       );
     } catch (error) {
-      console.error('Error withdrawing inquiry:', error);
+      console.log('Error withdrawing inquiry:', error);
     }
   };
 

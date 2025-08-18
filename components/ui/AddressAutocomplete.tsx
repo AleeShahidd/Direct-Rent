@@ -53,7 +53,7 @@ export default function AddressAutocomplete({
       const place = autocompleteRef.current.getPlace();
       
       if (!place.geometry || !place.geometry.location) {
-        console.error('No location data for this place');
+        console.log('No location data for this place');
         return;
       }
 

@@ -79,7 +79,7 @@ export function PropertySearchProvider({ children }: { children: ReactNode }) {
       setProperties(data.data);
       setPagination(data.pagination);
     } catch (err) {
-      console.error('Failed to fetch properties:', err);
+      console.log('Failed to fetch properties:', err);
       setError((err as Error).message || 'Failed to fetch properties');
       setProperties([]);
     } finally {

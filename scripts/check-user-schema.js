@@ -38,7 +38,7 @@ async function checkUserSchema() {
       .limit(1);
     
     if (error) {
-      console.error('❌ Error:', error.message);
+      console.log('❌ Error:', error.message);
       return;
     }
 
@@ -53,8 +53,8 @@ async function checkUserSchema() {
     }
 
   } catch (error) {
-    console.error('❌ Unexpected error:', error);
+    console.log('❌ Unexpected error:', error);
   }
 }
 
-checkUserSchema().catch(console.error);
+checkUserSchema().catch(console.log);

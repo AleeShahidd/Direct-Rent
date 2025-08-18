@@ -80,7 +80,7 @@ export async function POST(req: Request) {
           report_type: 'ml_detection'
         });
       } catch (dbError) {
-        console.error('Error storing fraud detection result:', dbError);
+        console.log('Error storing fraud detection result:', dbError);
       }
     }
     
@@ -88,7 +88,7 @@ export async function POST(req: Request) {
     return NextResponse.json(fraudDetection);
     
   } catch (error) {
-    console.error('Error in fraud detection API:', error);
+    console.log('Error in fraud detection API:', error);
     return NextResponse.json(
       { error: 'Failed to analyze property for fraud', details: (error as Error).message },
       { status: 500 }
@@ -110,7 +110,7 @@ export async function GET() {
     });
     
   } catch (error) {
-    console.error('Error checking fraud model:', error);
+    console.log('Error checking fraud model:', error);
     return NextResponse.json(
       { error: 'Failed to check fraud model status', details: (error as Error).message },
       { status: 500 }

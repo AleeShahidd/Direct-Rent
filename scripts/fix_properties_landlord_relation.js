@@ -12,8 +12,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('Error: Missing Supabase credentials in environment variables.');
-  console.error('Please ensure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set.');
+  console.log('Error: Missing Supabase credentials in environment variables.');
+  console.log('Please ensure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set.');
   process.exit(1);
 }
 
@@ -103,8 +103,8 @@ async function applyMigration() {
         console.log('-----------------------------------');
         break;
       } else if (error) {
-        console.error('Error executing SQL:', error);
-        console.error('SQL command that failed:', sql);
+        console.log('Error executing SQL:', error);
+        console.log('SQL command that failed:', sql);
       }
     }
     
@@ -118,7 +118,7 @@ async function applyMigration() {
       .limit(1);
     
     if (queryError) {
-      console.error('Error testing the relationship after migration:', queryError);
+      console.log('Error testing the relationship after migration:', queryError);
       console.log('You may need to restart the Supabase instance or refresh the schema cache.');
     } else {
       console.log('Relationship verified successfully!');
@@ -126,7 +126,7 @@ async function applyMigration() {
     }
     
   } catch (err) {
-    console.error('Unexpected error during migration:', err);
+    console.log('Unexpected error during migration:', err);
   }
 }
 

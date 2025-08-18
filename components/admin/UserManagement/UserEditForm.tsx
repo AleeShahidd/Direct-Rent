@@ -90,7 +90,7 @@ const UserEditForm: React.FC<UserEditFormProps> = ({ user, onClose, onSave }) =>
       await onSave(formData);
       onClose();
     } catch (error) {
-      console.error('Error saving user:', error);
+      console.log('Error saving user:', error);
     } finally {
       setIsSubmitting(false);
     }

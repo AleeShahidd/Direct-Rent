@@ -5,7 +5,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase credentials. Check your .env file.');
+  console.log('Missing Supabase credentials. Check your .env file.');
   process.exit(1);
 }
 
@@ -31,7 +31,7 @@ async function addUserFields() {
       const { error } = await supabase.rpc('exec_sql', { query });
       
       if (error) {
-        console.error(`Error executing query: ${query}`, error);
+        console.log(`Error executing query: ${query}`, error);
         continue;
       }
       console.log('✓ Query executed successfully');
@@ -46,7 +46,7 @@ async function addUserFields() {
       .is('first_name', null);
 
     if (fetchError) {
-      console.error('Error fetching existing users:', fetchError);
+      console.log('Error fetching existing users:', fetchError);
       return;
     }
 
@@ -68,7 +68,7 @@ async function addUserFields() {
         .eq('id', user.id);
 
       if (updateError) {
-        console.error(`Error updating user ${user.id}:`, updateError);
+        console.log(`Error updating user ${user.id}:`, updateError);
       } else {
         console.log(`✓ Updated user: ${user.full_name}`);
       }
@@ -77,7 +77,7 @@ async function addUserFields() {
     console.log('\n✅ Successfully added user fields and updated existing data!');
 
   } catch (error) {
-    console.error('❌ Error adding user fields:', error);
+    console.log('❌ Error adding user fields:', error);
   }
 }
 
@@ -103,7 +103,7 @@ async function addUserFieldsRawSQL() {
 }
 
 if (require.main === module) {
-  addUserFields().catch(console.error);
+  addUserFields().catch(console.log);
   // If the above doesn't work, uncomment the line below:
   // addUserFieldsRawSQL();
 }

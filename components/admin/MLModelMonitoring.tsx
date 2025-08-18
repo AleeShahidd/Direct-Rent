@@ -96,7 +96,7 @@ export function MLModelMonitoring() {
         setModels([]);
       }
     } catch (error) {
-      console.error('Failed to fetch model metrics:', error);
+      console.log('Failed to fetch model metrics:', error);
       // Use mock data as fallback
       setModels([]);
     } finally {

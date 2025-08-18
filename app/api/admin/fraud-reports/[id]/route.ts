@@ -70,7 +70,7 @@ export async function GET(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin fraud report details API error:', error);
+    console.log('Admin fraud report details API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -154,7 +154,7 @@ export async function PUT(
       .single();
 
     if (error) {
-      console.error('Fraud report update error:', error);
+      console.log('Fraud report update error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to update fraud report',
@@ -195,7 +195,7 @@ export async function PUT(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin fraud report update API error:', error);
+    console.log('Admin fraud report update API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -264,7 +264,7 @@ export async function DELETE(
       .eq('id', reportId);
 
     if (deleteError) {
-      console.error('Fraud report deletion error:', deleteError);
+      console.log('Fraud report deletion error:', deleteError);
       return NextResponse.json({
         success: false,
         error: 'Failed to delete fraud report',
@@ -282,7 +282,7 @@ export async function DELETE(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin fraud report deletion API error:', error);
+    console.log('Admin fraud report deletion API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'

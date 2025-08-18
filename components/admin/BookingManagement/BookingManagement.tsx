@@ -116,7 +116,7 @@ const BookingManagement: React.FC = () => {
       setBookings(data || []);
       applyFilters(data || [], searchQuery, statusFilter);
     } catch (error) {
-      console.error('Error fetching bookings:', error);
+      console.log('Error fetching bookings:', error);
       showToast({
         title: 'Error',
         description: 'Failed to load bookings. Please try again later.',
@@ -210,7 +210,7 @@ const BookingManagement: React.FC = () => {
         description: `Booking status changed to ${newStatus} successfully.`,
       });
     } catch (error) {
-      console.error('Error changing booking status:', error);
+      console.log('Error changing booking status:', error);
       showToast({
         title: 'Error',
         description: 'Failed to change booking status. Please try again.',

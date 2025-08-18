@@ -89,7 +89,7 @@ export async function GET() {
     });
     
   } catch (error) {
-    console.error('Error checking ML health:', error);
+    console.log('Error checking ML health:', error);
     return NextResponse.json(
       { 
         error: 'Failed to check ML health status',

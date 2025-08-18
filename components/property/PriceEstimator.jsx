@@ -66,7 +66,7 @@ export default function PriceEstimator({ propertyData, className = '', onChange 
       }
       
     } catch (err) {
-      console.error('Error getting price prediction:', err);
+      console.log('Error getting price prediction:', err);
       setError('Failed to estimate price. Please try again.');
     } finally {
       setLoading(false);

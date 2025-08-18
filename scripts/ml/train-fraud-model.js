@@ -183,7 +183,7 @@ async function trainFraudModel() {
     console.log(`Model saved to ${fraudModel.modelPath}`);
     
   } catch (error) {
-    console.error('Error training fraud detection model:', error);
+    console.log('Error training fraud detection model:', error);
   }
 }
 

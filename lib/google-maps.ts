@@ -89,11 +89,11 @@ export class GoogleMapsService {
           formatted_address: result.formatted_address || ''
         })) || [];
       } else {
-        console.error('Google Maps geocoding error:', data.status, data.error_message);
+        console.log('Google Maps geocoding error:', data.status, data.error_message);
         return [];
       }
     } catch (error) {
-      console.error('Google Maps geocoding request error:', error);
+      console.log('Google Maps geocoding request error:', error);
       return [];
     }
   }
@@ -112,11 +112,11 @@ export class GoogleMapsService {
       if (data.status === 'OK' && data.results?.length > 0) {
         return data.results[0].formatted_address || null;
       } else {
-        console.error('Google Maps reverse geocoding error:', data.status, data.error_message);
+        console.log('Google Maps reverse geocoding error:', data.status, data.error_message);
         return null;
       }
     } catch (error) {
-      console.error('Google Maps reverse geocoding request error:', error);
+      console.log('Google Maps reverse geocoding request error:', error);
       return null;
     }
   }
@@ -163,11 +163,11 @@ export class GoogleMapsService {
           terms: prediction.terms || []
         })) || [];
       } else {
-        console.error('Google Places autocomplete error:', data.status, data.error_message);
+        console.log('Google Places autocomplete error:', data.status, data.error_message);
         return [];
       }
     } catch (error) {
-      console.error('Google Places autocomplete request error:', error);
+      console.log('Google Places autocomplete request error:', error);
       return [];
     }
   }
@@ -197,11 +197,11 @@ export class GoogleMapsService {
           formatted_address: result.formatted_address || ''
         };
       } else {
-        console.error('Google Place details error:', data.status, data.error_message);
+        console.log('Google Place details error:', data.status, data.error_message);
         return null;
       }
     } catch (error) {
-      console.error('Google Place details request error:', error);
+      console.log('Google Place details request error:', error);
       return null;
     }
   }
@@ -348,11 +348,11 @@ export class GoogleMapsService {
           terms: prediction.terms || []
         })) || [];
       } else {
-        console.error('Google Places search error:', data.status, data.error_message);
+        console.log('Google Places search error:', data.status, data.error_message);
         return [];
       }
     } catch (error) {
-      console.error('Google Places search request error:', error);
+      console.log('Google Places search request error:', error);
       return [];
     }
   }

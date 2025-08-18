@@ -22,7 +22,7 @@ const UserDeleteConfirmation: React.FC<UserDeleteConfirmationProps> = ({
     try {
       await onConfirm();
     } catch (error) {
-      console.error('Error deleting user:', error);
+      console.log('Error deleting user:', error);
     } finally {
       setIsDeleting(false);
       onClose();

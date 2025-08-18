@@ -124,7 +124,7 @@ async function checkEnvironment() {
     console.log('✅ Admin client connection successful');
     
   } catch (error) {
-    console.error('❌ Error testing Supabase connection:', error.message);
+    console.log('❌ Error testing Supabase connection:', error.message);
     return false;
   }
 
@@ -149,7 +149,7 @@ if (require.main === module) {
   checkEnvironment()
     .then(isReady => process.exit(isReady ? 0 : 1))
     .catch(error => {
-      console.error('Error:', error);
+      console.log('Error:', error);
       process.exit(1);
     });
 }

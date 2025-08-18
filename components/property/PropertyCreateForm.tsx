@@ -119,7 +119,7 @@ const PropertyCreateForm = () => {
         description: `${uploadedUrls.length} images have been added to your property listing.`
       });
     } catch (error) {
-      console.error('Error uploading images:', error);
+      console.log('Error uploading images:', error);
       toast({
         title: 'Error uploading images',
         description: 'There was a problem uploading your images. Please try again.',
@@ -188,7 +188,7 @@ const PropertyCreateForm = () => {
       
       return true;
     } catch (error) {
-      console.error('Error during fraud detection:', error);
+      console.log('Error during fraud detection:', error);
       setFraudDetectionStatus({
         loading: false,
         risk: null,
@@ -238,7 +238,7 @@ const PropertyCreateForm = () => {
       // Redirect to the property page
       router.push(`/properties/${property.id}`);
     } catch (error) {
-      console.error('Error creating property:', error);
+      console.log('Error creating property:', error);
       toast({
         title: 'Error Creating Property',
         description: 'There was a problem creating your property listing. Please try again.',

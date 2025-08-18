@@ -37,8 +37,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase credentials');
-  console.error('Please set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY');
+  console.log('Missing Supabase credentials');
+  console.log('Please set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY');
   process.exit(1);
 }
 
@@ -153,7 +153,7 @@ async function processCSVData() {
     const csvPath = path.join(process.cwd(), 'dataset', 'uk_housing_rentals.csv');
     
     if (!fs.existsSync(csvPath)) {
-      console.error('❌ CSV file not found:', csvPath);
+      console.log('❌ CSV file not found:', csvPath);
       return;
     }
     
@@ -283,8 +283,8 @@ async function processCSVData() {
         .select('id, title');
       
       if (error) {
-        console.error('❌ Error inserting batch:', error.message);
-        console.error('Error details:', error);
+        console.log('❌ Error inserting batch:', error.message);
+        console.log('Error details:', error);
         continue;
       }
       
@@ -315,7 +315,7 @@ async function processCSVData() {
     console.log(`🏠 Property types: ${Array.from(summary.propertyTypes).join(', ')}`);
     
   } catch (error) {
-    console.error('❌ Error processing CSV data:', error);
+    console.log('❌ Error processing CSV data:', error);
   }
 }
 
@@ -325,7 +325,7 @@ if (require.main === module) {
     console.log('🏁 Import process finished');
     process.exit(0);
   }).catch(error => {
-    console.error('💥 Fatal error:', error);
+    console.log('💥 Fatal error:', error);
     process.exit(1);
   });
 }

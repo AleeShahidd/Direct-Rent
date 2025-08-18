@@ -55,7 +55,7 @@ export default function FraudDetectionManagement() {
       
       setFraudReports(data || []);
     } catch (err) {
-      console.error('Error fetching fraud reports:', err);
+      console.log('Error fetching fraud reports:', err);
       setError('Failed to load fraud reports');
     } finally {
       setLoading(false);
@@ -103,7 +103,7 @@ export default function FraudDetectionManagement() {
       setSelectedReport(null);
       
     } catch (err) {
-      console.error('Error updating report:', err);
+      console.log('Error updating report:', err);
       alert('Failed to update report status');
     }
   };

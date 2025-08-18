@@ -117,7 +117,7 @@ function DashboardContent() {
     try {
       // Validate user role
       if (!['tenant', 'landlord'].includes(user.role)) {
-        console.error('Invalid user role for dashboard:', user.role);
+        console.log('Invalid user role for dashboard:', user.role);
         setLoading(false);
         return;
       }
@@ -129,7 +129,7 @@ function DashboardContent() {
         await fetchTenantData(user.id);
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      console.log('Error fetching dashboard data:', error);
       // Set empty states on error
       setProperties([]);
       setSavedProperties([]);
@@ -252,7 +252,7 @@ function DashboardContent() {
         totalProperties: prev.totalProperties - 1
       }));
     } catch (error) {
-      console.error('Error deleting property:', error);
+      console.log('Error deleting property:', error);
       alert('Failed to delete property');
     }
   };
@@ -290,7 +290,7 @@ function DashboardContent() {
         }));
       }
     } catch (error) {
-      console.error('Error updating inquiry:', error);
+      console.log('Error updating inquiry:', error);
     }
   };
 
@@ -310,7 +310,7 @@ function DashboardContent() {
         savedProperties: prev.savedProperties - 1
       }));
     } catch (error) {
-      console.error('Error removing saved property:', error);
+      console.log('Error removing saved property:', error);
     }
   };
 

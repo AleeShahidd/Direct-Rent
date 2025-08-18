@@ -166,7 +166,7 @@ export function useRecommendations(
         interaction_type: interactionType
       });
     } catch (err) {
-      console.error('Failed to track interaction:', err);
+      console.log('Failed to track interaction:', err);
     }
   }, [userId]);
   

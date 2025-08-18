@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Recommendations API error:', error);
+    console.log('Recommendations API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Failed to generate recommendations',
@@ -112,7 +112,7 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Recommendations API error:', error);
+    console.log('Recommendations API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Failed to generate recommendations',

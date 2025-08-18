@@ -5,7 +5,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase credentials. Check your .env.local file.');
+  console.log('Missing Supabase credentials. Check your .env.local file.');
   process.exit(1);
 }
 
@@ -40,7 +40,7 @@ async function testUserTable() {
       .limit(1);
 
     if (error) {
-      console.error('❌ Error querying users table:', error.message);
+      console.log('❌ Error querying users table:', error.message);
       
       // Check if specific columns are missing
       if (error.message.includes('column')) {
@@ -91,7 +91,7 @@ async function testUserTable() {
     }
 
   } catch (error) {
-    console.error('❌ Unexpected error:', error);
+    console.log('❌ Unexpected error:', error);
   }
 }
 
@@ -109,7 +109,7 @@ async function testGoogleOAuth() {
 if (require.main === module) {
   testUserTable()
     .then(() => testGoogleOAuth())
-    .catch(console.error);
+    .catch(console.log);
 }
 
 module.exports = { testUserTable };

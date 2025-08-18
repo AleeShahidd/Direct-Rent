@@ -72,7 +72,7 @@ export async function GET(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin review details API error:', error);
+    console.log('Admin review details API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -153,7 +153,7 @@ export async function PUT(
       .single();
 
     if (error) {
-      console.error('Review update error:', error);
+      console.log('Review update error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to update review',
@@ -171,7 +171,7 @@ export async function PUT(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin review update API error:', error);
+    console.log('Admin review update API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -237,7 +237,7 @@ export async function DELETE(
       .eq('id', reviewId);
 
     if (updateError) {
-      console.error('Review deletion error:', updateError);
+      console.log('Review deletion error:', updateError);
       return NextResponse.json({
         success: false,
         error: 'Failed to delete review',
@@ -255,7 +255,7 @@ export async function DELETE(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin review deletion API error:', error);
+    console.log('Admin review deletion API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'

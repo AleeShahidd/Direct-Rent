@@ -24,7 +24,7 @@ const PropertyDetailsModal: React.FC<PropertyDetailsModalProps> = ({
     try {
       await onStatusChange(property.id, newStatus);
     } catch (error) {
-      console.error('Error updating property status:', error);
+      console.log('Error updating property status:', error);
     } finally {
       setIsUpdating(false);
     }

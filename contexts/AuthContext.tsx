@@ -43,7 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // If no session user, we can't create a profile
       if (!sessionUser?.id || !sessionUser.email) {
-        console.error('No session user data available for profile creation');
+        console.log('No session user data available for profile creation');
         return null;
       }
 
@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .single();
 
       if (createError) {
-        console.error('Profile creation/update failed:', createError);
+        console.log('Profile creation/update failed:', createError);
         // Try one more time after a delay
         await new Promise(resolve => setTimeout(resolve, 1000));
         const { data: retryProfile, error: retryError } = await supabase
@@ -104,7 +104,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           .single();
 
         if (retryError) {
-          console.error('Profile retry failed:', retryError);
+          console.log('Profile retry failed:', retryError);
           return null;
         }
         return retryProfile;
@@ -143,7 +143,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       return createdProfile;
     } catch (error) {
-      console.error('Unexpected error in fetchUserProfile:', error);
+      console.log('Unexpected error in fetchUserProfile:', error);
       return null;
     }
   };
@@ -152,7 +152,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const { data: { user }, error } = await supabase.auth.getUser();
       if (error) {
-        console.error('Error refreshing user:', error.message || error);
+        console.log('Error refreshing user:', error.message || error);
         setUser(null);
         setUserProfile(null);
         return;
@@ -167,7 +167,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUserProfile(null);
       }
     } catch (error) {
-      console.error('Unexpected error refreshing user:', error);
+      console.log('Unexpected error refreshing user:', error);
       setUser(null);
       setUserProfile(null);
     }
@@ -179,7 +179,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
         if (error) {
-          console.error('Error getting initial session:', error.message || error);
+          console.log('Error getting initial session:', error.message || error);
           setLoading(false);
           return;
         }
@@ -213,7 +213,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setUserProfile(null);
         }
       } catch (error) {
-        console.error('Unexpected error getting initial session:', error);
+        console.log('Unexpected error getting initial session:', error);
         setUser(null);
         setUserProfile(null);
       } finally {
@@ -265,7 +265,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             setUserProfile(null);
           }
         } catch (error) {
-          console.error('Unexpected error during auth state change:', error);
+          console.log('Unexpected error during auth state change:', error);
         } finally {
           setLoading(false);
         }

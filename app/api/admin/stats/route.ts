@@ -124,7 +124,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin stats API error:', error);
+    console.log('Admin stats API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'

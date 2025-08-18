@@ -138,7 +138,7 @@ export default function GoogleMap({
         });
       })
       .catch(err => {
-        console.error('Error loading Google Maps:', err);
+        console.log('Error loading Google Maps:', err);
       });
 
     return () => {
@@ -168,7 +168,7 @@ export default function GoogleMap({
           const { MarkerClusterer } = await import('@googlemaps/markerclusterer');
           return MarkerClusterer;
         } catch (error) {
-          console.error('Error loading MarkerClusterer:', error);
+          console.log('Error loading MarkerClusterer:', error);
           return null;
         }
       }

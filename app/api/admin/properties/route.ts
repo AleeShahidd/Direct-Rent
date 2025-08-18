@@ -124,7 +124,7 @@ export async function GET(request: NextRequest) {
     const { data: properties, error, count } = await query;
 
     if (error) {
-      console.error('Admin properties query error:', error);
+      console.log('Admin properties query error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to fetch properties',
@@ -164,7 +164,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin properties API error:', error);
+    console.log('Admin properties API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -277,7 +277,7 @@ export async function POST(request: NextRequest) {
       .select();
 
     if (error) {
-      console.error('Bulk properties update error:', error);
+      console.log('Bulk properties update error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to update properties',
@@ -295,7 +295,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin properties bulk action API error:', error);
+    console.log('Admin properties bulk action API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'

@@ -13,7 +13,7 @@ async function fixAuth() {
     if (error) throw error;
     console.log("✅ Successfully applied auth fixes");
   } catch (error) {
-    console.error("❌ Error:", error);
+    console.log("❌ Error:", error);
   }
 }
 

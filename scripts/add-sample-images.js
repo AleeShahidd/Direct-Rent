@@ -39,7 +39,7 @@ async function addSampleImages() {
       .limit(20);
     
     if (error) {
-      console.error('❌ Error fetching properties:', error.message);
+      console.log('❌ Error fetching properties:', error.message);
       return;
     }
 
@@ -85,7 +85,7 @@ async function addSampleImages() {
         .eq('id', property.id);
 
       if (updateError) {
-        console.error(`❌ Error updating property ${property.id}:`, updateError.message);
+        console.log(`❌ Error updating property ${property.id}:`, updateError.message);
       } else {
         console.log(`✅ Updated ${property.property_type}: ${property.title.substring(0, 50)}...`);
         updateCount++;
@@ -95,8 +95,8 @@ async function addSampleImages() {
     console.log(`\n🎉 Successfully updated ${updateCount} properties with images!`);
 
   } catch (error) {
-    console.error('❌ Unexpected error:', error);
+    console.log('❌ Unexpected error:', error);
   }
 }
 
-addSampleImages().catch(console.error);
+addSampleImages().catch(console.log);

@@ -9,7 +9,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('Error: Missing Supabase environment variables');
+  console.log('Error: Missing Supabase environment variables');
   process.exit(1);
 }
 
@@ -36,12 +36,12 @@ async function main() {
       
     if (userError) {
       if (userError.code === 'PGRST116') {
-        console.error('Error: Row Level Security preventing access to users table.');
+        console.log('Error: Row Level Security preventing access to users table.');
         console.log('Try running this script with the service role key or disabling RLS temporarily.');
         process.exit(1);
       }
       
-      console.error('Error fetching user data:', userError);
+      console.log('Error fetching user data:', userError);
       process.exit(1);
     }
     
@@ -66,7 +66,7 @@ async function main() {
         .limit(100);
         
       if (mismatchError) {
-        console.error('Error checking for mismatched values:', mismatchError);
+        console.log('Error checking for mismatched values:', mismatchError);
       } else if (usersWithMismatch && usersWithMismatch.length > 0) {
         console.log(`Found ${usersWithMismatch.length} users with mismatched name values. Synchronizing...`);
         
@@ -82,7 +82,7 @@ async function main() {
             .eq('id', user.id);
             
           if (updateError) {
-            console.error(`Error updating user ${user.id}:`, updateError);
+            console.log(`Error updating user ${user.id}:`, updateError);
           }
         }
         
@@ -118,7 +118,7 @@ async function main() {
       });
       
       if (triggerError) {
-        console.error('Error creating sync trigger:', triggerError);
+        console.log('Error creating sync trigger:', triggerError);
       } else {
         console.log('Synchronization trigger created/updated successfully.');
       }
@@ -138,7 +138,7 @@ async function main() {
       });
       
       if (addColumnError) {
-        console.error('Error adding full_name column:', addColumnError);
+        console.log('Error adding full_name column:', addColumnError);
         process.exit(1);
       }
       
@@ -156,7 +156,7 @@ async function main() {
       });
       
       if (addColumnError) {
-        console.error('Error adding name column:', addColumnError);
+        console.log('Error adding name column:', addColumnError);
         process.exit(1);
       }
       
@@ -190,7 +190,7 @@ async function main() {
     });
     
     if (triggerError) {
-      console.error('Error creating sync trigger:', triggerError);
+      console.log('Error creating sync trigger:', triggerError);
       process.exit(1);
     }
     
@@ -206,7 +206,7 @@ async function main() {
       .single();
       
     if (verifyError) {
-      console.error('Error verifying schema fix:', verifyError);
+      console.log('Error verifying schema fix:', verifyError);
       process.exit(1);
     }
     
@@ -217,14 +217,14 @@ async function main() {
     if (verifyHasFullName && verifyHasName) {
       console.log('✅ Schema fix successful! Both name and full_name columns now exist.');
     } else {
-      console.error('❌ Schema fix verification failed. Not all columns were created.');
+      console.log('❌ Schema fix verification failed. Not all columns were created.');
       process.exit(1);
     }
     
     console.log('Database schema has been fixed successfully!');
     
   } catch (error) {
-    console.error('Unexpected error:', error);
+    console.log('Unexpected error:', error);
     process.exit(1);
   }
 }

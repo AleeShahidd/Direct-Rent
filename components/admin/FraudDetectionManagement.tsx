@@ -43,7 +43,7 @@ export function FraudDetectionManagement() {
         setReports(result.data);
       }
     } catch (error) {
-      console.error('Failed to fetch fraud reports:', error);
+      console.log('Failed to fetch fraud reports:', error);
     } finally {
       setLoading(false);
     }
@@ -66,7 +66,7 @@ export function FraudDetectionManagement() {
         fetchFraudReports();
       }
     } catch (error) {
-      console.error('Failed to update fraud report:', error);
+      console.log('Failed to update fraud report:', error);
     }
   };
 

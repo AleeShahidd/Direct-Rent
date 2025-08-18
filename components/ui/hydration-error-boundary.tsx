@@ -38,7 +38,7 @@ export class HydrationErrorBoundary extends Component<Props, State> {
       // For hydration errors, we'll try to recover
       this.setState({ hasError: false, isHydrationError: false });
     } else {
-      console.error('Unexpected error:', error, errorInfo);
+      console.log('Unexpected error:', error, errorInfo);
     }
   }
 

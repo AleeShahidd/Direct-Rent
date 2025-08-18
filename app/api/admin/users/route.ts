@@ -90,7 +90,7 @@ export async function GET(request: NextRequest) {
     const { data: users, error, count } = await query;
 
     if (error) {
-      console.error('Admin users query error:', error);
+      console.log('Admin users query error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to fetch users',
@@ -129,7 +129,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin users API error:', error);
+    console.log('Admin users API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -198,7 +198,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (createError) {
-      console.error('User creation error:', createError);
+      console.log('User creation error:', createError);
       return NextResponse.json({
         success: false,
         error: 'Failed to create user',
@@ -216,7 +216,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response, { status: 201 });
 
   } catch (error) {
-    console.error('Admin user creation API error:', error);
+    console.log('Admin user creation API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'

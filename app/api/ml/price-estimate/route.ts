@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       });
 
       if (!mlResponse.ok) {
-        console.error(`ML API error: ${mlResponse.status} ${mlResponse.statusText}`);
+        console.log(`ML API error: ${mlResponse.status} ${mlResponse.statusText}`);
         const errorText = await mlResponse.text().catch(() => 'No error text available');
         throw new Error(`ML API responded with status: ${mlResponse.status}. Error: ${errorText}`);
       }
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       
       console.log('Successfully received price data from ML API:', priceData);
     } catch (mlError) {
-      console.error('ML service error:', mlError);
+      console.log('ML service error:', mlError);
       
       // Fallback logic - provide a basic estimate when the ML service is unavailable
       const { property_type, bedrooms, bathrooms, furnishing_status } = body;
@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Price estimation API error:', error);
+    console.log('Price estimation API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Failed to estimate price',

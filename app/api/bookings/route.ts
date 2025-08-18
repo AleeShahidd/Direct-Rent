@@ -101,7 +101,7 @@ export async function GET(request: NextRequest) {
     const { data: bookings, error, count } = await query;
 
     if (error) {
-      console.error('Bookings query error:', error);
+      console.log('Bookings query error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to fetch bookings',
@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Bookings API error:', error);
+    console.log('Bookings API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -248,7 +248,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (bookingError) {
-      console.error('Booking creation error:', bookingError);
+      console.log('Booking creation error:', bookingError);
       return NextResponse.json({
         success: false,
         error: 'Failed to create booking inquiry',
@@ -283,7 +283,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response, { status: 201 });
 
   } catch (error) {
-    console.error('Booking creation API error:', error);
+    console.log('Booking creation API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error',

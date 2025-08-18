@@ -44,7 +44,7 @@ export default function PropertyDetailPage() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [img, setImg] = useState<string>('/placeholder-property.jpg');
  useEffect(() => {
-    getRandomHouseImage(property.id)
+    getRandomHouseImage(params.id as string)
       .then(imageUrl => {
         if (imageUrl && imageUrl.trim() !== '') {
           setImg(imageUrl);
@@ -53,7 +53,7 @@ export default function PropertyDetailPage() {
       .catch(() => {
         // Keep the default placeholder if there's an error
       });
-  }, [property.id]);
+  }, [params.id]);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -94,7 +94,7 @@ export default function PropertyDetailPage() {
                 .eq('id', propertyData.id);
             }
           } catch (geocodeError) {
-            console.error('Error geocoding property address:', geocodeError);
+            console.log('Error geocoding property address:', geocodeError);
           }
         }
         
@@ -144,7 +144,7 @@ export default function PropertyDetailPage() {
         }
 
       } catch (error) {
-        console.error('Error fetching property:', error);
+        console.log('Error fetching property:', error);
         showNotification('Failed to load property details', 'error');
       } finally {
         setLoading(false);
@@ -183,7 +183,7 @@ export default function PropertyDetailPage() {
         showNotification('Property saved successfully', 'success');
       }
     } catch (error) {
-      console.error('Error saving property:', error);
+      console.log('Error saving property:', error);
       showNotification('Failed to save property', 'error');
     }
   };

@@ -52,9 +52,9 @@ function checkDatasetExists() {
       console.log('Dataset copied successfully');
       return true;
     } else {
-      console.error('Error: Could not find dataset. Please ensure uk_housing_rentals.csv exists in either:');
-      console.error(`  - ${DATASETS_DIR}`);
-      console.error(`  - ${path.join(process.cwd(), 'dataset')}`);
+      console.log('Error: Could not find dataset. Please ensure uk_housing_rentals.csv exists in either:');
+      console.log(`  - ${DATASETS_DIR}`);
+      console.log(`  - ${path.join(process.cwd(), 'dataset')}`);
       return false;
     }
   }
@@ -79,13 +79,13 @@ function runTrainingScript(scriptName) {
         console.log(`\n${scriptName} completed successfully`);
         resolve();
       } else {
-        console.error(`\n${scriptName} failed with code ${code}`);
+        console.log(`\n${scriptName} failed with code ${code}`);
         reject(new Error(`Script ${scriptName} failed with code ${code}`));
       }
     });
     
     process.on('error', (err) => {
-      console.error(`Error executing ${scriptName}:`, err);
+      console.log(`Error executing ${scriptName}:`, err);
       reject(err);
     });
   });
@@ -122,7 +122,7 @@ async function trainAllModels() {
     console.log(JSON.stringify(modelsInfo, null, 2));
     
   } catch (error) {
-    console.error('Error during model training:', error);
+    console.log('Error during model training:', error);
     process.exit(1);
   }
 }

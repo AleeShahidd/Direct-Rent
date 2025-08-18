@@ -94,7 +94,7 @@ class FraudDetectionModel {
   loadModel() {
     try {
       if (!fs.existsSync(this.modelPath)) {
-        console.error('Fraud detection model file not found');
+        console.log('Fraud detection model file not found');
         return false;
       }
       
@@ -108,7 +108,7 @@ class FraudDetectionModel {
       console.log('Fraud detection model loaded successfully');
       return true;
     } catch (error) {
-      console.error('Error loading fraud detection model:', error);
+      console.log('Error loading fraud detection model:', error);
       return false;
     }
   }
@@ -262,7 +262,7 @@ class FraudDetectionModel {
           reasons.push('ML model detected high fraud probability');
         }
       } catch (error) {
-        console.error('Error in ML fraud prediction:', error);
+        console.log('Error in ML fraud prediction:', error);
       }
     }
     

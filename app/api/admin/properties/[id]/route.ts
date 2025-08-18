@@ -88,7 +88,7 @@ export async function GET(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin property details API error:', error);
+    console.log('Admin property details API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -167,7 +167,7 @@ export async function PUT(
       .single();
 
     if (error) {
-      console.error('Property update error:', error);
+      console.log('Property update error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to update property',
@@ -185,7 +185,7 @@ export async function PUT(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin property update API error:', error);
+    console.log('Admin property update API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -249,7 +249,7 @@ export async function DELETE(
       .eq('id', propertyId);
 
     if (updateError) {
-      console.error('Property deletion error:', updateError);
+      console.log('Property deletion error:', updateError);
       return NextResponse.json({
         success: false,
         error: 'Failed to delete property',
@@ -267,7 +267,7 @@ export async function DELETE(
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin property deletion API error:', error);
+    console.log('Admin property deletion API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'

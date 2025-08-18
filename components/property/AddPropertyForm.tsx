@@ -180,7 +180,7 @@ export default function AddPropertyForm() {
           setLongitude(null);
         }
       } catch (error) {
-        console.error('Geocoding error:', error);
+        console.log('Geocoding error:', error);
         setGeocodeError('Error validating postcode');
         setLatitude(null);
         setLongitude(null);
@@ -260,7 +260,7 @@ export default function AddPropertyForm() {
           .upload(filePath, file);
           
         if (error) {
-          console.error('Error uploading image:', error);
+          console.log('Error uploading image:', error);
           throw error;
         }
         
@@ -274,7 +274,7 @@ export default function AddPropertyForm() {
       
       return uploadedUrls;
     } catch (error) {
-      console.error('Image upload error:', error);
+      console.log('Image upload error:', error);
       toast.error('Failed to upload one or more images');
       return uploadedUrls; // Return any successfully uploaded images
     } finally {
@@ -357,7 +357,7 @@ export default function AddPropertyForm() {
       // Redirect to the property page
       router.push(`/properties/${insertedProperty.id}`);
     } catch (error) {
-      console.error('Error creating property listing:', error);
+      console.log('Error creating property listing:', error);
       toast.error('Failed to create property listing');
     } finally {
       setIsSubmitting(false);

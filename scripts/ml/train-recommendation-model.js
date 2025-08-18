@@ -145,11 +145,11 @@ async function trainRecommendationModel() {
         console.log('No recommendations found for this user.');
       }
     } catch (error) {
-      console.error('Error getting recommendations:', error.message);
+      console.log('Error getting recommendations:', error.message);
     }
     
   } catch (error) {
-    console.error('Error training recommendation model:', error);
+    console.log('Error training recommendation model:', error);
   }
 }
 

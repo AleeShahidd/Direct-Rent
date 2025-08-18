@@ -52,7 +52,7 @@ async function getModel() {
       .download('price-prediction/model.json');
       
     if (modelError) {
-      console.error('Error downloading model:', modelError);
+      console.log('Error downloading model:', modelError);
       throw new Error('Failed to download model');
     }
     
@@ -63,7 +63,7 @@ async function getModel() {
       .download('price-prediction/metadata.json');
       
     if (metadataError) {
-      console.error('Error downloading model metadata:', metadataError);
+      console.log('Error downloading model metadata:', metadataError);
       throw new Error('Failed to download model metadata');
     }
     
@@ -83,7 +83,7 @@ async function getModel() {
     
     return { model, metadata: modelMetadata };
   } catch (error) {
-    console.error('Error loading model:', error);
+    console.log('Error loading model:', error);
     
     // Fallback to a simple linear regression model
     try {
@@ -110,7 +110,7 @@ async function getModel() {
       
       return { model, metadata: modelMetadata };
     } catch (fallbackError) {
-      console.error('Error creating fallback model:', fallbackError);
+      console.log('Error creating fallback model:', fallbackError);
       throw new Error('Failed to load or create model');
     }
   } finally {
@@ -218,7 +218,7 @@ export async function POST(request) {
       .limit(5);
       
     if (similarError) {
-      console.error('Error fetching similar properties:', similarError);
+      console.log('Error fetching similar properties:', similarError);
     }
     
     // Calculate average price from similar properties
@@ -282,7 +282,7 @@ export async function POST(request) {
         comparable_properties: similarProperties || []
       });
     } catch (modelError) {
-      console.error('Model prediction error:', modelError);
+      console.log('Model prediction error:', modelError);
       
       // Fallback to similar properties only
       if (similarProperties && similarProperties.length > 0) {
@@ -301,7 +301,7 @@ export async function POST(request) {
       throw modelError;
     }
   } catch (error) {
-    console.error('Price prediction error:', error);
+    console.log('Price prediction error:', error);
     return NextResponse.json(
       { error: 'Failed to predict price: ' + error.message }, 
       { status: 500 }

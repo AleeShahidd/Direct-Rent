@@ -38,7 +38,7 @@ async function checkUsers() {
       .select('id, email, full_name, role', { count: 'exact' });
     
     if (error) {
-      console.error('❌ Error fetching users:', error.message);
+      console.log('❌ Error fetching users:', error.message);
       return;
     }
 
@@ -78,8 +78,8 @@ async function checkUsers() {
     }
 
   } catch (error) {
-    console.error('❌ Unexpected error:', error);
+    console.log('❌ Unexpected error:', error);
   }
 }
 
-checkUsers().catch(console.error);
+checkUsers().catch(console.log);

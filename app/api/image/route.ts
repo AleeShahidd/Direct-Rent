@@ -91,7 +91,7 @@ export async function GET(
       return NextResponse.json({ error: "Invalid mode parameter" }, { status: 400 });
     }
   } catch (error) {
-    console.error("Image API error:", error);
+    console.log("Image API error:", error);
     return NextResponse.json({ url: '/placeholder-property.jpg' });
   }
 }

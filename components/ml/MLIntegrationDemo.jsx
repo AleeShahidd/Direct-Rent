@@ -45,7 +45,7 @@ export default function MLIntegrationDemo() {
       const response = await axios.get('/api/ml/health');
       setMlSystemStatus(response.data);
     } catch (error) {
-      console.error('Error checking ML system health:', error);
+      console.log('Error checking ML system health:', error);
     }
   };
   
@@ -87,7 +87,7 @@ Risk Score: ${(response.data.risk_score * 100).toFixed(1)}%
 Primary Factors: ${response.data.risk_factors.join(', ')}
 Recommendation: ${response.data.risk_score > 0.6 ? 'Review Required' : 'Approved'}`);
     } catch (error) {
-      console.error('Error running fraud check:', error);
+      console.log('Error running fraud check:', error);
       alert('Error running fraud detection');
     } finally {
       setIsLoading(false);

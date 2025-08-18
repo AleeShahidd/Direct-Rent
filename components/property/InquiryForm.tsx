@@ -77,7 +77,7 @@ ${currentUser?.first_name || 'Regards'}`);
 
       onSuccess();
     } catch (err) {
-      console.error('Error sending inquiry:', err);
+      console.log('Error sending inquiry:', err);
       setError(err instanceof Error ? err.message : 'Failed to send inquiry');
     } finally {
       setLoading(false);

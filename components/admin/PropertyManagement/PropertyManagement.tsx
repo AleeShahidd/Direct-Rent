@@ -95,7 +95,7 @@ const PropertyManagement: React.FC = () => {
       setProperties(data || []);
       applyFilters(data || [], searchQuery, statusFilter, typeFilter);
     } catch (error) {
-      console.error('Error fetching properties:', error);
+      console.log('Error fetching properties:', error);
       showToast({
         title: 'Error',
         description: 'Failed to load properties. Please try again later.',
@@ -195,7 +195,7 @@ const PropertyManagement: React.FC = () => {
         description: `Property status changed to ${newStatus} successfully.`,
       });
     } catch (error) {
-      console.error('Error changing property status:', error);
+      console.log('Error changing property status:', error);
       showToast({
         title: 'Error',
         description: 'Failed to change property status. Please try again.',
@@ -229,7 +229,7 @@ const PropertyManagement: React.FC = () => {
         description: 'Property has been deleted successfully.',
       });
     } catch (error) {
-      console.error('Error deleting property:', error);
+      console.log('Error deleting property:', error);
       showToast({
         title: 'Error',
         description: 'Failed to delete property. Please try again.',
@@ -263,7 +263,7 @@ const PropertyManagement: React.FC = () => {
         description: `Property ${currentFeatured ? 'removed from' : 'added to'} featured listings.`,
       });
     } catch (error) {
-      console.error('Error updating featured status:', error);
+      console.log('Error updating featured status:', error);
       showToast({
         title: 'Error',
         description: 'Failed to update featured status. Please try again.',

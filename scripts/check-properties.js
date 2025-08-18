@@ -38,7 +38,7 @@ async function checkPropertyData() {
       .limit(3);
     
     if (error) {
-      console.error('❌ Error:', error.message);
+      console.log('❌ Error:', error.message);
       return;
     }
 
@@ -73,8 +73,8 @@ async function checkPropertyData() {
     }
 
   } catch (error) {
-    console.error('❌ Unexpected error:', error);
+    console.log('❌ Unexpected error:', error);
   }
 }
 
-checkPropertyData().catch(console.error);
+checkPropertyData().catch(console.log);

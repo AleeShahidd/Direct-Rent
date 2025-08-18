@@ -44,7 +44,7 @@ export default function PropertyRecommendations({ userId, userPreferences, class
         setRecommendations(recommendedProperties);
       }
     } catch (err) {
-      console.error('Error getting recommendations:', err);
+      console.log('Error getting recommendations:', err);
       setError('Failed to load recommendations');
     } finally {
       setLoading(false);

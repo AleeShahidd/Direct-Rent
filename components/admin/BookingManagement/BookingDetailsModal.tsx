@@ -22,7 +22,7 @@ const BookingDetailsModal: React.FC<BookingDetailsModalProps> = ({
     try {
       await onStatusChange(booking.id, newStatus);
     } catch (error) {
-      console.error('Error updating booking status:', error);
+      console.log('Error updating booking status:', error);
     } finally {
       setIsUpdating(false);
     }

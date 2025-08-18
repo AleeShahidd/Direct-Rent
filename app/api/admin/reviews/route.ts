@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
     const { data: reviews, error, count } = await query;
 
     if (error) {
-      console.error('Admin reviews query error:', error);
+      console.log('Admin reviews query error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to fetch reviews',
@@ -140,7 +140,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin reviews API error:', error);
+    console.log('Admin reviews API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'
@@ -262,7 +262,7 @@ export async function POST(request: NextRequest) {
       .select();
 
     if (error) {
-      console.error('Bulk reviews update error:', error);
+      console.log('Bulk reviews update error:', error);
       return NextResponse.json({
         success: false,
         error: 'Failed to update reviews',
@@ -280,7 +280,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response);
 
   } catch (error) {
-    console.error('Admin reviews bulk action API error:', error);
+    console.log('Admin reviews bulk action API error:', error);
     return NextResponse.json({
       success: false,
       error: 'Internal server error'

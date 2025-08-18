@@ -75,7 +75,7 @@ export function PropertyRecommendations({
       setRecommendations(result.data.properties || []);
 
     } catch (err) {
-      console.error('Recommendations error:', err);
+      console.log('Recommendations error:', err);
       setError(err instanceof Error ? err.message : 'Failed to load recommendations');
     } finally {
       setLoading(false);

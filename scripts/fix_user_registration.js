@@ -18,7 +18,7 @@ const requiredVars = [
 
 const missingVars = requiredVars.filter(varName => !process.env[varName]);
 if (missingVars.length > 0) {
-  console.error(`Missing required environment variables: ${missingVars.join(', ')}`);
+  console.log(`Missing required environment variables: ${missingVars.join(', ')}`);
   process.exit(1);
 }
 
@@ -27,7 +27,7 @@ const sqlFilePath = path.join(__dirname, '..', 'database', 'fix_registration_fin
 
 // Check if SQL file exists
 if (!fs.existsSync(sqlFilePath)) {
-  console.error(`SQL migration file not found: ${sqlFilePath}`);
+  console.log(`SQL migration file not found: ${sqlFilePath}`);
   process.exit(1);
 }
 
@@ -62,7 +62,7 @@ async function executeSQLMigration() {
       execSync('supabase db reset', { stdio: 'inherit' });
       console.log('Database schema reset successfully using Supabase CLI.');
     } catch (error) {
-      console.error('Failed to reset database schema using Supabase CLI.');
+      console.log('Failed to reset database schema using Supabase CLI.');
       console.log('Please run the SQL commands manually in the Supabase dashboard SQL editor.');
       console.log('SQL file path: ' + sqlFilePath);
     }
@@ -75,7 +75,7 @@ async function executeSQLMigration() {
     console.log('\nMigration completed. Please test user registration again.');
     console.log('If you still encounter issues, please run the SQL commands manually in the Supabase dashboard SQL editor.');
   } catch (error) {
-    console.error('Migration failed:', error);
+    console.log('Migration failed:', error);
     console.log('\nPlease run the SQL commands manually in the Supabase dashboard SQL editor.');
     console.log('SQL file path: ' + sqlFilePath);
   }

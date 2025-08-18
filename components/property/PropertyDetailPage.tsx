@@ -90,7 +90,7 @@ const PropertyDetailPage = ({ id }: PropertyDetailPageProps) => {
         await supabase
           .rpc('increment_property_views', { property_id: id })
           .then(({ error }) => {
-            if (error) console.error('Error incrementing views:', error);
+            if (error) console.log('Error incrementing views:', error);
           });
         
         // Check if favorited by current user (if logged in)
@@ -105,7 +105,7 @@ const PropertyDetailPage = ({ id }: PropertyDetailPageProps) => {
           setIsFavorite(!!favoriteData);
         }
       } catch (err) {
-        console.error('Error fetching property:', err);
+        console.log('Error fetching property:', err);
         setError('Failed to load property details');
       } finally {
         setLoading(false);
@@ -141,7 +141,7 @@ const PropertyDetailPage = ({ id }: PropertyDetailPageProps) => {
       
       setIsFavorite(!isFavorite);
     } catch (err) {
-      console.error('Error toggling favorite:', err);
+      console.log('Error toggling favorite:', err);
     }
   };
   
@@ -306,7 +306,7 @@ const PropertyDetailPage = ({ id }: PropertyDetailPageProps) => {
               navigator.share({
                 title: title,
                 url: window.location.href
-              }).catch(console.error);
+              }).catch(console.log);
             }}
           >
             <Share2 className="h-4 w-4" />
