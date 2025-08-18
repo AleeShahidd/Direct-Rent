@@ -295,15 +295,6 @@ function SearchPageContent() {
                   <ListBulletIcon className="w-4 h-4 mr-1" />
                   List
                 </Button>
-                <Button
-                  variant={viewMode === "map" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setViewMode("map")}
-                  className="rounded-md"
-                >
-                  <MapIcon className="w-4 h-4 mr-1" />
-                  Map
-                </Button>
               </div>
               
               {viewMode === "map" && (

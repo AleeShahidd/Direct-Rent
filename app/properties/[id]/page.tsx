@@ -260,28 +260,36 @@ export default function PropertyDetailPage() {
         {/* Image Gallery */}
         <div className="relative h-96 md:h-[500px] rounded-xl overflow-hidden mb-8">
           <Image
-            src={images[currentImageIndex] || '/placeholder-property.jpg'}
-            alt={property.title || 'Property image'}
+            src={images[currentImageIndex] || "/placeholder-property.jpg"}
+            alt={property.title || "Property image"}
             fill
             className="object-cover"
           />
-          
+
           {/* Image Navigation */}
           {images.length > 1 && (
             <>
               <button
-                onClick={() => setCurrentImageIndex((prev: number) => prev === 0 ? images.length - 1 : prev - 1)}
+                onClick={() =>
+                  setCurrentImageIndex((prev: number) =>
+                    prev === 0 ? images.length - 1 : prev - 1
+                  )
+                }
                 className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70"
               >
                 ←
               </button>
               <button
-                onClick={() => setCurrentImageIndex((prev: number) => prev === images.length - 1 ? 0 : prev + 1)}
+                onClick={() =>
+                  setCurrentImageIndex((prev: number) =>
+                    prev === images.length - 1 ? 0 : prev + 1
+                  )
+                }
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70"
               >
                 →
               </button>
-              
+
               {/* Image Indicators */}
               <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
                 {images.map((_, index) => (
@@ -289,7 +297,7 @@ export default function PropertyDetailPage() {
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`w-3 h-3 rounded-full ${
-                      index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                      index === currentImageIndex ? "bg-white" : "bg-white/50"
                     }`}
                   />
                 ))}
@@ -305,7 +313,11 @@ export default function PropertyDetailPage() {
               onClick={handleSaveProperty}
               className="bg-white/90 hover:bg-white"
             >
-              <Heart className={`h-4 w-4 ${isSaved ? 'fill-red-500 text-red-500' : ''}`} />
+              <Heart
+                className={`h-4 w-4 ${
+                  isSaved ? "fill-red-500 text-red-500" : ""
+                }`}
+              />
             </Button>
             <Button
               variant="outline"
@@ -325,15 +337,20 @@ export default function PropertyDetailPage() {
             <div className="bg-white rounded-xl p-6 mb-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-2">{property.title}</h1>
+                  <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                    {property.title}
+                  </h1>
                   <div className="flex items-center text-gray-600 mb-2">
                     <MapPin className="h-4 w-4 mr-1" />
-                    {property.address || property.address_line_1}, {property.city}, {property.postcode}
+                    {property.address || property.address_line_1},{" "}
+                    {property.city}, {property.postcode}
                   </div>
                 </div>
                 <div className="text-right">
                   <div className="text-3xl font-bold text-blue-600">
-                    {formatPrice(property.price || property.price_per_month)}
+                    {formatPrice(
+                      property.rent_amount || property.price_per_month
+                    )}
                   </div>
                   <div className="text-gray-600">per month</div>
                 </div>
@@ -367,44 +384,59 @@ export default function PropertyDetailPage() {
               <h2 className="text-xl font-semibold mb-4">Property Details</h2>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <span className="font-medium">Furnishing:</span> {property.furnishing_status}
+                  <span className="font-medium">Furnishing:</span>{" "}
+                  {property.furnishing_status}
                 </div>
                 <div>
-                  <span className="font-medium">Council Tax Band:</span> {property.council_tax_band}
+                  <span className="font-medium">Council Tax Band:</span>{" "}
+                  {property.council_tax_band}
                 </div>
                 <div>
-                  <span className="font-medium">Available from:</span> {property.available_from ? new Date(property.available_from).toLocaleDateString() : 'Now'}
+                  <span className="font-medium">Available from:</span>{" "}
+                  {property.available_from
+                    ? new Date(property.available_from).toLocaleDateString()
+                    : "Now"}
                 </div>
                 <div>
-                  <span className="font-medium">Deposit:</span> {formatPrice(property.deposit_amount || 0)}
+                  <span className="font-medium">Deposit:</span>{" "}
+                  {formatPrice(property.deposit_amount || 0)}
                 </div>
                 {property.minimum_tenancy_months && (
                   <div>
-                    <span className="font-medium">Min. tenancy:</span> {property.minimum_tenancy_months} months
+                    <span className="font-medium">Min. tenancy:</span>{" "}
+                    {property.minimum_tenancy_months} months
                   </div>
                 )}
                 {property.pets_allowed !== null && (
                   <div>
-                    <span className="font-medium">Pets:</span> {property.pets_allowed ? 'Allowed' : 'Not allowed'}
+                    <span className="font-medium">Pets:</span>{" "}
+                    {property.pets_allowed ? "Allowed" : "Not allowed"}
                   </div>
                 )}
                 {property.smoking_allowed !== null && (
                   <div>
-                    <span className="font-medium">Smoking:</span> {property.smoking_allowed ? 'Allowed' : 'Not allowed'}
+                    <span className="font-medium">Smoking:</span>{" "}
+                    {property.smoking_allowed ? "Allowed" : "Not allowed"}
                   </div>
                 )}
-                {property.students_allowed !== null && property.students_allowed !== undefined && (
-                  <div>
-                    <span className="font-medium">Students:</span> {property.students_allowed ? 'Welcome' : 'No students'}
-                  </div>
-                )}
+                {property.students_allowed !== null &&
+                  property.students_allowed !== undefined && (
+                    <div>
+                      <span className="font-medium">Students:</span>{" "}
+                      {property.students_allowed ? "Welcome" : "No students"}
+                    </div>
+                  )}
               </div>
 
               {/* EPC Rating */}
               {property.epc_rating && (
                 <div className="mt-4">
                   <span className="font-medium">EPC Rating:</span>
-                  <span className={`ml-2 px-3 py-1 rounded text-white text-sm font-bold ${getEPCColor(property.epc_rating)}`}>
+                  <span
+                    className={`ml-2 px-3 py-1 rounded text-white text-sm font-bold ${getEPCColor(
+                      property.epc_rating
+                    )}`}
+                  >
                     {property.epc_rating}
                   </span>
                 </div>
@@ -423,13 +455,15 @@ export default function PropertyDetailPage() {
             <div className="bg-white rounded-xl p-6 mb-6">
               <h2 className="text-xl font-semibold mb-4">Location</h2>
               {property.latitude && property.longitude ? (
-                <PropertyMap 
-                  property={property as any} 
+                <PropertyMap
+                  property={property as any}
                   height="400px"
                   className="rounded-lg overflow-hidden"
                 />
               ) : (
-                <div className="text-gray-500 italic">Location map not available for this property.</div>
+                <div className="text-gray-500 italic">
+                  Location map not available for this property.
+                </div>
               )}
               <p className="text-sm text-gray-500 mt-4">
                 {property.address_line_1}, {property.city}, {property.postcode}
@@ -437,19 +471,26 @@ export default function PropertyDetailPage() {
             </div>
 
             {/* Amenities */}
-            {property.amenities && Array.isArray(property.amenities) && property.amenities.length > 0 && (
-              <div className="bg-white rounded-xl p-6 mb-6">
-                <h2 className="text-xl font-semibold mb-4">Amenities</h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {property.amenities.map((amenity: string, index: number) => (
-                    <div key={index} className="flex items-center text-gray-700">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                      {amenity}
-                    </div>
-                  ))}
+            {property.amenities &&
+              Array.isArray(property.amenities) &&
+              property.amenities.length > 0 && (
+                <div className="bg-white rounded-xl p-6 mb-6">
+                  <h2 className="text-xl font-semibold mb-4">Amenities</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {property.amenities.map(
+                      (amenity: string, index: number) => (
+                        <div
+                          key={index}
+                          className="flex items-center text-gray-700"
+                        >
+                          <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                          {amenity}
+                        </div>
+                      )
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
 
           {/* Sidebar */}
@@ -461,12 +502,14 @@ export default function PropertyDetailPage() {
                 <div className="flex items-center mb-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-3">
                     <span className="text-blue-600 font-semibold">
-                      {landlord.first_name?.[0] || landlord.name?.[0] || 'L'}{landlord.last_name?.[0] || ''}
+                      {landlord.first_name?.[0] || landlord.name?.[0] || "L"}
+                      {landlord.last_name?.[0] || ""}
                     </span>
                   </div>
                   <div>
                     <div className="font-medium">
-                      {landlord.first_name || landlord.name} {landlord.last_name || ''}
+                      {landlord.first_name || landlord.name}{" "}
+                      {landlord.last_name || ""}
                     </div>
                     <div className="text-sm text-gray-600">Landlord</div>
                   </div>
@@ -480,14 +523,14 @@ export default function PropertyDetailPage() {
                     <MessageCircle className="h-4 w-4 mr-2" />
                     Send Message
                   </Button>
-                  
+
                   {landlord.phone && (
                     <Button variant="outline" className="w-full">
                       <Phone className="h-4 w-4 mr-2" />
                       Call Landlord
                     </Button>
                   )}
-                  
+
                   {landlord.email && (
                     <Button variant="outline" className="w-full">
                       <Mail className="h-4 w-4 mr-2" />
@@ -505,18 +548,21 @@ export default function PropertyDetailPage() {
                 <Button
                   variant="outline"
                   onClick={() => {
-                    showNotification('Booking system coming soon!', 'info');
+                    showNotification("Booking system coming soon!", "info");
                   }}
                   className="w-full"
                 >
                   <Calendar className="h-4 w-4 mr-2" />
                   Book Viewing
                 </Button>
-                
+
                 <Button
                   variant="outline"
                   onClick={() => {
-                    showNotification('Report functionality coming soon!', 'info');
+                    showNotification(
+                      "Report functionality coming soon!",
+                      "info"
+                    );
                   }}
                   className="w-full text-red-600 border-red-200 hover:bg-red-50"
                 >
@@ -532,16 +578,25 @@ export default function PropertyDetailPage() {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span>Monthly rent:</span>
-                  <span className="font-medium">{formatPrice(property.price || property.price_per_month)}</span>
+                  <span className="font-medium">
+                    {formatPrice(property.price || property.price_per_month)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Deposit:</span>
-                  <span className="font-medium">{formatPrice(property.deposit_amount || 0)}</span>
+                  <span className="font-medium">
+                    {formatPrice(property.deposit_amount || 0)}
+                  </span>
                 </div>
                 <hr className="my-2" />
                 <div className="flex justify-between font-semibold">
                   <span>Total upfront:</span>
-                  <span>{formatPrice((property.price || property.price_per_month) + (property.deposit_amount || 0))}</span>
+                  <span>
+                    {formatPrice(
+                      (property.price || property.price_per_month) +
+                        (property.deposit_amount || 0)
+                    )}
+                  </span>
                 </div>
               </div>
             </div>
@@ -559,7 +614,7 @@ export default function PropertyDetailPage() {
               currentUser={currentUser}
               onSuccess={() => {
                 setShowInquiryForm(false);
-                showNotification('Message sent successfully!', 'success');
+                showNotification("Message sent successfully!", "success");
               }}
               onCancel={() => setShowInquiryForm(false)}
             />

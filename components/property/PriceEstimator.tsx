@@ -47,10 +47,21 @@ export function PriceEstimator({ initialData, onPriceEstimated, className = '' }
         body: JSON.stringify(formData),
       });
 
+      if (!response.ok) {
+        console.error('API response not OK:', response.status, response.statusText);
+        throw new Error(`API error: ${response.status} ${response.statusText}`);
+      }
+
       const result = await response.json();
 
       if (!result.success) {
-        throw new Error(result.error || 'Failed to estimate price');
+        console.error('API reported failure:', result);
+        throw new Error(result.error || result.details || 'Failed to estimate price');
+      }
+
+      if (!result.data || typeof result.data.estimated_price !== 'number') {
+        console.error('Invalid price estimate data:', result.data);
+        throw new Error('Received invalid price estimate data');
       }
 
       setEstimate(result.data);

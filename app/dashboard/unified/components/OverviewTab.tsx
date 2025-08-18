@@ -66,10 +66,9 @@ export default function OverviewTab({
           Welcome back, {user?.first_name || user?.name}!
         </h2>
         <p className="text-blue-100 mb-4">
-          {isLandlord 
+          {isLandlord
             ? `You have ${stats.totalProperties} properties and ${stats.pendingInquiries} pending inquiries.`
-            : `You have ${stats.savedProperties} saved properties and ${stats.totalInquiries} total inquiries.`
-          }
+            : `You have ${stats.savedProperties} saved properties and ${stats.totalInquiries} total inquiries.`}
         </p>
         <div className="flex flex-wrap gap-3">
           {isLandlord ? (
@@ -78,7 +77,11 @@ export default function OverviewTab({
                 <Plus className="h-4 w-4 mr-2" />
                 Add New Property
               </Button>
-              <Button variant="outline" size="sm" className="text-white border-white hover:bg-white hover:text-blue-600">
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-white border-white hover:bg-white hover:text-blue-600"
+              >
                 <MessageSquare className="h-4 w-4 mr-2" />
                 View Inquiries
               </Button>
@@ -89,7 +92,11 @@ export default function OverviewTab({
                 <Search className="h-4 w-4 mr-2" />
                 Search Properties
               </Button>
-              <Button variant="outline" size="sm" className="text-white border-white hover:bg-white hover:text-blue-600">
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-white border-white hover:bg-white hover:text-blue-600"
+              >
                 <Heart className="h-4 w-4 mr-2" />
                 Saved Properties
               </Button>
@@ -104,26 +111,28 @@ export default function OverviewTab({
           <div className="bg-white rounded-xl p-6 shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold text-gray-900">
-                {isLandlord ? 'Recent Inquiries' : 'Your Recent Inquiries'}
+                {isLandlord ? "Recent Inquiries" : "Your Recent Inquiries"}
               </h3>
               <Button variant="outline" size="sm">
                 View All
               </Button>
             </div>
-            
+
             {inquiries.length > 0 ? (
               <div className="space-y-4">
                 {inquiries.map((inquiry) => (
-                  <div key={inquiry.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                  <div
+                    key={inquiry.id}
+                    className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-gray-50"
+                  >
                     <div className="flex-1">
                       <h4 className="font-medium text-gray-900">
                         {inquiry.property?.title}
                       </h4>
                       <p className="text-sm text-gray-600 mt-1">
-                        {isLandlord 
+                        {isLandlord
                           ? `From: ${inquiry.user?.first_name} ${inquiry.user?.last_name}`
-                          : `To: ${inquiry.property?.address}, ${inquiry.property?.city}`
-                        }
+                          : `To: ${inquiry.property?.address}, ${inquiry.property?.city}`}
                       </p>
                       <div className="flex items-center mt-2 text-xs text-gray-500">
                         <Calendar className="h-3 w-3 mr-1" />
@@ -133,12 +142,16 @@ export default function OverviewTab({
                     <div className="flex items-center space-x-3">
                       <div className="flex items-center space-x-1">
                         {getStatusIcon(inquiry.status)}
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(inquiry.status)}`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                            inquiry.status
+                          )}`}
+                        >
                           {inquiry.status}
                         </span>
                       </div>
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         size="sm"
                         onClick={() => onViewProperty(inquiry.property?.id)}
                       >
@@ -152,7 +165,9 @@ export default function OverviewTab({
               <div className="text-center py-8">
                 <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-500">
-                  {isLandlord ? 'No inquiries yet' : 'You haven\'t sent any inquiries yet'}
+                  {isLandlord
+                    ? "No inquiries yet"
+                    : "You haven't sent any inquiries yet"}
                 </p>
               </div>
             )}
@@ -164,32 +179,40 @@ export default function OverviewTab({
           {/* Performance Card */}
           <div className="bg-white rounded-xl p-6 shadow-sm">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              {isLandlord ? 'Property Performance' : 'Activity Summary'}
+              {isLandlord ? "Property Performance" : "Activity Summary"}
             </h3>
-            
+
             {isLandlord ? (
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Active Properties</span>
+                  <span className="text-sm text-gray-600">
+                    Active Properties
+                  </span>
                   <span className="font-medium">{stats.activeProperties}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-600">Monthly Revenue</span>
-                  <span className="font-medium text-green-600">{formatPrice(stats.monthlyRevenue)}</span>
+                  <span className="font-medium text-green-600">
+                    {formatPrice(stats.monthlyRevenue)}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-600">Response Rate</span>
                   <span className="font-medium">85%</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Avg. Response Time</span>
+                  <span className="text-sm text-gray-600">
+                    Avg. Response Time
+                  </span>
                   <span className="font-medium">2.3 hours</span>
                 </div>
               </div>
             ) : (
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Saved Properties</span>
+                  <span className="text-sm text-gray-600">
+                    Saved Properties
+                  </span>
                   <span className="font-medium">{stats.savedProperties}</span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -201,7 +224,9 @@ export default function OverviewTab({
                   <span className="font-medium">72%</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Avg. Response Time</span>
+                  <span className="text-sm text-gray-600">
+                    Avg. Response Time
+                  </span>
                   <span className="font-medium">4.2 hours</span>
                 </div>
               </div>
@@ -210,7 +235,9 @@ export default function OverviewTab({
 
           {/* Quick Actions */}
           <div className="bg-white rounded-xl p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Quick Actions
+            </h3>
             <div className="space-y-3">
               {isLandlord ? (
                 <>
@@ -218,26 +245,41 @@ export default function OverviewTab({
                     <Plus className="h-4 w-4 mr-2" />
                     Add New Property
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-black"
+                  >
                     <MessageSquare className="h-4 w-4 mr-2" />
                     Review Inquiries
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-black"
+                  >
                     <Building2 className="h-4 w-4 mr-2" />
                     Manage Properties
                   </Button>
                 </>
               ) : (
                 <>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-black"
+                  >
                     <Search className="h-4 w-4 mr-2" />
                     Search Properties
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-black"
+                  >
                     <Heart className="h-4 w-4 mr-2" />
                     View Saved
                   </Button>
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start text-black"
+                  >
                     <MessageSquare className="h-4 w-4 mr-2" />
                     My Inquiries
                   </Button>
@@ -252,7 +294,7 @@ export default function OverviewTab({
       <div className="bg-white rounded-xl p-6 shadow-sm">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold text-gray-900">
-            {isLandlord ? 'Your Properties' : 'Saved Properties'}
+            {isLandlord ? "Your Properties" : "Saved Properties"}
           </h3>
           <Button variant="outline" size="sm">
             View All
@@ -264,9 +306,7 @@ export default function OverviewTab({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {properties.map((property) => (
                 <div key={property.id} className="relative">
-                  <PropertyCard 
-                    property={property as any}
-                  />
+                  <PropertyCard property={property as any} />
                   <div className="absolute top-3 right-3 flex space-x-1">
                     <Button
                       variant="outline"
@@ -291,35 +331,38 @@ export default function OverviewTab({
           ) : (
             <div className="text-center py-12">
               <Home className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h4 className="text-lg font-medium text-gray-900 mb-2">No properties yet</h4>
-              <p className="text-gray-500 mb-6">Start by adding your first property listing</p>
+              <h4 className="text-lg font-medium text-gray-900 mb-2">
+                No properties yet
+              </h4>
+              <p className="text-gray-500 mb-6">
+                Start by adding your first property listing
+              </p>
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Your First Property
               </Button>
             </div>
           )
+        ) : savedProperties.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {savedProperties.map((property) => (
+              <PropertyCard key={property.id} property={property as any} />
+            ))}
+          </div>
         ) : (
-          savedProperties.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {savedProperties.map((property) => (
-                <PropertyCard 
-                  key={property.id} 
-                  property={property as any}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <Heart className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-              <h4 className="text-lg font-medium text-gray-900 mb-2">No saved properties</h4>
-              <p className="text-gray-500 mb-6">Start browsing and save properties you like</p>
-              <Button>
-                <Search className="h-4 w-4 mr-2" />
-                Browse Properties
-              </Button>
-            </div>
-          )
+          <div className="text-center py-12">
+            <Heart className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <h4 className="text-lg font-medium text-gray-900 mb-2">
+              No saved properties
+            </h4>
+            <p className="text-gray-500 mb-6">
+              Start browsing and save properties you like
+            </p>
+            <Button>
+              <Search className="h-4 w-4 mr-2" />
+              Browse Properties
+            </Button>
+          </div>
         )}
       </div>
     </div>

@@ -133,12 +133,14 @@ export default function AddPropertyPage() {
   };
 
   const handlePriceEstimated = (estimate: PriceEstimateResponse) => {
+    console.log('Price estimate received:', estimate);
     setPriceEstimate(estimate);
-    // Optionally auto-fill the rent field with the estimate
-    if (formData.price_per_month === 0) {
+    
+    // Auto-fill the rent field with the estimate if it's still 0
+    if (formData.price_per_month === 0 && estimate && typeof estimate.estimated_price === 'number') {
       setFormData(prev => ({
         ...prev,
-        price_per_month: estimate.estimated_price
+        price_per_month: Math.round(estimate.estimated_price) // Round to nearest pound
       }));
     }
   };
@@ -241,7 +243,29 @@ export default function AddPropertyPage() {
       const { data, error } = await supabase
         .from('properties')
         .insert({
-          ...formData,
+          title: formData.title,
+          description: formData.description,
+          rent_amount: formData.price_per_month, // Use the correct database field
+          price_per_month: formData.price_per_month, // For backwards compatibility
+          deposit_amount: formData.deposit_amount,
+          postcode: formData.postcode,
+          address_line_1: formData.address_line1, // Match DB schema field name
+          address_line_2: formData.address_line2, // Match DB schema field name
+          city: formData.city,
+          council_tax_band: formData.council_tax_band,
+          epc_rating: formData.epc_rating,
+          furnishing_status: formData.furnishing_status,
+          bedrooms: formData.bedrooms,
+          bathrooms: formData.bathrooms,
+          property_type: formData.property_type,
+          available_from: formData.available_from,
+          minimum_tenancy_months: formData.minimum_tenancy_months,
+          parking: formData.parking,
+          garden: formData.garden,
+          balcony: formData.balcony,
+          pets_allowed: formData.pets_allowed,
+          smoking_allowed: formData.smoking_allowed,
+          virtual_tour_url: formData.virtual_tour_url,
           landlord_id: currentUser.id,
           images: imageUrls,
           is_active: true,
@@ -250,10 +274,12 @@ export default function AddPropertyPage() {
         .single();
 
       if (error) {
-        setError(error.message);
+        console.error('Database error:', error);
+        setError(`Failed to save property: ${error.message}`);
         return;
       }
 
+      console.log('Property created successfully:', data);
       router.push('/dashboard/unified?tab=properties');
     } catch (error) {
       console.error('Property creation error:', error);
