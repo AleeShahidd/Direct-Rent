@@ -67,9 +67,7 @@ function AdminDashboard() {
               <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
                 🟢 System Online
               </div>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">
-                Generate Report
-              </button>
+            
             </div>
           </div>
         </div>

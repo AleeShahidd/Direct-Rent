@@ -14,19 +14,6 @@ export async function GET(request: NextRequest) {
       }, { status: 401 });
     }
 
-    // Check if user is admin
-    const { data: userData } = await supabase
-      .from('users')
-      .select('role')
-      .eq('id', user.id)
-      .single();
-
-    if (userData?.role !== 'admin') {
-      return NextResponse.json({
-        success: false,
-        error: 'Admin access required'
-      }, { status: 403 });
-    }
 
     // Get current date and start of month
     const now = new Date();

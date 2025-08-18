@@ -43,9 +43,8 @@ export default function PropertyDetailPage() {
   const [isSaved, setIsSaved] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [img, setImg] = useState<string>('/placeholder-property.jpg');
-
-  useEffect(() => {
-    getRandomHouseImage()
+ useEffect(() => {
+    getRandomHouseImage(property.id)
       .then(imageUrl => {
         if (imageUrl && imageUrl.trim() !== '') {
           setImg(imageUrl);
@@ -54,7 +53,7 @@ export default function PropertyDetailPage() {
       .catch(() => {
         // Keep the default placeholder if there's an error
       });
-  }, []);
+  }, [property.id]);
 
   useEffect(() => {
     const fetchProperty = async () => {
