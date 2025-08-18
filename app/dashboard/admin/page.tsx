@@ -10,7 +10,6 @@ import BookingManagement from '@/components/admin/BookingManagement/BookingManag
 
 // Tab definitions
 const ADMIN_TABS = [
-  { id: 'analytics', label: 'Analytics', icon: '📊' },
   { id: 'ml-monitoring', label: 'ML Monitoring', icon: '🤖' },
   { id: 'fraud', label: 'Fraud Detection', icon: '🚨' },
   { id: 'users', label: 'User Management', icon: '👥' },
@@ -26,12 +25,10 @@ type AdminTabType = typeof ADMIN_TABS[number]['id'];
 import AdminProtection from './AdminProtection';
 
 function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<AdminTabType>('analytics');
+  const [activeTab, setActiveTab] = useState<AdminTabType>('ml-monitoring');
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'analytics':
-        return <AdminAnalytics />;
       case 'ml-monitoring':
         return <MLModelMonitoring />;
       case 'fraud':
@@ -49,7 +46,7 @@ function AdminDashboard() {
       case 'settings':
         return <PlatformSettingsTab />;
       default:
-        return <AdminAnalytics />;
+        return <MLModelMonitoring />;
     }
   };
 
