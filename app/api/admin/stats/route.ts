@@ -5,15 +5,6 @@ import { AdminStats, ApiResponse } from '@/types/enhanced';
 // GET /api/admin/stats - Get admin dashboard statistics
 export async function GET(request: NextRequest) {
   try {
-    // Get authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json({
-        success: false,
-        error: 'Unauthorized'
-      }, { status: 401 });
-    }
-
 
     // Get current date and start of month
     const now = new Date();

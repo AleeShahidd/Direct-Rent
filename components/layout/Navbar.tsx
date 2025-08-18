@@ -150,14 +150,14 @@ export function Navbar() {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="flex items-center space-x-2 px-3 hover:bg-gray-50">
                       <Avatar className="w-8 h-8">
-                        <AvatarImage src={user.user_metadata?.avatar_url} />
+                        <AvatarImage src={user.user_metadata?.avatar_url || '/circle-user.png'} />
                         <AvatarFallback className="bg-blue-600 text-white text-sm">
-                          {user.user_metadata?.avatar_url ? user.email?.charAt(0).toUpperCase() : <UserIcon className="w-4 h-4" />}
+                            {user.email?.charAt(0).toUpperCase() || <UserIcon className="w-4 h-4" />}
                         </AvatarFallback>
                       </Avatar>
                       <div className="hidden md:block text-left">
                         <div className="text-sm font-medium text-gray-700">
-                          {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                          {user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'}
                         </div>
                         {userProfile?.role && (
                           <div className="text-xs text-blue-600 capitalize">{userProfile.role}</div>
