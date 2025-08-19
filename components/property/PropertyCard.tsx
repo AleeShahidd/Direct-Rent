@@ -66,7 +66,7 @@ export function PropertyCard({
       }
       
       // Check if image is an object with url property
-      if (typeof firstImage === 'object' && firstImage !== null) {
+      if (typeof firstImage === 'object' && firstImage !== null && firstImage !== "") {
         // @ts-ignore - TypeScript doesn't know the structure
         const url = firstImage.url;
         return url && typeof url === 'string' && url.trim() !== '' 

@@ -84,27 +84,7 @@ const BookingManagement: React.FC = () => {
         .select(`
           *,
           property:property_id (
-            id,
-            title,
-            address,
-            city,
-            postcode,
-            property_type,
-            bedrooms,
-            bathrooms,
-            images
-          ),
-          tenant:tenant_id (
-            id,
-            full_name,
-            email,
-            phone
-          ),
-          landlord:landlord_id (
-            id,
-            full_name,
-            email,
-            phone
+           *
           )
         `)
         .order('created_at', { ascending: false });

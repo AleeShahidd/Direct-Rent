@@ -15,9 +15,6 @@ const ADMIN_TABS = [
   { id: 'users', label: 'User Management', icon: '👥' },
   { id: 'properties', label: 'Property Management', icon: '🏠' },
   { id: 'bookings', label: 'Booking Management', icon: '📅' },
-  { id: 'reviews', label: 'Review Management', icon: '⭐' },
-  { id: 'reports', label: 'Reports', icon: '📈' },
-  { id: 'settings', label: 'Platform Settings', icon: '⚙️' },
 ] as const;
 
 type AdminTabType = typeof ADMIN_TABS[number]['id'];
@@ -39,12 +36,6 @@ function AdminDashboard() {
         return <PropertyManagementTab />;
       case 'bookings':
         return <BookingManagementTab />;
-      case 'reviews':
-        return <ReviewManagementTab />;
-      case 'reports':
-        return <ReportsTab />;
-      case 'settings':
-        return <PlatformSettingsTab />;
       default:
         return <MLModelMonitoring />;
     }

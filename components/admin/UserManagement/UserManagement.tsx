@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase';
-import { Loader2, RefreshCw, Search, Filter, UserPlus, Edit, Trash2, Eye, X, Check, AlertTriangle } from 'lucide-react';
+import { Loader2, RefreshCw, Search, Filter, UserPlus, Edit, Trash2, Eye, X, Check, AlertTriangle, User2Icon } from 'lucide-react';
 import UserEditForm from './UserEditForm';
 import UserDetailsModal from './UserDetailsModal';
 import { useToasts } from '@/components/ui/ToastProvider';
@@ -474,8 +474,8 @@ const UserManagement = () => {
                           />
                         ) : (
                           <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
-                            {user.full_name.charAt(0).toUpperCase()}
-                          </div>
+                              <User2Icon className="h-5 w-5" />
+                            </div>
                         )}
                       </div>
                       <div className="ml-4">
